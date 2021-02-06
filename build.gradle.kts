@@ -5,8 +5,6 @@ plugins {
     kotlin("jvm") version "1.4.30"
     `java-library`
     jacoco
-    id("org.sonarqube") version "3.0"
-    id("com.jfrog.bintray") version "1.8.5"
     `maven-publish`
     id("com.diffplug.spotless") version "5.9.0"
 }
