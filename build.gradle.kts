@@ -5,8 +5,10 @@ plugins {
     kotlin("jvm") version "1.4.30"
     `java-library`
     jacoco
-    `maven-publish`
     id("com.diffplug.spotless") version "5.9.0"
+    id("org.springframework.boot") version "2.4.2"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    kotlin("plugin.spring") version "1.4.30"
 }
 
 allprojects {
@@ -160,6 +162,57 @@ allprojects {
         testImplementation("com.github.tomakehurst:wiremock-jre8:2.27.2")
     }
 }
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+}
 // Dependencies -- END
 
 // #####################################################################################################################
+
+// CONTAINER TEST CONFIGURATION -- BEGIN
+val containerTestName: String = "containerTest"
+val containerTestSourceSetName: String = "containerTest"
+
+sourceSets {
+    create(containerTestSourceSetName) {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+        compileClasspath += sourceSets.test.get().output
+        runtimeClasspath += sourceSets.test.get().output
+    }
+}
+
+val containerTestImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.implementation.get())
+}
+
+val containerTestRuntimeOnlyConfigurationName: String = "containerTestRuntimeOnly"
+val containerTestRuntimeOnly: Configuration =
+    configurations[containerTestRuntimeOnlyConfigurationName].extendsFrom(configurations.runtimeOnly.get())
+
+val containerTest: Test = task<Test>(containerTestName) {
+    description = "Runs container tests."
+    group = "verification"
+    testClassesDirs = sourceSets[containerTestSourceSetName].output.classesDirs
+    classpath = sourceSets[containerTestSourceSetName].runtimeClasspath
+}
+
+tasks.check { dependsOn(containerTest) }
+
+dependencies {
+    containerTestImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage")
+        exclude(group = "io.rest-assured")
+        exclude(module = "mockito-core")
+    }
+
+    containerTestImplementation("com.ninja-squad:springmockk:3.0.1")
+
+    containerTestImplementation("io.rest-assured:rest-assured:4.3.3")
+    containerTestImplementation("io.rest-assured:json-path:4.3.3")
+    containerTestImplementation("io.rest-assured:xml-path:4.3.3")
+    containerTestImplementation("io.rest-assured:kotlin-extensions:4.3.3")
+}
+// CONTAINER TEST CONFIGURATION -- END
