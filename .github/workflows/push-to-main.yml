@@ -21,3 +21,4 @@ jobs:
       run: ./gradlew -Dsonar.projectVersion=${{ github.ref }}-${{ github.sha }} build sonarqube
       env:
         SONAR_TOKEN: ${{ secrets.QUIPALUP_SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
