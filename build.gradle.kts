@@ -146,10 +146,7 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven {
-            setUrl("https://dl.bintray.com/serpro69/maven/")
-            setUrl("https://dl.bintray.com/arrow-kt/arrow-kt/")
-        }
+        maven { setUrl("https://dl.bintray.com/arrow-kt/arrow-kt/") }
     }
 
     dependencies {

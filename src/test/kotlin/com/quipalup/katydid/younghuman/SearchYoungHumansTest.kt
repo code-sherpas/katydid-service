@@ -3,10 +3,10 @@ package com.quipalup.katydid.younghuman
 import arrow.core.right
 import io.mockk.every
 import io.mockk.mockk
+import java.util.UUID
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.util.UUID
 
 internal class SearchYoungHumansTest {
 
