@@ -1,6 +1,7 @@
 package com.quipalup.katydid.younghuman
 
 import com.quipalup.katydid.common.genericsearch.PageQuery
+import com.quipalup.katydid.common.genericsearch.PageResult
 import com.quipalup.katydid.common.genericsearch.SearchOperation
 import com.quipalup.katydid.common.genericsearch.SearchRequest
 import com.quipalup.katydid.common.genericsearch.UnaryFilter
@@ -40,7 +41,8 @@ internal class YoungHumanDatabaseTest {
         YoungHumanDatabase().search(searchRequestForPresentYoungHumans).fold(
             { Assertions.fail(it.toString()) },
             {
-                assertThat(it).containsExactlyInAnyOrderElementsOf(presentYoungHumans)
+                assertThat(it).usingRecursiveComparison()
+                    .isEqualTo(PageResult(presentYoungHumans.size.toLong(), presentYoungHumans))
             }
         )
     }
@@ -51,7 +53,8 @@ internal class YoungHumanDatabaseTest {
         YoungHumanDatabase().search(searchRequestForNotPresentYoungHumans).fold(
             { Assertions.fail(it.toString()) },
             {
-                assertThat(it).containsExactlyInAnyOrderElementsOf(notPresentYoungHumans)
+                assertThat(it).usingRecursiveComparison()
+                    .isEqualTo(PageResult(notPresentYoungHumans.size.toLong(), notPresentYoungHumans))
             }
         )
     }

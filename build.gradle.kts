@@ -226,9 +226,11 @@ dependencies {
 
     containerTestImplementation("com.ninja-squad:springmockk:3.0.1")
 
-    containerTestImplementation("io.rest-assured:rest-assured:4.3.3")
-    containerTestImplementation("io.rest-assured:json-path:4.3.3")
-    containerTestImplementation("io.rest-assured:xml-path:4.3.3")
-    containerTestImplementation("io.rest-assured:kotlin-extensions:4.3.3")
+    containerTestImplementation("io.rest-assured:rest-assured:4.2.1")
+    containerTestImplementation("io.rest-assured:json-path:4.2.1")
+    containerTestImplementation("io.rest-assured:xml-path:4.2.1")
+    containerTestImplementation("io.rest-assured:kotlin-extensions:4.2.1")
+
+    containerTestImplementation("com.google.code.gson:gson:2.8.6")
 }
 // CONTAINER TEST CONFIGURATION -- END

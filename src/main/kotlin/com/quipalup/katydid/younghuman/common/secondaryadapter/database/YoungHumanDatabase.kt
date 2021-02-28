@@ -1,11 +1,15 @@
 package com.quipalup.katydid.younghuman.common.secondaryadapter.database
 
 import arrow.core.Either
+import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.domain.Id
 import com.quipalup.katydid.common.genericsearch.Filter
+import com.quipalup.katydid.common.genericsearch.PageResult
 import com.quipalup.katydid.common.genericsearch.SearchOperation
 import com.quipalup.katydid.common.genericsearch.SearchRequest
+import com.quipalup.katydid.younghuman.common.domain.YoungHuman
+import com.quipalup.katydid.younghuman.common.domain.YoungHumanRepository
 import com.quipalup.katydid.younghuman.common.secondaryadapter.database.StaticYoungHumans.Blanca
 import com.quipalup.katydid.younghuman.common.secondaryadapter.database.StaticYoungHumans.Cristina
 import com.quipalup.katydid.younghuman.common.secondaryadapter.database.StaticYoungHumans.David
@@ -13,8 +17,6 @@ import com.quipalup.katydid.younghuman.common.secondaryadapter.database.StaticYo
 import com.quipalup.katydid.younghuman.common.secondaryadapter.database.StaticYoungHumans.Maria
 import com.quipalup.katydid.younghuman.common.secondaryadapter.database.StaticYoungHumans.Monica
 import com.quipalup.katydid.younghuman.common.secondaryadapter.database.StaticYoungHumans.Victor
-import com.quipalup.katydid.younghuman.common.domain.YoungHuman
-import com.quipalup.katydid.younghuman.common.domain.YoungHumanRepository
 import com.quipalup.katydid.younghuman.search.domain.SearchYoungHumansError
 import com.quipalup.katydid.younghuman.search.domain.YoungHumanField
 import java.net.URL
@@ -23,14 +25,15 @@ import javax.inject.Named
 
 @Named
 class YoungHumanDatabase : YoungHumanRepository {
-    override fun search(searchRequest: SearchRequest<YoungHumanField>): Either<SearchYoungHumansError, List<YoungHuman>> {
+    override fun search(searchRequest: SearchRequest<YoungHumanField>): Either<SearchYoungHumansError, PageResult<YoungHuman>> {
+
         if (searchRequest.filters.any { filter: Filter<YoungHumanField> -> filter.operation is SearchOperation.UnarySearchOperation.IsTrue && filter.field == YoungHumanField.IS_PRESENT })
-            return listOf(Blanca, Cristina, Victor, Monica, David).right()
+            return listOf(Blanca, Cristina, Victor, Monica, David).let { PageResult(it.size.toLong(), it) }.right()
 
         if (searchRequest.filters.any { filter: Filter<YoungHumanField> -> filter.operation is SearchOperation.UnarySearchOperation.IsFalse && filter.field == YoungHumanField.IS_PRESENT })
-            return listOf(John, Maria).right()
+            return listOf(John, Maria).let { PageResult(it.size.toLong(), it) }.right()
 
-        TODO("Not yet implemented")
+        return SearchYoungHumansError.Undefined.left()
     }
 }
 
