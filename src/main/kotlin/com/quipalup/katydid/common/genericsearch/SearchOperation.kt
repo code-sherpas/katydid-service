@@ -1,4 +1,4 @@
-package com.quipalup.katydid.search
+package com.quipalup.katydid.common.genericsearch
 
 sealed class SearchOperation {
     sealed class ManyValuesSearchOperation : SearchOperation() {

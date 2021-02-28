@@ -1,27 +1,26 @@
 package com.quipalup.katydid.younghuman
 
 import arrow.core.right
-import com.quipalup.katydid.search.PageQuery
-import com.quipalup.katydid.search.SearchOperation
-import com.quipalup.katydid.search.SearchRequest
-import com.quipalup.katydid.search.UnaryFilter
+import com.quipalup.katydid.common.genericsearch.PageQuery
+import com.quipalup.katydid.common.genericsearch.PageResult
+import com.quipalup.katydid.common.genericsearch.SearchOperation
+import com.quipalup.katydid.common.genericsearch.SearchRequest
+import com.quipalup.katydid.common.genericsearch.UnaryFilter
+import com.quipalup.katydid.younghuman.YoungHumanMother.Blanca
+import com.quipalup.katydid.younghuman.YoungHumanMother.Victor
+import com.quipalup.katydid.younghuman.common.domain.YoungHuman
+import com.quipalup.katydid.younghuman.common.domain.YoungHumanRepository
+import com.quipalup.katydid.younghuman.search.domain.SearchYoungHumans
+import com.quipalup.katydid.younghuman.search.domain.YoungHumanField
 import io.mockk.every
 import io.mockk.mockk
-import java.net.URL
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class SearchYoungHumansTest {
 
-    private val expectedYoungHumans: List<YoungHuman> = mutableListOf(
-        YoungHuman(
-            id = Id(),
-            name = YoungHuman.Name("Blanca"),
-            portraitURL = YoungHuman.PortraitURL(URL("http://host")),
-            isPresent = YoungHuman.IsPresent(true)
-        )
-    )
+    private val expectedYoungHumans: List<YoungHuman> = listOf(Blanca, Victor)
 
     private val searchRequest = SearchRequest(
         pageQuery = PageQuery(1, 10, 10),
@@ -40,12 +39,12 @@ internal class SearchYoungHumansTest {
         `young humans exist`()
 
         SearchYoungHumans(youngHumanRepository).execute(searchRequest).fold(
-            { Assertions.fail("It must be right") },
-            { assertThat(it).containsExactlyInAnyOrderElementsOf(expectedYoungHumans) }
+            { Assertions.fail(it.toString()) },
+            { assertThat(it.matches).containsExactlyInAnyOrderElementsOf(expectedYoungHumans) }
         )
     }
 
     private fun `young humans exist`() {
-        every { youngHumanRepository.search(searchRequest) } returns expectedYoungHumans.right()
+        every { youngHumanRepository.search(searchRequest) } returns PageResult(10, expectedYoungHumans).right()
     }
 }

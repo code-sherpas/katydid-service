@@ -1,4 +1,4 @@
-package com.quipalup.katydid.younghuman
+package com.quipalup.katydid.common.domain
 
 import java.util.UUID
 
