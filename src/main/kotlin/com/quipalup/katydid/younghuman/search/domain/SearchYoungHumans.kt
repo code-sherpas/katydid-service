@@ -1,7 +1,9 @@
-package com.quipalup.katydid.younghuman
+package com.quipalup.katydid.younghuman.search.domain
 
 import arrow.core.Either
-import com.quipalup.katydid.genericsearch.SearchRequest
+import com.quipalup.katydid.common.genericsearch.SearchRequest
+import com.quipalup.katydid.younghuman.common.domain.YoungHuman
+import com.quipalup.katydid.younghuman.common.domain.YoungHumanRepository
 import javax.inject.Named
 
 @Named

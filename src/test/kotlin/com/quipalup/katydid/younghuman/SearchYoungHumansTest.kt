@@ -1,10 +1,15 @@
 package com.quipalup.katydid.younghuman
 
 import arrow.core.right
-import com.quipalup.katydid.genericsearch.PageQuery
-import com.quipalup.katydid.genericsearch.SearchOperation
-import com.quipalup.katydid.genericsearch.SearchRequest
-import com.quipalup.katydid.genericsearch.UnaryFilter
+import com.quipalup.katydid.common.domain.Id
+import com.quipalup.katydid.common.genericsearch.PageQuery
+import com.quipalup.katydid.common.genericsearch.SearchOperation
+import com.quipalup.katydid.common.genericsearch.SearchRequest
+import com.quipalup.katydid.common.genericsearch.UnaryFilter
+import com.quipalup.katydid.younghuman.common.domain.YoungHuman
+import com.quipalup.katydid.younghuman.common.domain.YoungHumanRepository
+import com.quipalup.katydid.younghuman.search.domain.SearchYoungHumans
+import com.quipalup.katydid.younghuman.search.domain.YoungHumanField
 import io.mockk.every
 import io.mockk.mockk
 import java.net.URL
@@ -40,7 +45,7 @@ internal class SearchYoungHumansTest {
         `young humans exist`()
 
         SearchYoungHumans(youngHumanRepository).execute(searchRequest).fold(
-            { Assertions.fail("It must be right") },
+            { Assertions.fail(it.toString()) },
             { assertThat(it).containsExactlyInAnyOrderElementsOf(expectedYoungHumans) }
         )
     }

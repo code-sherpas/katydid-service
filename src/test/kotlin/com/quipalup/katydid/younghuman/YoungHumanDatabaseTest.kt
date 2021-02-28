@@ -1,9 +1,9 @@
 package com.quipalup.katydid.younghuman
 
-import com.quipalup.katydid.genericsearch.PageQuery
-import com.quipalup.katydid.genericsearch.SearchOperation
-import com.quipalup.katydid.genericsearch.SearchRequest
-import com.quipalup.katydid.genericsearch.UnaryFilter
+import com.quipalup.katydid.common.genericsearch.PageQuery
+import com.quipalup.katydid.common.genericsearch.SearchOperation
+import com.quipalup.katydid.common.genericsearch.SearchRequest
+import com.quipalup.katydid.common.genericsearch.UnaryFilter
 import com.quipalup.katydid.younghuman.YoungHumanMother.Blanca
 import com.quipalup.katydid.younghuman.YoungHumanMother.Cristina
 import com.quipalup.katydid.younghuman.YoungHumanMother.David
@@ -11,6 +11,9 @@ import com.quipalup.katydid.younghuman.YoungHumanMother.John
 import com.quipalup.katydid.younghuman.YoungHumanMother.Maria
 import com.quipalup.katydid.younghuman.YoungHumanMother.Monica
 import com.quipalup.katydid.younghuman.YoungHumanMother.Victor
+import com.quipalup.katydid.younghuman.common.domain.YoungHuman
+import com.quipalup.katydid.younghuman.common.secondaryadapter.database.YoungHumanDatabase
+import com.quipalup.katydid.younghuman.search.domain.YoungHumanField
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -35,7 +38,7 @@ internal class YoungHumanDatabaseTest {
     fun `when present young humans are searched, it returns an static list of objects`() {
 
         YoungHumanDatabase().search(searchRequestForPresentYoungHumans).fold(
-            { Assertions.fail("It must be right") },
+            { Assertions.fail(it.toString()) },
             {
                 assertThat(it).containsExactlyInAnyOrderElementsOf(presentYoungHumans)
             }
@@ -46,7 +49,7 @@ internal class YoungHumanDatabaseTest {
     fun `when not present young humans are searched, it returns an static list of objects`() {
 
         YoungHumanDatabase().search(searchRequestForNotPresentYoungHumans).fold(
-            { Assertions.fail("It must be right") },
+            { Assertions.fail(it.toString()) },
             {
                 assertThat(it).containsExactlyInAnyOrderElementsOf(notPresentYoungHumans)
             }

@@ -1,5 +1,7 @@
 package com.quipalup.katydid.younghuman
 
+import com.quipalup.katydid.common.domain.Id
+import com.quipalup.katydid.younghuman.common.domain.YoungHuman
 import java.net.URL
 import java.util.UUID
 

@@ -1,5 +1,6 @@
-package com.quipalup.katydid.younghuman
+package com.quipalup.katydid.younghuman.common.domain
 
+import com.quipalup.katydid.common.domain.Id
 import java.net.URL
 
 data class YoungHuman(val id: Id, val name: Name, val portraitURL: PortraitURL, val isPresent: IsPresent) {

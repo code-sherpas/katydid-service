@@ -1,4 +1,4 @@
-package com.quipalup.katydid.genericsearch
+package com.quipalup.katydid.common.genericsearch
 
 abstract class Filter<F> {
     abstract val operation: SearchOperation
