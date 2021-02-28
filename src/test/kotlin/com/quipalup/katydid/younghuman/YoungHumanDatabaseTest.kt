@@ -1,9 +1,9 @@
 package com.quipalup.katydid.younghuman
 
-import com.quipalup.katydid.search.PageQuery
-import com.quipalup.katydid.search.SearchOperation
-import com.quipalup.katydid.search.SearchRequest
-import com.quipalup.katydid.search.UnaryFilter
+import com.quipalup.katydid.genericsearch.PageQuery
+import com.quipalup.katydid.genericsearch.SearchOperation
+import com.quipalup.katydid.genericsearch.SearchRequest
+import com.quipalup.katydid.genericsearch.UnaryFilter
 import com.quipalup.katydid.younghuman.YoungHumanMother.Blanca
 import com.quipalup.katydid.younghuman.YoungHumanMother.Cristina
 import com.quipalup.katydid.younghuman.YoungHumanMother.David

@@ -1,7 +1,7 @@
 package com.quipalup.katydid.younghuman
 
 import arrow.core.Either
-import com.quipalup.katydid.search.SearchRequest
+import com.quipalup.katydid.genericsearch.SearchRequest
 import javax.inject.Named
 
 @Named

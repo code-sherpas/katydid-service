@@ -1,4 +1,4 @@
-package com.quipalup.katydid.search
+package com.quipalup.katydid.genericsearch
 
 data class PageQuery(val number: Int, val size: Int, val maxSize: Int) {
     init {

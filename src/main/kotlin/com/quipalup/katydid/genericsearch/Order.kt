@@ -1,4 +1,4 @@
-package com.quipalup.katydid.search
+package com.quipalup.katydid.genericsearch
 
 enum class Order {
     ASCENDING, DESCENDING;
