@@ -147,7 +147,6 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven { setUrl("https://dl.bintray.com/arrow-kt/arrow-kt/") }
     }
 
     dependencies {
@@ -160,6 +159,7 @@ allprojects {
         implementation("io.arrow-kt:arrow-core")
         implementation("io.arrow-kt:arrow-fx")
         implementation("io.arrow-kt:arrow-syntax")
+
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
         testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.1")
