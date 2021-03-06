@@ -1,6 +1,6 @@
 # katydid-service
 
-![](https://github.com/quipalup-org/katydid-web-client/workflows/Push%20to%20main/badge.svg)
+![](https://github.com/quipalup-org/katydid-service/workflows/Push%20to%20main/badge.svg)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=quipalup-org_katydid-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=quipalup-org_katydid-service)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=quipalup-org_katydid-service&metric=bugs)](https://sonarcloud.io/dashboard?id=quipalup-org_katydid-service)
