@@ -181,8 +181,8 @@ dependencies {
 sonarqube {
     properties {
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.organization", "quipalup")
-        property("sonar.projectKey", "quipalup-org_katydid-service")
+        property("sonar.organization", "code-sherpas")
+        property("sonar.projectKey", "code-sherpas_katydid-service")
     }
 }
 // SonarQube -- END
