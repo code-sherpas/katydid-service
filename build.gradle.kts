@@ -235,6 +235,6 @@ dependencies {
 }
 // CONTAINER TEST CONFIGURATION -- END
 
-tasks.create("stage") {
+/*tasks.create("stage") {
     dependsOn(tasks.bootJar)
-}
+}*/

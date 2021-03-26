@@ -1,6 +1,8 @@
-FROM openjdk:11
+FROM gradle:6.8.2-jdk11-openj9
 
-COPY build/libs /katydid-service
-WORKDIR /katydid-service
+COPY ./ ./
+
+RUN ./gradlew bootJar
+
 EXPOSE 8080
 CMD ["java", "-jar", "katydid-service.jar"]
