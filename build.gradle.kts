@@ -234,3 +234,7 @@ dependencies {
     containerTestImplementation("com.google.code.gson:gson:2.8.6")
 }
 // CONTAINER TEST CONFIGURATION -- END
+
+tasks.create("stage") {
+    dependsOn(tasks.bootJar)
+}
