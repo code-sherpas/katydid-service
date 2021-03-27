@@ -54,7 +54,7 @@ Remove the useless file: `rm get-pip.py`
 
 Use pip to install the EB CLI: `pip3.9 install awsebcli --upgrade --user`
 
-Verify that the EB CLI installed correctly: `eb --version`
+Verify that the EB CLI is installed correctly: `eb --version`
 
 To upgrade to the latest version, run the installation command again: `pip3.9 install awsebcli --upgrade --user`
 
