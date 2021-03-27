@@ -57,3 +57,7 @@ Use pip to install the EB CLI: `pip3.9 install awsebcli --upgrade --user`
 Verify that the EB CLI installed correctly: `eb --version`
 
 To upgrade to the latest version, run the installation command again: `pip3.9 install awsebcli --upgrade --user`
+
+# Useful resources
+
+https://aws.amazon.com/blogs/devops/deploying-a-spring-boot-application-on-aws-using-aws-elastic-beanstalk/
