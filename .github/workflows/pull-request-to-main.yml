@@ -21,9 +21,3 @@ jobs:
       run: ./gradlew -Dsonar.projectVersion=${{ github.ref }}-${{ github.sha }} build sonarqube
       env:
         SONAR_TOKEN: ${{ secrets.QUIPALUP_SONAR_TOKEN }}
-    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-      with:
-        heroku_api_key: ${{secrets.DGRACIAC_API_KEY}}
-        heroku_app_name: "test-katydid-service" #Must be unique in Heroku
-        heroku_email: "david.gracia.celemendi@gmail.com"
-        usedocker: true
