@@ -14,7 +14,7 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=code-sherpas_katydid-service&metric=sqale_index)](https://sonarcloud.io/dashboard?id=code-sherpas_katydid-service)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=code-sherpas_katydid-service&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=code-sherpas_katydid-service)
 
-#Install EB CLI
+# Install EB CLI
 
 Install Python:
 ```
