@@ -2,14 +2,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 // PLUGINS -- BEGIN
 plugins {
-    kotlin("jvm") version "1.4.30"
+    kotlin("jvm") version "1.4.32"
     `java-library`
     jacoco
     id("org.sonarqube") version "3.1.1"
     id("com.diffplug.spotless") version "5.9.0"
     id("org.springframework.boot") version "2.4.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("plugin.spring") version "1.4.30"
+    kotlin("plugin.spring") version "1.4.32"
 }
 
 allprojects {
