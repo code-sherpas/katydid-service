@@ -1,4 +1,4 @@
-package com.quipalup.katydid.logentry
+package com.quipalup.katydid.logentry.primaryadapter.httprest
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
