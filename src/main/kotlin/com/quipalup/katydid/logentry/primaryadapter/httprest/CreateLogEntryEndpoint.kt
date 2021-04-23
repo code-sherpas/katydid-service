@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
-
-
 @RestController
 class CreateLogEntryEndpoint {
     @PostMapping("/log-entries")
@@ -23,12 +21,11 @@ class CreateLogEntryEndpoint {
                 time = newLog.time,
                 description = newLog.description,
                 amount = newLog.amount,
-                unit = newLog.unit,
+                unit = newLog.unit
             )
         )
             val logEntries: MutableList<LogEntryResource> = ArrayList()
-            logEntries.add(log);
-            return logEntries;
+            logEntries.add(log)
+            return logEntries
         }
     }
-

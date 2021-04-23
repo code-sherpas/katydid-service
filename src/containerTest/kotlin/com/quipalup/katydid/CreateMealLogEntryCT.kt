@@ -26,7 +26,7 @@ class CreateMealLogEntryCT {
     }
 
     @Test
-    fun `searches young humans`() {
+    fun `create meal log entry`() {
         Given {
 // TODO        contentType("application/vnd.api+json")
             body(requestBody)
@@ -44,7 +44,7 @@ class CreateMealLogEntryCT {
             {
               "data": 
                   {
-                    "type": "log-entry",
+                    "type": "meal-log-entry",
                     "attributes": {
                       "time": 123345534,
                       "description": "Yogurt with strawberries",
@@ -60,7 +60,7 @@ class CreateMealLogEntryCT {
               "data": 
                   {
                     "id": "5ee62461-adb8-4618-a110-06290a787223",
-                    "type": "log-entry",
+                    "type": "meal-log-entry",
                     "attributes": {
                       "time": 123345534,
                       "description": "Yogurt with strawberries",
