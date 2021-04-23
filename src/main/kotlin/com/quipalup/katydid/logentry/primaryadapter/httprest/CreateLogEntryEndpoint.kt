@@ -16,7 +16,7 @@ class CreateLogEntryEndpoint {
 
         val log = LogEntryResource(
             id = Id(),
-            type = JsonApiTypes.LOG_ENTRY,
+            type = JsonApiTypes.MEAL_LOG_ENTRY,
             attributes = LogEntry(
                 time = newLog.time,
                 description = newLog.description,
