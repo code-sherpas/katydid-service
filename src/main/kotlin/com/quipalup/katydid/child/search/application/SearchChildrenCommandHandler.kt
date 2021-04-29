@@ -5,7 +5,11 @@ import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.common.domain.ChildRepository
 import com.quipalup.katydid.child.search.domain.ChildField
 import com.quipalup.katydid.child.search.domain.SearchChildrenError
-import com.quipalup.katydid.common.genericsearch.*
+import com.quipalup.katydid.common.genericsearch.PageQuery
+import com.quipalup.katydid.common.genericsearch.PageResult
+import com.quipalup.katydid.common.genericsearch.SearchRequest
+import com.quipalup.katydid.common.genericsearch.Sorting
+import com.quipalup.katydid.common.genericsearch.UnaryFilter
 import javax.inject.Named
 
 @Named

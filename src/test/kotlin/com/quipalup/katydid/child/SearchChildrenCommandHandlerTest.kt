@@ -6,9 +6,13 @@ import com.quipalup.katydid.child.ChildMother.VICTOR
 import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.common.domain.ChildRepository
 import com.quipalup.katydid.child.search.application.SearchChildrenByFieldCommand
-import com.quipalup.katydid.child.search.domain.ChildField
 import com.quipalup.katydid.child.search.application.SearchChildrenCommandHandler
-import com.quipalup.katydid.common.genericsearch.*
+import com.quipalup.katydid.child.search.domain.ChildField
+import com.quipalup.katydid.common.genericsearch.PageQuery
+import com.quipalup.katydid.common.genericsearch.PageResult
+import com.quipalup.katydid.common.genericsearch.SearchRequest
+import com.quipalup.katydid.common.genericsearch.Sorting
+import com.quipalup.katydid.common.genericsearch.UnaryFilter
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions
@@ -35,7 +39,7 @@ internal class SearchChildrenCommandHandlerTest {
         private val size = 10
         private val maxSize = 10
 
-        private val filters : List<UnaryFilter<ChildField>> = listOf(
+        private val filters: List<UnaryFilter<ChildField>> = listOf(
             UnaryFilter(
                 operation = SearchOperation.UnarySearchOperation.IsTrue,
                 field = ChildField.IS_PRESENT

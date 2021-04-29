@@ -4,8 +4,8 @@ import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.right
 import com.quipalup.katydid.child.search.application.SearchChildrenByFieldCommand
-import com.quipalup.katydid.child.search.domain.ChildField
 import com.quipalup.katydid.child.search.application.SearchChildrenCommandHandler
+import com.quipalup.katydid.child.search.domain.ChildField
 import com.quipalup.katydid.child.search.domain.SearchChildrenError
 import com.quipalup.katydid.common.genericsearch.SearchOperation
 import com.quipalup.katydid.common.genericsearch.UnaryFilter
@@ -28,7 +28,7 @@ internal class SearchChildrenEndpoint(private val searchChildrenCommandHandler: 
 
     private fun errorHandler(): (SearchChildrenError) -> SearchChildrenDocument = { throw RuntimeException() }
 
-    //TODO: refactor in orde to avoid using hardcoded data
+    // TODO: refactor in orde to avoid using hardcoded data
     private fun buildSearchRequest(): Either<SearchChildrenError, SearchChildrenByFieldCommand> = SearchChildrenByFieldCommand(
         pageNumber = 1,
         pageSize = 20,
