@@ -1,7 +1,7 @@
 package com.quipalup.katydid.child
 
 import com.quipalup.katydid.child.common.domain.Child
-import com.quipalup.katydid.common.domain.Id
+import com.quipalup.katydid.common.id.Id
 import java.net.URL
 import java.util.UUID
 
