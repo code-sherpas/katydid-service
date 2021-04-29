@@ -10,6 +10,7 @@ import com.quipalup.katydid.child.search.application.SearchChildrenCommandHandle
 import com.quipalup.katydid.child.search.domain.ChildField
 import com.quipalup.katydid.common.genericsearch.PageQuery
 import com.quipalup.katydid.common.genericsearch.PageResult
+import com.quipalup.katydid.common.genericsearch.SearchOperation
 import com.quipalup.katydid.common.genericsearch.SearchRequest
 import com.quipalup.katydid.common.genericsearch.Sorting
 import com.quipalup.katydid.common.genericsearch.UnaryFilter
