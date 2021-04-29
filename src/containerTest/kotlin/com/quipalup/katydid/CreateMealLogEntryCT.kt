@@ -28,12 +28,12 @@ class CreateMealLogEntryCT {
     @Test
     fun `create meal log entry`() {
         Given {
-// TODO        contentType("application/vnd.api+json")
+            contentType("application/vnd.api+json")
             body(requestBody)
         } When {
             post("/log-entries")
         } Then {
-// TODO            contentType("application/vnd.api+json")
+//            contentType("application/vnd.api+json")
             statusCode(201)
         } Extract {
             `assert that response body is equal to`(body().asString(), expectedResponseBody)

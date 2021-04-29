@@ -1,10 +1,27 @@
 package com.quipalup.katydid.logentry.primaryadapter.httprest
 
-import com.quipalup.katydid.common.domain.Id
-import com.quipalup.katydid.logentry.domain.LogEntry
-
 data class LogEntryResource(
-    val id: Id,
+    val id: String,
     val type: String,
-    val attributes: LogEntry
+    val attributes: LogEntryResourceAttributes
+)
+
+data class LogEntryRequestResource(
+    val type: String,
+    val attributes: LogEntryResourceAttributes
+)
+
+data class LogEntryResourceAttributes(
+    val time: Long,
+    val description: String,
+    val amount: Int,
+    val unit: String
+)
+
+data class LogEntryRequestDocument(
+    val data: LogEntryRequestResource
+)
+
+data class LogEntryResponseDocument(
+    val data: LogEntryResource
 )
