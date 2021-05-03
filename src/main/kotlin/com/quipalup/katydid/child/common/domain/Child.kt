@@ -1,6 +1,6 @@
 package com.quipalup.katydid.child.common.domain
 
-import com.quipalup.katydid.common.domain.Id
+import com.quipalup.katydid.common.id.Id
 import java.net.URL
 
 data class Child(val id: Id, val name: Name, val portraitURL: PortraitURL, val isPresent: IsPresent) {
