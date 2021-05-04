@@ -11,14 +11,14 @@ import javax.inject.Named
 
 @Named
 class CreateLogEntryCommandHandler(private val logEntryRepository: LogEntryRepository) {
-    fun execute(createLogEntryByFieldCommand: CreateLogEntryByFieldCommand): Either<LogEntryError, LogEntryResponseDocument>{
+    fun execute(createLogEntryByFieldCommand: CreateLogEntryByFieldCommand): Either<LogEntryError, LogEntryResponseDocument> {
         return createLogEntryByFieldCommand.toCreateRequest().let {
             logEntryRepository.create(it)
         }
     }
 }
 
-private fun CreateLogEntryByFieldCommand.toCreateRequest(): CreateRequest{
+private fun CreateLogEntryByFieldCommand.toCreateRequest(): CreateRequest {
     return CreateRequest(
         this.id,
         this.type,

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-internal class CreateLogEntryEndpoint( private  val createLogEntryCommandHandler: CreateLogEntryCommandHandler) {
+internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: CreateLogEntryCommandHandler) {
     @PostMapping("/log-entries")
     @ResponseStatus(HttpStatus.CREATED)
     fun execute(): LogEntryResponseDocument {

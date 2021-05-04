@@ -6,5 +6,4 @@ import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryResponseDoc
 
 interface LogEntryRepository {
     fun create(createRequest: CreateRequest): Either<LogEntryError, LogEntryResponseDocument>
-
 }
