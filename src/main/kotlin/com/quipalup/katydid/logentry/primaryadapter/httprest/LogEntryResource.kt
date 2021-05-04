@@ -1,5 +1,7 @@
 package com.quipalup.katydid.logentry.primaryadapter.httprest
 
+import com.quipalup.katydid.common.genericlogentry.CreateRequest
+
 data class LogEntryResource(
     val id: String,
     val type: String,
@@ -23,5 +25,5 @@ data class LogEntryRequestDocument(
 )
 
 data class LogEntryResponseDocument(
-    val data: LogEntryResource
+    val data: CreateRequest
 )
