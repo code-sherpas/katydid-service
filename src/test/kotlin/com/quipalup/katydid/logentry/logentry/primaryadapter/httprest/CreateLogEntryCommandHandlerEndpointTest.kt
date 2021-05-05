@@ -1,0 +1,3 @@
+package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
+
+class CreateLogEntryCommandHandlerEndpointTest

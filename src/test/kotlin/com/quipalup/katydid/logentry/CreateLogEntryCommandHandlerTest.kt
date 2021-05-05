@@ -1,13 +1,13 @@
 package com.quipalup.katydid.logentry
 
 import com.quipalup.katydid.common.id.Id
-import com.quipalup.katydid.logentry.application.CreateLogEntryByFieldCommand
+import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
-import com.quipalup.katydid.logentry.primaryadapter.httprest.JsonApiTypes
-import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryResource
-import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryResourceAttributes
-import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryResponseDocument
+import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.JsonApiTypes
+import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.LogEntryResource
+import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.LogEntryResourceAttributes
+import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.LogEntryResponseDocument
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
@@ -33,7 +33,7 @@ internal class CreateLogEntryCommandHandlerTest {
             unit = "percentage"
         )
 
-        private val createLogEntryByFieldCommand = CreateLogEntryByFieldCommand(
+        private val createLogEntryByFieldCommand = CreateLogEntryCommand(
             type = jsontype,
             attributes = attr
         )

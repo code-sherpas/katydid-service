@@ -1,6 +1,6 @@
-package com.quipalup.katydid.logentry.primaryadapter.httprest
+package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
 
-import com.quipalup.katydid.logentry.application.CreateLogEntryByFieldCommand
+import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
 
 data class LogEntryResource(
     val id: String,
@@ -21,7 +21,7 @@ data class LogEntryResourceAttributes(
 )
 
 data class LogEntryRequestDocument(
-    val data: CreateLogEntryByFieldCommand
+    val data: CreateLogEntryCommand
 )
 
 // TODO Change this
