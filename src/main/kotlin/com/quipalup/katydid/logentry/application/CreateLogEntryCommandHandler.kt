@@ -1,10 +1,9 @@
 package com.quipalup.katydid.logentry.application
 
 import arrow.core.Either
-import com.quipalup.katydid.common.genericlogentry.CreateRequest
-import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.LogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
+import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryRequestDocument
 import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryResourceAttributes
 import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryResponseDocument
 import javax.inject.Named
@@ -18,15 +17,10 @@ class CreateLogEntryCommandHandler(private val logEntryRepository: LogEntryRepos
     }
 }
 
-private fun CreateLogEntryByFieldCommand.toCreateRequest(): CreateRequest {
-    return CreateRequest(
-        this.id,
-        this.type,
-        this.attributes
-    )
+private fun CreateLogEntryByFieldCommand.toCreateRequest(): LogEntryRequestDocument {
+    return LogEntryRequestDocument(data = CreateLogEntryByFieldCommand(this.type, this.attributes))
 }
     data class CreateLogEntryByFieldCommand(
-        val id: Id,
         val type: String,
         val attributes: LogEntryResourceAttributes
     )

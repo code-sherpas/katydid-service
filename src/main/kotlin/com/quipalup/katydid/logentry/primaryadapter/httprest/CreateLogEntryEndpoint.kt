@@ -3,7 +3,6 @@ package com.quipalup.katydid.logentry.primaryadapter.httprest
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.right
-import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.application.CreateLogEntryByFieldCommand
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
 import com.quipalup.katydid.logentry.domain.LogEntryError
@@ -25,7 +24,6 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
     private fun errorHandler(): (LogEntryError) -> LogEntryResponseDocument = { throw RuntimeException() }
 
     private fun buildCreateRequest(): Either<LogEntryError, CreateLogEntryByFieldCommand> = CreateLogEntryByFieldCommand(
-        id = Id(),
         type = JsonApiTypes.MEAL_LOG_ENTRY,
         attributes = LogEntryResourceAttributes(
             time = 1234,
