@@ -17,12 +17,13 @@ class CreateLogEntryCommandHandler(private val logEntryRepository: LogEntryRepos
     }
 }
 
-private fun CreateLogEntryCommand.toLogEntry(): LogEntry {
-    return LogEntry(LogEntryId(Id()),this.time, this.description, this.amount, this.unit)
+    private fun CreateLogEntryCommand.toLogEntry(): LogEntry {
+        return LogEntry(LogEntryId(Id()), this.time, this.description, this.amount, this.unit)
+    }
 }
 
 data class CreateLogEntryCommand(
-    val time:Long,
+    val time: Long,
     val description: String,
     val amount: Number,
     val unit: String
@@ -33,5 +34,5 @@ data class LogEntryResult(
     val time: Long,
     val description: String,
     val amount: Number,
-    val unit: String,
+    val unit: String
 )

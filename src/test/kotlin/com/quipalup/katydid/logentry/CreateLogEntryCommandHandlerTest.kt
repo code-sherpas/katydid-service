@@ -5,10 +5,6 @@ import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
 import com.quipalup.katydid.logentry.application.LogEntryResult
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
-import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.JsonApiTypes
-import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.LogEntryResource
-import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.LogEntryResourceAttributes
-import com.quipalup.katydid.logentry.logentry.primaryadapter.httprest.LogEntryResponseDocument
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
@@ -26,11 +22,10 @@ internal class CreateLogEntryCommandHandlerTest {
     companion object {
 
         private val uid = Id()
-        private  val time = 123L
+        private val time = 123L
         private val description = "Yogurt"
         private val amount = 12
-        private  val unit = "percentage"
-
+        private val unit = "percentage"
 
         private val createLogEntryCommand = CreateLogEntryCommand(
             time = time,
@@ -41,6 +36,6 @@ internal class CreateLogEntryCommandHandlerTest {
 
         private val logEntryRepository: LogEntryRepository = mockk()
 
-        private val expectedResponse: LogEntryResult = LogEntryResult(id = uid.toString(), time = time, description = description, amount = amount, unit = unit )
+        private val expectedResponse: LogEntryResult = LogEntryResult(id = uid.toString(), time = time, description = description, amount = amount, unit = unit)
     }
 }
