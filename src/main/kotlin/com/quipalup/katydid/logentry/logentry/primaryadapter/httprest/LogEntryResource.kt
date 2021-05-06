@@ -1,8 +1,6 @@
 package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
 
-import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
-
-data class LogEntryResource(
+data class LogEntryResourceSuccess(
     val id: String,
     val type: String,
     val attributes: LogEntryResourceAttributes
@@ -24,7 +22,15 @@ data class LogEntryRequestDocument(
     val data: LogEntryRequestResource
 )
 
-// TODO Change this
 data class LogEntryResponseDocument(
     val data: LogEntryResource
+): LogEntryResponse
+
+data class LogEntryResponseErrors(
+    val errors: List<LogEntryResponseError>
 )
+
+interface LogEntryResponse
+
+
+interface LogEntryResource

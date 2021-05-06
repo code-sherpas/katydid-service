@@ -8,17 +8,20 @@ import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
+import jdk.internal.net.http.HttpResponseImpl
 import org.apache.coyote.Response
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import java.net.http.HttpResponse
 
 @RestController
 internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: CreateLogEntryCommandHandler) {
     @PostMapping("/log-entries")
     @ResponseStatus(HttpStatus.CREATED)
-    fun execute(logEntryRequestDocument: LogEntryRequestDocument): Either<CreateLogEntryError, LogEntry> {
+    fun execute(logEntryRequestDocument: LogEntryRequestDocument): ResponseEntity<LogEntryResponseDocument>  {
         return logEntryRequestDocument.let {
             CreateLogEntryCommand(
                 time = it.data.attributes.time,
@@ -27,8 +30,12 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
                 unit = it.data.attributes.unit
             ).let {
                 createLogEntryCommandHandler.execute(it).fold(
-                    ifLeft = {it.left()},
-                    ifRight = {it.right()}
+                    ifLeft = { ResponseEntity(LogEntryResponseDocument(), HttpStatus.CONFLICT) },
+                    ifRight = {
+                        ResponseEntity(LogEntryResponseDocument(
+                            data =
+                        ), HttpStatus.OK)
+                    }
                 )
             }
         }
@@ -42,4 +49,19 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
             amount = 12,
             unit = "percentage"
     ).right()
+}
+
+private fun LogEntry.toLogEntryResponseDocument(): LogEntryResponseDocument {
+    return LogEntryResponseDocument(
+            data = LogEntryResource(
+                id = this.id.id.value.toString(),
+                type = JsonApiTypes.MEAL_LOG_ENTRY,
+                attributes = LogEntryResourceAttributes(
+                    time = this.time,
+                    amount = this.amount.toInt(),
+                    unit = this.unit,
+                    description = this.description
+                )
+            )
+    )
 }
