@@ -5,7 +5,9 @@ import arrow.core.flatMap
 import arrow.core.right
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
-import com.quipalup.katydid.logentry.domain.LogEntryError
+import com.quipalup.katydid.logentry.application.LogEntryResult
+import com.quipalup.katydid.logentry.domain.CreateLogEntryError
+import com.quipalup.katydid.logentry.domain.LogEntry
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -15,22 +17,18 @@ import org.springframework.web.bind.annotation.RestController
 internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: CreateLogEntryCommandHandler) {
     @PostMapping("/log-entries")
     @ResponseStatus(HttpStatus.CREATED)
-    fun execute(): LogEntryResponseDocument {
-        return buildCreateRequest()
+    fun execute(log: LogEntry): LogEntryResult {
+        return buildCommand(log)
             .flatMap { createLogEntryCommandHandler.execute(it) }
             .fold(errorHandler()) { it }
     }
 
-    private fun errorHandler(): (LogEntryError) -> LogEntryResponseDocument = { throw RuntimeException() }
+    private fun errorHandler(): (CreateLogEntryError) -> LogEntryResult = { throw RuntimeException() }
 
-    private fun buildCreateRequest(): Either<LogEntryError, CreateLogEntryCommand> = CreateLogEntryCommand(
-        type = JsonApiTypes.MEAL_LOG_ENTRY,
-        attributes = LogEntryResourceAttributes(
+    private fun buildCommand(document: LogEntry): Either<CreateLogEntryError, CreateLogEntryCommand> = CreateLogEntryCommand(
             time = 1234,
             description = "Yogurt",
             amount = 12,
             unit = "percentage"
-
-        )
     ).right()
 }

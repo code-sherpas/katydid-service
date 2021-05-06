@@ -1,5 +1,9 @@
 package com.quipalup.katydid.logentry.domain
 
-sealed class LogEntryError {
-    object Unknown : LogEntryError()
+sealed class CreateLogEntryError {
+    object Unknown : CreateLogEntryError()
+}
+
+sealed class LogEntryErrorNotFound {
+    object Unknown: LogEntryErrorNotFound()
 }
