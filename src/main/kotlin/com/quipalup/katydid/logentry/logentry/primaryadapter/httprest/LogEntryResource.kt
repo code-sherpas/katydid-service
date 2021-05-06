@@ -1,7 +1,5 @@
 package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
 
-import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
-
 data class LogEntryResource(
     val id: String,
     val type: String,
