@@ -21,7 +21,7 @@ data class LogEntryResourceAttributes(
 )
 
 data class LogEntryRequestDocument(
-    val data: CreateLogEntryCommand
+    val data: LogEntryRequestResource
 )
 
 // TODO Change this
