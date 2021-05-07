@@ -25,7 +25,7 @@ class CreateLogEntryCommandHandler(private val logEntryRepository: LogEntryRepos
 data class CreateLogEntryCommand(
     val time: Long,
     val description: String,
-    val amount: Number,
+    val amount: Int,
     val unit: String
 )
 
@@ -33,6 +33,6 @@ data class LogEntryResult(
     val id: String,
     val time: Long,
     val description: String,
-    val amount: Number,
+    val amount: Int,
     val unit: String
 )
