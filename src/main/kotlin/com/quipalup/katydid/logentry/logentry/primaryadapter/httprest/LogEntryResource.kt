@@ -4,7 +4,7 @@ data class LogEntryResourceSuccess(
     val id: String,
     val type: String,
     val attributes: LogEntryResourceAttributes
-): LogEntryResource
+) : LogEntryResource
 
 data class LogEntryRequestResource(
     val type: String,
@@ -28,7 +28,7 @@ data class LogEntryResponseDocument(
 
 data class LogEntryResponseErrors(
     val errors: List<LogEntryResponseError>
-): LogEntryResource
+) : LogEntryResource
 
 data class LogEntryResponseError(
     val code: String = "10001",
