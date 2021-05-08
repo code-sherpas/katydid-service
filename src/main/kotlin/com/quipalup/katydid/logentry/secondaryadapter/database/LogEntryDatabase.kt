@@ -9,12 +9,8 @@ import com.quipalup.katydid.logentry.domain.LogEntryRepository
 import javax.inject.Named
 
 @Named
-class LogEntryRepositoryDatabase : LogEntryRepository {
-    override fun create(createRequest: LogEntry): Either<CreateLogEntryError, Id> {
-        TODO("Not yet implemented")
-    }
+class LogEntryDatabase : LogEntryRepository {
+    override fun create(createRequest: LogEntry): Either<CreateLogEntryError, Id> = TODO("Not yet implemented")
 
-    override fun findById(id: Id): Either<FindLogEntryError, LogEntry> {
-        TODO("Not yet implemented")
-    }
+    override fun findById(id: Id): Either<FindLogEntryError, LogEntry> = TODO("Not yet implemented")
 }

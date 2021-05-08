@@ -2,10 +2,12 @@ package com.quipalup.katydid.logentry.application
 
 import arrow.core.Either
 import arrow.core.flatMap
+import arrow.core.right
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
+import java.util.*
 import javax.inject.Named
 
 @Named
@@ -15,13 +17,16 @@ class FindLogEntryByIdQueryHandler(private val logEntryRepository: LogEntryRepos
             .flatMap { logEntryRepository.findById(it) }
             .flatMap { it.toResult() }
 
-    private fun CreateLogEntryCommand.toLogEntry(): LogEntry {
-        return LogEntry(Id(), this.time, this.description, this.amount, this.unit)
-    }
+    private fun FindLogEntryByIdQuery.toId(): Either<FindLogEntryError, Id> = Id(UUID.fromString(this.id)).right()
 
-    private fun FindLogEntryByIdQuery.toId(): Either<FindLogEntryError, Id> = TODO("Not yet implemented")
-
-    private fun LogEntry.toResult(): Either<FindLogEntryError, LogEntryResult> = TODO("Not yet implemented")
+    private fun LogEntry.toResult(): Either<FindLogEntryError, LogEntryResult> =
+        LogEntryResult(
+            id = id.value.toString(),
+            time = time,
+            description = description,
+            amount = amount,
+            unit = unit
+        ).right()
 }
 
 data class FindLogEntryByIdQuery(val id: String)

@@ -11,9 +11,8 @@ import javax.inject.Named
 
 @Named
 class CreateLogEntryCommandHandler(private val logEntryRepository: LogEntryRepository) {
-    fun execute(command: CreateLogEntryCommand): Either<CreateLogEntryError, String> {
-        return command.toLogEntry().flatMap { logEntryRepository.create(it) }.flatMap { it.value.toString().right() }
-    }
+    fun execute(command: CreateLogEntryCommand): Either<CreateLogEntryError, String> =
+        command.toLogEntry().flatMap { logEntryRepository.create(it) }.flatMap { it.value.toString().right() }
 
     private fun CreateLogEntryCommand.toLogEntry(): Either<CreateLogEntryError, LogEntry> =
         LogEntry(Id(), this.time, this.description, this.amount, this.unit).right()
