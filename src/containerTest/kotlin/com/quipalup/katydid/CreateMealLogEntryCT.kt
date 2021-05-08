@@ -1,13 +1,18 @@
 package com.quipalup.katydid
 
+import com.quipalup.katydid.common.id.IdGenerator
 import io.restassured.RestAssured
 import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
+import java.util.UUID
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.web.server.LocalServerPort
 
 @SpringBootTest(
@@ -25,8 +30,16 @@ class CreateMealLogEntryCT {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
 
+    private val uuid: UUID = UUID.randomUUID()
+
+    @MockBean
+    private lateinit var idGenerator: IdGenerator
+
     @Test
     fun `create meal log entry`() {
+
+        whenever(idGenerator.generate()).doReturn(uuid)
+
         Given {
             contentType("application/vnd.api+json")
             body(requestBody)
@@ -59,7 +72,7 @@ class CreateMealLogEntryCT {
             {
               "data": 
                   {
-                    "id": "5ee62461-adb8-4618-a110-06290a787223",
+                    "id": "$uuid",
                     "type": "meal-log-entry",
                     "attributes": {
                       "time": 123345534,

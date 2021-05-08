@@ -165,6 +165,9 @@ allprojects {
         testImplementation("io.mockk:mockk:1.10.5")
         testImplementation("org.assertj:assertj-core:3.19.0")
         testImplementation("com.github.tomakehurst:wiremock-jre8:2.27.2")
+        testImplementation("org.mockito.kotlin:mockito-kotlin:3.1.0")
+        testImplementation("org.mockito:mockito-inline:3.9.0")
+        testImplementation("io.kotest.extensions:kotest-assertions-arrow:1.0.2")
     }
 }
 
@@ -225,8 +228,9 @@ dependencies {
         exclude(module = "mockito-core")
     }
 
-    containerTestImplementation("com.ninja-squad:springmockk:3.0.1")
-
+    containerTestImplementation("org.mockito.kotlin:mockito-kotlin:3.1.0")
+    containerTestImplementation("org.mockito:mockito-inline:3.9.0")
+    containerTestImplementation("io.kotest.extensions:kotest-assertions-arrow:1.0.2")
     containerTestImplementation("io.rest-assured:rest-assured:4.2.1")
     containerTestImplementation("io.rest-assured:json-path:4.2.1")
     containerTestImplementation("io.rest-assured:xml-path:4.2.1")

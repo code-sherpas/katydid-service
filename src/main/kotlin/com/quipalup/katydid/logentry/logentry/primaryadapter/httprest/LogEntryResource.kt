@@ -31,5 +31,3 @@ data class LogEntryRequestDocument(
 data class LogEntryResponseDocument(
     val data: LogEntryResource
 )
-
-

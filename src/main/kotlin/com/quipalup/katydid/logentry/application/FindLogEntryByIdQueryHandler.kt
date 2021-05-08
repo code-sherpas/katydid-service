@@ -7,7 +7,7 @@ import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
-import java.util.*
+import java.util.UUID
 import javax.inject.Named
 
 @Named

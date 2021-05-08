@@ -43,7 +43,6 @@ internal class CreateLogEntryEndpoint(
                             HttpStatus.INTERNAL_SERVER_ERROR
                         )
                     }
-
                 },
                 ifRight = { logEntryResult: LogEntryResult ->
                     ResponseEntity(
