@@ -6,9 +6,10 @@ data class LogEntry(
     val id: LogEntryId,
     val time: Long,
     val description: String,
-    val amount: Number,
+    val amount: Int,
     val unit: String
 )
+
 data class LogEntryId(
     val id: Id
 )
