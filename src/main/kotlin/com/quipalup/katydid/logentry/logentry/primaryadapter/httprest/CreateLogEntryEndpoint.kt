@@ -24,8 +24,8 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
                 description = it.data.attributes.description,
                 amount = it.data.attributes.amount,
                 unit = it.data.attributes.unit
-            ).let {
-                createLogEntryCommandHandler.execute(it).fold(
+            ).let { command: CreateLogEntryCommand ->
+                createLogEntryCommandHandler.execute(command).fold(
                     ifLeft = {
                         ResponseEntity(
                             LogEntryResponseDocument(
@@ -47,16 +47,6 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
             }
         }
     }
-
-    private fun errorHandler(): (CreateLogEntryError) -> LogEntry = { throw RuntimeException() }
-
-    private fun buildCommand(document: LogEntry): Either<CreateLogEntryError, CreateLogEntryCommand> =
-        CreateLogEntryCommand(
-            time = 1234,
-            description = "Yogurt",
-            amount = 12,
-            unit = "percentage"
-        ).right()
 }
 
 private fun LogEntry.toLogEntryResponseDocument(): LogEntryResponseDocument {
