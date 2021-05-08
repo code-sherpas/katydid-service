@@ -18,14 +18,14 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
     @PostMapping("/log-entries")
     @ResponseStatus(HttpStatus.CREATED)
     fun execute(@RequestBody logEntryRequestDocument: LogEntryRequestDocument): Either<CreateLogEntryError, LogEntry> {
-        return logEntryRequestDocument.let {
+        return logEntryRequestDocument.let { requestDocument: LogEntryRequestDocument ->
             CreateLogEntryCommand(
-                time = it.data.attributes.time,
-                description = it.data.attributes.description,
-                amount = it.data.attributes.time,
-                unit = it.data.attributes.unit
-            ).let {
-                createLogEntryCommandHandler.execute(it).fold(
+                time = requestDocument.data.attributes.time,
+                description = requestDocument.data.attributes.description,
+                amount = requestDocument.data.attributes.time,
+                unit = requestDocument.data.attributes.unit
+            ).let { logEntryCommand: CreateLogEntryCommand ->
+                createLogEntryCommandHandler.execute(logEntryCommand).fold(
                     ifLeft = { it.left() },
                     ifRight = { it.right() }
                 )
@@ -35,10 +35,11 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
 
     private fun errorHandler(): (CreateLogEntryError) -> LogEntry = { throw RuntimeException() }
 
-    private fun buildCommand(document: LogEntry): Either<CreateLogEntryError, CreateLogEntryCommand> = CreateLogEntryCommand(
+    private fun buildCommand(document: LogEntry): Either<CreateLogEntryError, CreateLogEntryCommand> =
+        CreateLogEntryCommand(
             time = 1234,
             description = "Yogurt",
             amount = 12,
             unit = "percentage"
-    ).right()
+        ).right()
 }
