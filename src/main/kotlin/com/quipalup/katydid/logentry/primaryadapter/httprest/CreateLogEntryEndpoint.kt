@@ -1,4 +1,4 @@
-package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
+package com.quipalup.katydid.logentry.primaryadapter.httprest
 
 import arrow.core.Either
 import arrow.core.flatMap

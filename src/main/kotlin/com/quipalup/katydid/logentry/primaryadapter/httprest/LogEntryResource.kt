@@ -1,4 +1,4 @@
-package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
+package com.quipalup.katydid.logentry.primaryadapter.httprest
 
 interface LogEntryResource
 
