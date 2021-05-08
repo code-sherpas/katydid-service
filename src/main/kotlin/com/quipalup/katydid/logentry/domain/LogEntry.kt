@@ -9,7 +9,3 @@ data class LogEntry(
     val amount: Int,
     val unit: String
 )
-
-data class LogEntryId(
-    val id: Id
-)
