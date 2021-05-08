@@ -9,6 +9,7 @@ import com.quipalup.katydid.logentry.application.FindLogEntryByIdQuery
 import com.quipalup.katydid.logentry.application.FindLogEntryByIdQueryHandler
 import com.quipalup.katydid.logentry.application.LogEntryResult
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
+import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,10 +29,21 @@ internal class CreateLogEntryEndpoint(
             .flatMap { findLogEntryByIdCommandHandler.execute(it) }
             .fold(
                 ifLeft = {
-                    ResponseEntity(
-                        LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(LogEntryResponseError()))),
-                        HttpStatus.CONFLICT
-                    )
+                    when (it) {
+                        is CreateLogEntryError.Unknown -> ResponseEntity(
+                            LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(UnknownError()))),
+                            HttpStatus.INTERNAL_SERVER_ERROR
+                        )
+                        is FindLogEntryError.Unknown -> ResponseEntity(
+                            LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(UnknownError()))),
+                            HttpStatus.INTERNAL_SERVER_ERROR
+                        )
+                        else -> ResponseEntity(
+                            LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(UnknownError()))),
+                            HttpStatus.INTERNAL_SERVER_ERROR
+                        )
+                    }
+
                 },
                 ifRight = { logEntryResult: LogEntryResult ->
                     ResponseEntity(

@@ -1,9 +1,15 @@
 package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
 
+interface LogEntryResource
+
 data class LogEntryResourceSuccess(
     val id: String,
     val type: String,
     val attributes: LogEntryResourceAttributes
+) : LogEntryResource
+
+data class LogEntryResponseErrors(
+    val errors: List<UnknownError>
 ) : LogEntryResource
 
 data class LogEntryRequestResource(
@@ -26,13 +32,4 @@ data class LogEntryResponseDocument(
     val data: LogEntryResource
 )
 
-data class LogEntryResponseErrors(
-    val errors: List<LogEntryResponseError>
-) : LogEntryResource
 
-data class LogEntryResponseError(
-    val code: String = "10001",
-    val title: String = "Failed to create log"
-)
-
-interface LogEntryResource
