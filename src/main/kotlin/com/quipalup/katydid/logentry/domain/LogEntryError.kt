@@ -4,6 +4,6 @@ sealed class CreateLogEntryError {
     object Unknown : CreateLogEntryError()
 }
 
-sealed class LogEntryErrorNotFound {
-    object Unknown : LogEntryErrorNotFound()
+sealed class FindLogEntryError {
+    object Unknown : FindLogEntryError()
 }

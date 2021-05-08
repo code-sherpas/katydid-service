@@ -2,7 +2,7 @@ package com.quipalup.katydid.logentry
 
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
-import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
+import com.quipalup.katydid.logentry.application.FindLogEntryByIdQueryHandler
 import com.quipalup.katydid.logentry.application.LogEntryResult
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
 import io.mockk.mockk
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 internal class CreateLogEntryCommandHandlerTest {
     @Test
     fun `create meal log entry`() {
-        CreateLogEntryCommandHandler(logEntryRepository).execute(createLogEntryCommand).fold(
+        FindLogEntryByIdQueryHandler(logEntryRepository).execute(createLogEntryCommand).fold(
             { Assertions.fail(it.toString()) },
             { assertThat(it.equals(expectedResponse)) }
         )

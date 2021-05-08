@@ -1,6 +1,8 @@
 package com.quipalup.katydid.logentry.application
 
 import arrow.core.Either
+import arrow.core.flatMap
+import arrow.core.right
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
@@ -9,27 +11,15 @@ import javax.inject.Named
 
 @Named
 class CreateLogEntryCommandHandler(private val logEntryRepository: LogEntryRepository) {
-    fun execute(createLogEntryCommand: CreateLogEntryCommand): Either<CreateLogEntryError, LogEntry> {
-        return createLogEntryCommand.toLogEntry().let {
-            logEntryRepository.create(it)
-            logEntryRepository.getLogEntryById(it.id).mapLeft { CreateLogEntryError.Unknown }
+    fun execute(command: CreateLogEntryCommand): Either<CreateLogEntryError, String> {
+        return command.toLogEntry().flatMap { logEntryRepository.create(it) }.flatMap { it.value.toString().right() }
     }
-}
 
-    private fun CreateLogEntryCommand.toLogEntry(): LogEntry {
-        return LogEntry(Id(), this.time, this.description, this.amount, this.unit)
-    }
+    private fun CreateLogEntryCommand.toLogEntry(): Either<CreateLogEntryError, LogEntry> =
+        LogEntry(Id(), this.time, this.description, this.amount, this.unit).right()
 }
 
 data class CreateLogEntryCommand(
-    val time: Long,
-    val description: String,
-    val amount: Int,
-    val unit: String
-)
-
-data class LogEntryResult(
-    val id: String,
     val time: Long,
     val description: String,
     val amount: Int,
