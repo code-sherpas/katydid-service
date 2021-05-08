@@ -28,21 +28,11 @@ internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: 
                 createLogEntryCommandHandler.execute(command).fold(
                     ifLeft = {
                         ResponseEntity(
-                            LogEntryResponseDocument(
-                                data = LogEntryResponseErrors(
-                                    errors = listOf(
-                                        LogEntryResponseError()
-                                    )
-                                )
-                            ), HttpStatus.CONFLICT
+                            LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(LogEntryResponseError()))),
+                            HttpStatus.CONFLICT
                         )
                     },
-                    ifRight = { logEntry ->
-                        ResponseEntity(
-                            logEntry.toLogEntryResponseDocument(),
-                            HttpStatus.OK
-                        )
-                    }
+                    ifRight = { logEntry -> ResponseEntity(logEntry.toLogEntryResponseDocument(), HttpStatus.OK) }
                 )
             }
         }
