@@ -36,7 +36,7 @@ class CreateMealLogEntryCT {
 //            contentType("application/vnd.api+json")
             statusCode(201)
         } Extract {
-            `assert that 'Post' response body is equal to`(body().asString(), expectedResponseBody)
+            `assert that response body is equal to`(body().asString(), expectedResponseBody)
         }
     }
 
