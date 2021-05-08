@@ -1,10 +1,7 @@
 package com.quipalup.katydid.logentry.logentry.primaryadapter.httprest
 
-import arrow.core.Either
-import arrow.core.right
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
 import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
-import com.quipalup.katydid.logentry.domain.CreateLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

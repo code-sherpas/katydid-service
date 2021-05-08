@@ -3,7 +3,6 @@ package com.quipalup.katydid.logentry.secondaryadapter.database
 import arrow.core.Either
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryErrorNotFound
-import com.quipalup.katydid.logentry.domain.LogEntryId
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
 import javax.inject.Named
 
@@ -13,7 +12,7 @@ class LogEntryRepositoryDatabase : LogEntryRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getLogEntryById(id: LogEntryId): Either<LogEntryErrorNotFound, LogEntry> {
+    override fun getLogEntryById(id: Id): Either<LogEntryErrorNotFound, LogEntry> {
         TODO("Not yet implemented")
     }
 }

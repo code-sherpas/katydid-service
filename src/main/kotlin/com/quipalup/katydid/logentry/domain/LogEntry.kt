@@ -3,7 +3,7 @@ package com.quipalup.katydid.logentry.domain
 import com.quipalup.katydid.common.id.Id
 
 data class LogEntry(
-    val id: LogEntryId,
+    val id: Id,
     val time: Long,
     val description: String,
     val amount: Int,
