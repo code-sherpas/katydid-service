@@ -7,9 +7,10 @@ plugins {
     jacoco
     id("org.sonarqube") version "3.1.1"
     id("com.diffplug.spotless") version "5.9.0"
-    id("org.springframework.boot") version "2.4.2"
+    id("org.springframework.boot") version "2.4.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("plugin.spring") version "1.4.32"
+    kotlin("plugin.jpa") version "1.4.32"
 }
 
 allprojects {
@@ -122,11 +123,11 @@ val printTestResult: KotlinClosure2<TestDescriptor, TestResult, Void>
         if (desc.parent == null) { // will match the outermost suite
             println("------")
             println(
-                    "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} " +
-                            "successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} " +
+                        "successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
             )
             println(
-                    "Tests took: ${result.endTime - result.startTime} ms."
+                "Tests took: ${result.endTime - result.startTime} ms."
             )
             println("------")
         }
@@ -146,7 +147,6 @@ allprojects {
 allprojects {
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
@@ -154,11 +154,10 @@ allprojects {
         implementation(kotlin("stdlib-jdk8"))
         implementation(kotlin("reflect"))
         implementation("javax.inject:javax.inject:1")
-        implementation(platform("io.arrow-kt:arrow-stack:0.13.2"))
 
-        implementation("io.arrow-kt:arrow-core")
-        implementation("io.arrow-kt:arrow-fx")
-        implementation("io.arrow-kt:arrow-syntax")
+        implementation("io.arrow-kt:arrow-core:0.13.2")
+        implementation("io.arrow-kt:arrow-fx:0.12.1")
+        implementation("io.arrow-kt:arrow-syntax:0.12.1")
 
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
@@ -170,8 +169,10 @@ allprojects {
 }
 
 dependencies {
+    implementation("com.h2database:h2:1.4.200")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 }
 // Dependencies -- END
 
