@@ -9,6 +9,7 @@ import com.quipalup.katydid.logentry.domain.CreateLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 internal class CreateLogEntryEndpoint(private val createLogEntryCommandHandler: CreateLogEntryCommandHandler) {
     @PostMapping("/log-entries")
     @ResponseStatus(HttpStatus.CREATED)
-    fun execute(logEntryRequestDocument: LogEntryRequestDocument): Either<CreateLogEntryError, LogEntry> {
+    fun execute(@RequestBody logEntryRequestDocument: LogEntryRequestDocument): Either<CreateLogEntryError, LogEntry> {
         return logEntryRequestDocument.let {
             CreateLogEntryCommand(
                 time = it.data.attributes.time,
