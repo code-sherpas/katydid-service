@@ -28,7 +28,7 @@ internal class SearchChildrenEndpoint(private val searchChildrenCommandHandler: 
 
     private fun errorHandler(): (SearchChildrenError) -> SearchChildrenDocument = { throw RuntimeException() }
 
-    // TODO: refactor in orde to avoid using hardcoded data
+    // TODO: refactor in order to avoid using hardcoded data
     private fun buildSearchRequest(): Either<SearchChildrenError, SearchChildrenByFieldCommand> = SearchChildrenByFieldCommand(
         pageNumber = 1,
         pageSize = 20,

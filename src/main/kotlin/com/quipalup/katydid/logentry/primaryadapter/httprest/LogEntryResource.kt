@@ -1,10 +1,16 @@
 package com.quipalup.katydid.logentry.primaryadapter.httprest
 
-data class LogEntryResource(
+interface LogEntryResource
+
+data class LogEntryResourceSuccess(
     val id: String,
     val type: String,
     val attributes: LogEntryResourceAttributes
-)
+) : LogEntryResource
+
+data class LogEntryResponseErrors(
+    val errors: List<UnknownError>
+) : LogEntryResource
 
 data class LogEntryRequestResource(
     val type: String,
