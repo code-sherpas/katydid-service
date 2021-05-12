@@ -42,13 +42,7 @@ class FindLogEntryByIdCT {
 
     private val requestBody: String = """
             {
-              "data": 
-                  {
-                    "type": "meal-log-entry",
-                    "attributes": {
-                      "id": "e903d71b-234b-4129-996e-a6b411f2862d",
-                    }
-                  }
+              "id": "e903d71b-234b-4129-996e-a6b411f2862d"
             }
         """
     private val expectedResponseBody: String = """
