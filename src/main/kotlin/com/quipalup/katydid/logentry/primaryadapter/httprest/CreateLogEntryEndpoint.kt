@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 internal class CreateLogEntryEndpoint(
     private val createLogEntryCommandHandler: CreateLogEntryCommandHandler,
-    private val findLogEntryByIdCommandHandler: FindLogEntryByIdQueryHandler
+    private val findLogEntryByIdQueryHandler: FindLogEntryByIdQueryHandler
 ) {
     @PostMapping("/log-entries")
     fun execute(@RequestBody logEntryRequestDocument: LogEntryRequestDocument): ResponseEntity<LogEntryResponseDocument> =
         logEntryRequestDocument.createLogEntryCommand()
             .flatMap { createLogEntryCommandHandler.execute(it) }
             .flatMap { it.toQuery() }
-            .flatMap { findLogEntryByIdCommandHandler.execute(it) }
+            .flatMap { findLogEntryByIdQueryHandler.execute(it) }
             .fold(
                 ifLeft = {
                     when (it) {

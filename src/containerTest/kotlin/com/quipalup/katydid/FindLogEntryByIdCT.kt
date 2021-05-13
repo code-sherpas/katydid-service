@@ -33,11 +33,13 @@ class FindLogEntryByIdCT {
         RestAssured.port = port
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
+    private val uuid: String = "e903d71b-234b-4129-996e-a6b411f2862d"
 
     @Test
     fun `find log entry by id`() {
+
         repository.create(LogEntry(
-            id = Id(UUID.fromString("e903d71b-234b-4129-996e-a6b411f2862d")),
+            id = Id(UUID.fromString(uuid)),
             time = 123345534,
             description = "Yogurt with strawberries",
             amount = 100,
@@ -45,7 +47,7 @@ class FindLogEntryByIdCT {
         ))
         Given {
             contentType("application/vnd.api+json")
-            pathParam("id", "e903d71b-234b-4129-996e-a6b411f2862d")
+            pathParam("id", uuid)
         } When {
             get("/log-entries/{id}")
         } Then {
@@ -59,7 +61,7 @@ class FindLogEntryByIdCT {
             {
               "data": 
                   {
-                    "id": "e903d71b-234b-4129-996e-a6b411f2862d",
+                    "id": ${uuid},
                     "type": "meal-log-entry",
                     "attributes": {
                       "time": 123345534,
