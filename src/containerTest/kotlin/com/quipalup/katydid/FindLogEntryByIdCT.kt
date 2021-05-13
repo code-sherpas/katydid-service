@@ -29,10 +29,10 @@ class FindLogEntryByIdCT {
     fun `find log entry by id`() {
         Given {
             contentType("application/vnd.api+json")
-            body(requestBody)
+            pathParam("id", "1232-23424-23424")
         }
         When {
-            get("/log-entries")
+            get("/log-entries/{id}")
         } Then {
             statusCode(201)
         } Extract {
@@ -40,11 +40,6 @@ class FindLogEntryByIdCT {
         }
     }
 
-    private val requestBody: String = """
-            {
-              "id": "e903d71b-234b-4129-996e-a6b411f2862d"
-            }
-        """
     private val expectedResponseBody: String = """
             {
               "data": 
