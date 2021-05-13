@@ -11,15 +11,17 @@ import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 internal class FindLogEntryByIdEndpoint(
     private val findLogEntryByIdCommandHandler: FindLogEntryByIdQueryHandler
 ) {
-    @GetMapping("/log-entries")
-    fun execute(@RequestBody id: String): ResponseEntity<LogEntryResponseDocument> =
+    @GetMapping("/log-entries/{id}")
+    @ResponseBody
+    fun execute(@PathVariable id: String): ResponseEntity<LogEntryResponseDocument> =
         id.toQuery()
             .flatMap { findLogEntryByIdCommandHandler.execute(it) }
             .fold(
