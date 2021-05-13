@@ -3,8 +3,6 @@ package com.quipalup.katydid.logentry.primaryadapter.httprest
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.right
-import com.quipalup.katydid.logentry.application.CreateLogEntryCommand
-import com.quipalup.katydid.logentry.application.CreateLogEntryCommandHandler
 import com.quipalup.katydid.logentry.application.FindLogEntryByIdQuery
 import com.quipalup.katydid.logentry.application.FindLogEntryByIdQueryHandler
 import com.quipalup.katydid.logentry.application.LogEntryResult
@@ -12,28 +10,23 @@ import com.quipalup.katydid.logentry.domain.CreateLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-internal class CreateLogEntryEndpoint(
-    private val createLogEntryCommandHandler: CreateLogEntryCommandHandler,
-    private val findLogEntryByIdQueryHandler: FindLogEntryByIdQueryHandler
+internal class FindLogEntryByIdEndpoint(
+    private val findLogEntryByIdCommandHandler: FindLogEntryByIdQueryHandler
 ) {
-    @PostMapping("/log-entries")
-    fun execute(@RequestBody logEntryRequestDocument: LogEntryRequestDocument): ResponseEntity<LogEntryResponseDocument> =
-        logEntryRequestDocument.createLogEntryCommand()
-            .flatMap { createLogEntryCommandHandler.execute(it) }
-            .flatMap { it.toQuery() }
-            .flatMap { findLogEntryByIdQueryHandler.execute(it) }
+    @GetMapping("/log-entries/{id}")
+    @ResponseBody
+    fun execute(@PathVariable id: String): ResponseEntity<LogEntryResponseDocument> =
+        id.toQuery()
+            .flatMap { findLogEntryByIdCommandHandler.execute(it) }
             .fold(
                 ifLeft = {
                     when (it) {
-                        is CreateLogEntryError.Unknown -> ResponseEntity(
-                            LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(UnknownError()))),
-                            HttpStatus.INTERNAL_SERVER_ERROR
-                        )
                         is FindLogEntryError.Unknown -> ResponseEntity(
                             LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(UnknownError()))),
                             HttpStatus.INTERNAL_SERVER_ERROR
@@ -47,21 +40,13 @@ internal class CreateLogEntryEndpoint(
                 ifRight = { logEntryResult: LogEntryResult ->
                     ResponseEntity(
                         logEntryResult.toLogEntryResponseDocument(),
-                        HttpStatus.CREATED
+                        HttpStatus.OK
                     )
                 }
             )
 
-    private fun LogEntryRequestDocument.createLogEntryCommand(): Either<CreateLogEntryError, CreateLogEntryCommand> =
-        CreateLogEntryCommand(
-            time = data.attributes.time,
-            description = data.attributes.description,
-            amount = data.attributes.amount,
-            unit = data.attributes.unit
-        ).right()
-
     private fun String.toQuery(): Either<CreateLogEntryError, FindLogEntryByIdQuery> =
-        FindLogEntryByIdQuery(this).right()
+            FindLogEntryByIdQuery(this).right()
 
     private fun LogEntryResult.toLogEntryResponseDocument(): LogEntryResponseDocument {
         return LogEntryResponseDocument(
