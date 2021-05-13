@@ -40,7 +40,7 @@ internal class FindLogEntryByIdEndpoint(
                 ifRight = { logEntryResult: LogEntryResult ->
                     ResponseEntity(
                         logEntryResult.toLogEntryResponseDocument(),
-                        HttpStatus.FOUND
+                        HttpStatus.OK
                     )
                 }
             )
