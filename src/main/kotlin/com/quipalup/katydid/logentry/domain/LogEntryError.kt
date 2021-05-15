@@ -9,3 +9,8 @@ sealed class FindLogEntryError {
     object DoesNotExist : FindLogEntryError()
     object Unknown : FindLogEntryError()
 }
+
+sealed class DeleteLogEntryError {
+    object DoesNotExist : DeleteLogEntryError()
+    object Unknown : DeleteLogEntryError()
+}

@@ -6,12 +6,13 @@ import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
+import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
+import org.springframework.data.repository.findByIdOrNull
 import java.util.UUID
 import javax.inject.Named
-import org.springframework.data.repository.findByIdOrNull
 
 @Named
 class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository) : LogEntryRepository {
@@ -22,6 +23,10 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
 
     override fun findById(id: Id): Either<FindLogEntryError, LogEntry> = id.value.let {
         jpaLogEntryRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
+    }
+
+    override fun deleteById(id: Id): Either<DeleteLogEntryError, LogEntry> = id.value.let {
+        jpaLogEntryRepository.deleteById(it)?.toDeleteDomain() ?: DeleteLogEntryError.DoesNotExist.left()
     }
 
     private fun LogEntry.toJpa(): Either<CreateLogEntryError, JpaLogEntry> =
@@ -38,3 +43,6 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
 
     private fun UUID.toId(): Either<CreateLogEntryError, Id> = Id(this).right()
 }
+
+
+
