@@ -10,9 +10,9 @@ import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
-import org.springframework.data.repository.findByIdOrNull
 import java.util.UUID
 import javax.inject.Named
+import org.springframework.data.repository.findByIdOrNull
 
 @Named
 class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository) : LogEntryRepository {
@@ -43,6 +43,3 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
 
     private fun UUID.toId(): Either<CreateLogEntryError, Id> = Id(this).right()
 }
-
-
-

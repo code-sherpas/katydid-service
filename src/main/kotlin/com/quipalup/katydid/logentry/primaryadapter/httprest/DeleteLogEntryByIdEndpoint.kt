@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 internal class DeleteLogEntryByIdEndpoint(
     private val deleteLogEntryByIdQueryHandler: DeleteLogEntryByIdQueryHandler
-){
+) {
     @DeleteMapping("/log-entries/{id}")
     @ResponseBody
     fun execute(@PathVariable id: String): ResponseEntity<LogEntryResponseDocument> =

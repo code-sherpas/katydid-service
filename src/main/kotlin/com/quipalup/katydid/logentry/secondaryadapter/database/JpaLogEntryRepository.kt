@@ -5,11 +5,11 @@ import arrow.core.right
 import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
-import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 import javax.inject.Named
 import javax.persistence.Entity
 import javax.persistence.Table
+import org.springframework.data.jpa.repository.JpaRepository
 
 @Named
 interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
