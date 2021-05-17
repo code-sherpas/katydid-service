@@ -25,8 +25,10 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
         jpaLogEntryRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
     }
 
-    override fun deleteById(id: Id): Either<DeleteLogEntryError, LogEntry> = id.value.let {
-        jpaLogEntryRepository.deleteById(it)?.toDeleteDomain() ?: DeleteLogEntryError.DoesNotExist.left()
+    override fun deleteById(id: Id): Either<DeleteLogEntryError, Unit> = id.value.let {
+        jpaLogEntryRepository.deleteById(it)
+    }.let {
+        unit: Unit -> unit.right()
     }
 
     private fun LogEntry.toJpa(): Either<CreateLogEntryError, JpaLogEntry> =

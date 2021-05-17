@@ -4,7 +4,6 @@ import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
 import io.restassured.RestAssured
-import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
@@ -40,38 +39,20 @@ class DeleteLogEntryByIdCT {
     fun `delete long entry by id`() {
         repository.create(
             LogEntry(
-            id = Id(UUID.fromString(uuid)),
-            time = 123345534,
-            description = "Yogurt with strawberries",
-            amount = 100,
-            unit = "percentage"
-        )
+                id = Id(UUID.fromString(uuid)),
+                time = 123345534,
+                description = "Yogurt with strawberries",
+                amount = 100,
+                unit = "percentage"
+            )
         )
         Given {
             contentType("application/vnd.api+json")
             pathParam("id", uuid)
         } When {
-            get("/log-entries/{id}")
+            delete("/log-entries/{id}")
         } Then {
-            statusCode(200)
-        } Extract {
-            `assert that response body is equal to`(body().asString(), expectedResponseBody)
+            statusCode(204)
         }
     }
-
-    private val expectedResponseBody: String = """
-            {
-              "data": 
-                  {
-                    "id": $uuid,
-                    "type": "meal-log-entry",
-                    "attributes": {
-                      "time": 123345534,
-                      "description": "Yogurt with strawberries",
-                      "amount": 100,
-                      "unit": "percentage"
-                    }
-                  }
-            }
-        """
 }

@@ -2,7 +2,6 @@ package com.quipalup.katydid.logentry.secondaryadapter.database
 
 import arrow.core.Either
 import arrow.core.right
-import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import java.util.UUID
@@ -24,13 +23,6 @@ data class JpaLogEntry(
     val amount: Int,
     val unit: String
 ) {
-    fun toDeleteDomain(): Either<DeleteLogEntryError, LogEntry> = LogEntry(
-        id = com.quipalup.katydid.common.id.Id(id),
-        time = time,
-        description = description,
-        amount = amount,
-        unit = unit
-    ).right()
 
     fun toDomain(): Either<FindLogEntryError, LogEntry> = LogEntry(
         id = com.quipalup.katydid.common.id.Id(id),
