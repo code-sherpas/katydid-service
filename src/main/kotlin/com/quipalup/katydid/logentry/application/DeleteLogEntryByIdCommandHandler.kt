@@ -10,12 +10,12 @@ import java.util.UUID
 import javax.inject.Named
 
 @Named
-class DeleteLogEntryByIdQueryHandler(private val logEntryRepository: LogEntryRepository) {
-    fun execute(query: DeleteLogEntryByIdQuery): Either<DeleteLogEntryError, Unit> =
-        query.toId()
+class DeleteLogEntryByIdCommandHandler(private val logEntryRepository: LogEntryRepository) {
+    fun execute(command: DeleteLogEntryByIdCommand): Either<DeleteLogEntryError, Unit> =
+        command.toId()
             .flatMap { logEntryRepository.deleteById(it) }
             .flatMap { Unit.right() }
 
-    private fun DeleteLogEntryByIdQuery.toId(): Either<DeleteLogEntryError, Id> = Id(UUID.fromString(this.id)).right()
+    private fun DeleteLogEntryByIdCommand.toId(): Either<DeleteLogEntryError, Id> = Id(UUID.fromString(this.id)).right()
 }
-data class DeleteLogEntryByIdQuery(val id: String)
+data class DeleteLogEntryByIdCommand(val id: String)
