@@ -6,6 +6,7 @@ import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
+import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
@@ -22,6 +23,12 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
 
     override fun findById(id: Id): Either<FindLogEntryError, LogEntry> = id.value.let {
         jpaLogEntryRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
+    }
+
+    override fun deleteById(id: Id): Either<DeleteLogEntryError, Unit> = id.value.let {
+        jpaLogEntryRepository.deleteById(it)
+    }.let {
+        unit: Unit -> unit.right()
     }
 
     private fun LogEntry.toJpa(): Either<CreateLogEntryError, JpaLogEntry> =

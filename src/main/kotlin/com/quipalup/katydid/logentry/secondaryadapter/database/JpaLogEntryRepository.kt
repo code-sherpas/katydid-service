@@ -23,6 +23,7 @@ data class JpaLogEntry(
     val amount: Int,
     val unit: String
 ) {
+
     fun toDomain(): Either<FindLogEntryError, LogEntry> = LogEntry(
         id = com.quipalup.katydid.common.id.Id(id),
         time = time,
