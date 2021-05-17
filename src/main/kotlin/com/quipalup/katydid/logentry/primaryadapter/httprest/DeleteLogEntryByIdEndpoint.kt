@@ -19,7 +19,7 @@ internal class DeleteLogEntryByIdEndpoint(
     @DeleteMapping("/log-entries/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun execute(@PathVariable id: String): Unit =
-        id.toQuery()
+        id.toCommand()
             .flatMap { deleteLogEntryByIdCommandHandler.execute(it) }
             .fold(
                 ifLeft = {
@@ -31,6 +31,6 @@ internal class DeleteLogEntryByIdEndpoint(
                 ifRight = { Unit }
             )
 
-    private fun String.toQuery(): Either<DeleteLogEntryError, DeleteLogEntryByIdCommand> =
+    private fun String.toCommand(): Either<DeleteLogEntryError, DeleteLogEntryByIdCommand> =
         DeleteLogEntryByIdCommand(this).right()
 }
