@@ -4,8 +4,8 @@ import com.quipalup.katydid.common.id.Id
 
 data class LogEntry(
     val id: Id,
-    val time: Long,
-    val description: String,
-    val amount: Int,
-    val unit: String
+    var time: Long,
+    var description: String,
+    var amount: Int,
+    var unit: String
 )
