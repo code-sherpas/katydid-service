@@ -29,17 +29,18 @@ internal class UpdateLogEntryEndpoint(
     @ResponseBody
     fun execute(@RequestBody logEntryUpdateDocument: LogEntryUpdateDocument, @PathVariable id: String): ResponseEntity<LogEntryResponseDocument> =
         logEntryUpdateDocument.createPatchLogEntryCommand(id)
-            .flatMap {
-                updateLogEntryByIdCommandHandler.execute(it)
+            .flatMap { command ->
+                updateLogEntryByIdCommandHandler.execute(command)
             }
             .flatMap { id: Id -> id.toQuery() }
-            .flatMap {
-                findLogEntryByIdQueryHandler.execute(it)
+            .flatMap { query ->
+                findLogEntryByIdQueryHandler.execute(query)
             }.fold(
                 ifLeft = {
                     ResponseEntity(
                         LogEntryResponseDocument(data = LogEntryResponseErrors(errors = listOf(UnknownError()))),
                         HttpStatus.INTERNAL_SERVER_ERROR
+
                     )
                 },
                 ifRight = { logEntryResult: LogEntryResult ->
