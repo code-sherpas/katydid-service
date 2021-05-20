@@ -33,6 +33,7 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
         unit: Unit -> unit.right()
     }
 
+
     override fun updateById(id: Id, updates: LogEntryUpdateAttributes): Either<UpdateLogEntryError, LogEntry> = id.value.let {
         jpaLogEntryRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
     }.flatMap {
