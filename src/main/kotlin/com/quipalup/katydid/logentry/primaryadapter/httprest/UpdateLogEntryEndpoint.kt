@@ -3,10 +3,15 @@ package com.quipalup.katydid.logentry.primaryadapter.httprest
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.right
+import com.quipalup.katydid.common.id.Id
+import com.quipalup.katydid.logentry.application.FindLogEntryByIdQuery
+import com.quipalup.katydid.logentry.application.FindLogEntryByIdQueryHandler
+import com.quipalup.katydid.logentry.application.LogEntryResult
 import com.quipalup.katydid.logentry.application.UpdateLogEntryByIdCommand
 import com.quipalup.katydid.logentry.application.UpdateLogEntryByIdCommandHandler
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
-import com.quipalup.katydid.logentry.domain.LogEntry
+import com.quipalup.katydid.logentry.domain.UpdateLogEntryError
+import java.util.UUID
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PatchMapping
@@ -17,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 internal class UpdateLogEntryEndpoint(
-    private val updateLogEntryByIdCommandHandler: UpdateLogEntryByIdCommandHandler
+    private val updateLogEntryByIdCommandHandler: UpdateLogEntryByIdCommandHandler,
+    private val findLogEntryByIdQueryHandler: FindLogEntryByIdQueryHandler
 ) {
     @PatchMapping("/log-entries/{id}")
     @ResponseBody
@@ -25,6 +31,10 @@ internal class UpdateLogEntryEndpoint(
         logEntryUpdateDocument.createPatchLogEntryCommand(id)
             .flatMap {
                 updateLogEntryByIdCommandHandler.execute(it)
+            }
+            .flatMap { id: Id -> id.toQuery() }
+            .flatMap {
+                findLogEntryByIdQueryHandler.execute(it)
             }.fold(
                 ifLeft = {
                     ResponseEntity(
@@ -32,9 +42,10 @@ internal class UpdateLogEntryEndpoint(
                         HttpStatus.INTERNAL_SERVER_ERROR
                     )
                 },
-                ifRight = {
+                ifRight = { logEntryResult: LogEntryResult ->
                     ResponseEntity(
-                        it.toLogEntryResponseDocument(id),
+                        logEntryResult.toLogEntryResponseDocument(
+                            Id(value = UUID.fromString(logEntryResult.id))),
                         HttpStatus.OK
                     )
                 }
@@ -46,10 +57,10 @@ internal class UpdateLogEntryEndpoint(
             updates = data.attributes
         ).right()
 
-    private fun LogEntry.toLogEntryResponseDocument(id: String): LogEntryResponseDocument {
+    private fun LogEntryResult.toLogEntryResponseDocument(id: Id): LogEntryResponseDocument {
         return LogEntryResponseDocument(
             data = LogEntryResourceSuccess(
-                id = id,
+                id = id.value.toString(),
                 type = JsonApiTypes.MEAL_LOG_ENTRY,
                 attributes = LogEntryResourceAttributes(
                     time = this.time,
@@ -60,4 +71,7 @@ internal class UpdateLogEntryEndpoint(
             )
         )
     }
+
+    private fun Id.toQuery(): Either<UpdateLogEntryError, FindLogEntryByIdQuery> =
+        com.quipalup.katydid.logentry.application.FindLogEntryByIdQuery(this.value.toString()).right()
 }
