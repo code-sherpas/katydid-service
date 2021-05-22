@@ -15,7 +15,8 @@ sealed class DeleteLogEntryError {
     object Unknown : DeleteLogEntryError()
 }
 
-sealed class UpdateLogEntryError {
-    object DoesNotExist : UpdateLogEntryError()
-    object Unknown : UpdateLogEntryError()
+sealed class SaveLogEntryError {
+    object DoesNotExist : SaveLogEntryError()
+    object Unknown : SaveLogEntryError()
+    object SaveError : SaveLogEntryError()
 }

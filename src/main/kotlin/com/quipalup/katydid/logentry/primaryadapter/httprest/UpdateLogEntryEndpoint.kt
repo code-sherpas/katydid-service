@@ -10,7 +10,7 @@ import com.quipalup.katydid.logentry.application.LogEntryResult
 import com.quipalup.katydid.logentry.application.UpdateLogEntryByIdCommand
 import com.quipalup.katydid.logentry.application.UpdateLogEntryByIdCommandHandler
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
-import com.quipalup.katydid.logentry.domain.UpdateLogEntryError
+import com.quipalup.katydid.logentry.domain.SaveLogEntryError
 import java.util.UUID
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -32,7 +32,7 @@ internal class UpdateLogEntryEndpoint(
             .flatMap { command ->
                 updateLogEntryByIdCommandHandler.execute(command)
             }
-            .flatMap { id: Id -> id.toQuery() }
+            .flatMap { it.toQuery() }
             .flatMap { query ->
                 findLogEntryByIdQueryHandler.execute(query)
             }.fold(
@@ -73,6 +73,6 @@ internal class UpdateLogEntryEndpoint(
         )
     }
 
-    private fun Id.toQuery(): Either<UpdateLogEntryError, FindLogEntryByIdQuery> =
+    private fun Id.toQuery(): Either<SaveLogEntryError, FindLogEntryByIdQuery> =
         com.quipalup.katydid.logentry.application.FindLogEntryByIdQuery(this.value.toString()).right()
 }

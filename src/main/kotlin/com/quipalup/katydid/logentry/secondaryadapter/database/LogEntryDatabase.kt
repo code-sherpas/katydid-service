@@ -10,8 +10,6 @@ import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
-import com.quipalup.katydid.logentry.domain.UpdateLogEntryError
-import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryUpdateAttributes
 import java.util.UUID
 import javax.inject.Named
 import org.springframework.data.repository.findByIdOrNull
@@ -33,41 +31,10 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
         unit: Unit -> unit.right()
     }
 
-    override fun updateById(id: Id, updates: LogEntryUpdateAttributes): Either<UpdateLogEntryError, Id> = id.value.let {
-        jpaLogEntryRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
-    }.flatMap {
-        if (updates.amount !== null) {
-            it.amount = updates.amount
-        }
-
-        if (updates.description !== null) {
-            it.description = updates.description
-        }
-
-        if (updates.time !== null) {
-            it.time = updates.time
-        }
-
-        if (updates.unit !== null) {
-            it.unit = updates.unit
-        }
-
-        it.toJpa()
-    }.flatMap {
-        jpaLogEntryRepository.save(it).right()
-    }.flatMap {
-        it.toDomain()
-    }.fold(
-        ifLeft = {
-            when (it) {
-                is FindLogEntryError.DoesNotExist -> UpdateLogEntryError.DoesNotExist.left()
-                else -> UpdateLogEntryError.Unknown.left()
-            }
-        },
-        ifRight = {
-            it.id.right()
-        }
-    )
+    override fun saveById(logEntry: LogEntry): Either<CreateLogEntryError, Id> =
+        logEntry.toJpa()
+            .flatMap { jpaLogEntryRepository.save(it).right() }
+            .flatMap { it.id.toId() }
 
     private fun LogEntry.toJpa(): Either<CreateLogEntryError, JpaLogEntry> =
         JpaLogEntry(id = id.value, time = time, description = description, amount = amount, unit = unit).right()
