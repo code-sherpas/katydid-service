@@ -32,10 +32,10 @@ data class LogEntryResponseDocument(
     val data: LogEntryResource
 )
 data class LogEntryUpdateAttributes(
-    val time: Long? = null,
-    val description: String? = null,
-    val amount: Int? = null,
-    val unit: String? = null
+    val time: Long,
+    val description: String,
+    val amount: Int,
+    val unit: String
 )
 
 data class LogEntryUpdateResource(

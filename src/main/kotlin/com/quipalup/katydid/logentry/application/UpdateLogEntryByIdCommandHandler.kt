@@ -20,19 +20,15 @@ class UpdateLogEntryByIdCommandHandler(private val logEntryRepository: LogEntryR
             .flatMap {
                 logEntryRepository.findById(it)
             }.flatMap {
-                if (command.updates.amount !== null) {
-                    it.amount = command.updates.amount
-                }
-                if (command.updates.description !== null) {
-                    it.description = command.updates.description
-                }
-                if (command.updates.time !== null) {
-                    it.time = command.updates.time
-                }
-                if (command.updates.unit !== null) {
-                    it.unit = command.updates.unit
-                }
-                it.toDomain()
+                val instanceLogEntry = it
+                val copyLogEntry = instanceLogEntry.copy(
+                    it.id,
+                    command.updates.time,
+                    command.updates.description,
+                    command.updates.amount,
+                    command.updates.unit
+                )
+                copyLogEntry.toDomain()
             }.flatMap {
                 logEntryRepository.saveById(it)
             }.fold(
