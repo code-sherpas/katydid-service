@@ -63,6 +63,7 @@ class UpdateLogEntryByIdCT {
             {
               "data": 
                   {
+                    "id": "$uuid",
                     "type": "meal-log-entry",
                     "attributes": {
                       "time": 123345534,

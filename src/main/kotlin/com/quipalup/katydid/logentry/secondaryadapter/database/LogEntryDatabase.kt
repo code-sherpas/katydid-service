@@ -31,7 +31,7 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
         unit: Unit -> unit.right()
     }
 
-    override fun saveById(logEntry: LogEntry): Either<CreateLogEntryError, Id> =
+    override fun updateById(logEntry: LogEntry): Either<CreateLogEntryError, Id> =
         logEntry.toJpa()
             .flatMap { jpaLogEntryRepository.save(it).right() }
             .flatMap { it.id.toId() }

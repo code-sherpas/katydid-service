@@ -10,7 +10,7 @@ import com.quipalup.katydid.logentry.application.LogEntryResult
 import com.quipalup.katydid.logentry.application.UpdateLogEntryByIdCommand
 import com.quipalup.katydid.logentry.application.UpdateLogEntryByIdCommandHandler
 import com.quipalup.katydid.logentry.domain.CreateLogEntryError
-import com.quipalup.katydid.logentry.domain.SaveLogEntryError
+import com.quipalup.katydid.logentry.domain.UpdateLogEntryByIdError
 import java.util.UUID
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -28,7 +28,7 @@ internal class UpdateLogEntryEndpoint(
     @PatchMapping("/log-entries/{id}")
     @ResponseBody
     fun execute(@RequestBody logEntryUpdateDocument: LogEntryUpdateDocument, @PathVariable id: String): ResponseEntity<LogEntryResponseDocument> =
-        logEntryUpdateDocument.createPatchLogEntryCommand(id)
+        logEntryUpdateDocument.toUpdateLogEntryByIdCommand()
             .flatMap { command ->
                 updateLogEntryByIdCommandHandler.execute(command)
             }
@@ -52,10 +52,13 @@ internal class UpdateLogEntryEndpoint(
                 }
             )
 
-    private fun LogEntryUpdateDocument.createPatchLogEntryCommand(id: String): Either<CreateLogEntryError, UpdateLogEntryByIdCommand> =
+    private fun LogEntryUpdateDocument.toUpdateLogEntryByIdCommand(): Either<CreateLogEntryError, UpdateLogEntryByIdCommand> =
         UpdateLogEntryByIdCommand(
-            id = id,
-            updates = data.attributes
+            id = data.id,
+            time = data.attributes.time,
+            amount = data.attributes.amount,
+            unit = data.attributes.unit,
+            description = data.attributes.description
         ).right()
 
     private fun LogEntryResult.toLogEntryResponseDocument(id: Id): LogEntryResponseDocument {
@@ -73,6 +76,6 @@ internal class UpdateLogEntryEndpoint(
         )
     }
 
-    private fun Id.toQuery(): Either<SaveLogEntryError, FindLogEntryByIdQuery> =
+    private fun Id.toQuery(): Either<UpdateLogEntryByIdError, FindLogEntryByIdQuery> =
         com.quipalup.katydid.logentry.application.FindLogEntryByIdQuery(this.value.toString()).right()
 }

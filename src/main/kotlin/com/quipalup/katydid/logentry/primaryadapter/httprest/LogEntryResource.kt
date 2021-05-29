@@ -39,6 +39,7 @@ data class LogEntryUpdateAttributes(
 )
 
 data class LogEntryUpdateResource(
+    val id: String,
     val attributes: LogEntryUpdateAttributes
 )
 

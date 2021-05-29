@@ -8,35 +8,32 @@ import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
-import com.quipalup.katydid.logentry.domain.SaveLogEntryError
-import com.quipalup.katydid.logentry.primaryadapter.httprest.LogEntryUpdateAttributes
+import com.quipalup.katydid.logentry.domain.UpdateLogEntryByIdError
 import java.util.UUID
 import javax.inject.Named
 
 @Named
 class UpdateLogEntryByIdCommandHandler(private val logEntryRepository: LogEntryRepository) {
-    fun execute(command: UpdateLogEntryByIdCommand): Either<SaveLogEntryError, Id> =
+    fun execute(command: UpdateLogEntryByIdCommand): Either<UpdateLogEntryByIdError, Id> =
         Id(UUID.fromString(command.id)).right()
             .flatMap {
                 logEntryRepository.findById(it)
             }.flatMap {
-                val instanceLogEntry = it
-                val copyLogEntry = instanceLogEntry.copy(
+                it.copy(
                     it.id,
-                    command.updates.time,
-                    command.updates.description,
-                    command.updates.amount,
-                    command.updates.unit
-                )
-                copyLogEntry.toDomain()
+                    command.time,
+                    command.description,
+                    command.amount,
+                    command.unit
+                ).right()
             }.flatMap {
-                logEntryRepository.saveById(it)
+                logEntryRepository.updateById(it)
             }.fold(
                 ifLeft =
                 {
                     when (it) {
-                    is FindLogEntryError.DoesNotExist -> SaveLogEntryError.DoesNotExist.left()
-                    else -> SaveLogEntryError.SaveError.left()
+                    is FindLogEntryError.DoesNotExist -> UpdateLogEntryByIdError.DoesNotExist.left()
+                    else -> UpdateLogEntryByIdError.SaveError.left()
                     }
                 },
                 ifRight =
@@ -44,8 +41,8 @@ class UpdateLogEntryByIdCommandHandler(private val logEntryRepository: LogEntryR
                     it.right()
                 }
             )
-    private fun LogEntry.toDomain(): Either<SaveLogEntryError, LogEntry> =
+    private fun LogEntry.toDomain(): Either<UpdateLogEntryByIdError, LogEntry> =
         LogEntry(id = id, time = time, description = description, amount = amount, unit = unit).right()
 }
 
-data class UpdateLogEntryByIdCommand(val id: String, val updates: LogEntryUpdateAttributes)
+data class UpdateLogEntryByIdCommand(val id: String, val time: Long, val description: String, val amount: Int, val unit: String)
