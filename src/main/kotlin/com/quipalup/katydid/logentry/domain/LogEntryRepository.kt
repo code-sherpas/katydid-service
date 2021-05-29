@@ -7,4 +7,5 @@ interface LogEntryRepository {
     fun create(logEntry: LogEntry): Either<CreateLogEntryError, Id>
     fun findById(id: Id): Either<FindLogEntryError, LogEntry>
     fun deleteById(id: Id): Either<DeleteLogEntryError, Unit>
+    fun save(logEntry: LogEntry): Either<SaveLogEntryError, Id>
 }
