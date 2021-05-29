@@ -10,6 +10,7 @@ import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
+import com.quipalup.katydid.logentry.domain.SaveLogEntryError
 import java.util.UUID
 import javax.inject.Named
 import org.springframework.data.repository.findByIdOrNull
@@ -31,11 +32,13 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
         unit: Unit -> unit.right()
     }
 
-    override fun updateById(logEntry: LogEntry): Either<CreateLogEntryError, Id> =
-        logEntry.toJpa()
+    override fun save(logEntry: LogEntry): Either<SaveLogEntryError, Id> =
+        logEntry.toSaveJpa()
             .flatMap { jpaLogEntryRepository.save(it).right() }
-            .flatMap { it.id.toId() }
+            .flatMap { it.id.toSaveID() }
 
+    private fun LogEntry.toSaveJpa(): Either<SaveLogEntryError, JpaLogEntry> =
+        JpaLogEntry(id = id.value, time = time, description = description, amount = amount, unit = unit).right()
     private fun LogEntry.toJpa(): Either<CreateLogEntryError, JpaLogEntry> =
         JpaLogEntry(id = id.value, time = time, description = description, amount = amount, unit = unit).right()
 
@@ -49,4 +52,6 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
             }
 
     private fun UUID.toId(): Either<CreateLogEntryError, Id> = Id(this).right()
+
+    private fun UUID.toSaveID(): Either<SaveLogEntryError, Id> = Id(this).right()
 }

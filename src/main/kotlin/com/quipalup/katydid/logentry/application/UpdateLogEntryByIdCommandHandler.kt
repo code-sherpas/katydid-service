@@ -8,6 +8,7 @@ import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepository
+import com.quipalup.katydid.logentry.domain.SaveLogEntryError
 import com.quipalup.katydid.logentry.domain.UpdateLogEntryByIdError
 import java.util.UUID
 import javax.inject.Named
@@ -27,13 +28,13 @@ class UpdateLogEntryByIdCommandHandler(private val logEntryRepository: LogEntryR
                     command.unit
                 ).right()
             }.flatMap {
-                logEntryRepository.updateById(it)
+                logEntryRepository.save(it)
             }.fold(
                 ifLeft =
                 {
                     when (it) {
-                    is FindLogEntryError.DoesNotExist -> UpdateLogEntryByIdError.DoesNotExist.left()
-                    else -> UpdateLogEntryByIdError.SaveError.left()
+                        is FindLogEntryError.DoesNotExist -> UpdateLogEntryByIdError.DoesNotExist.left()
+                        else -> UpdateLogEntryByIdError.Unknown.left()
                     }
                 },
                 ifRight =
@@ -41,7 +42,7 @@ class UpdateLogEntryByIdCommandHandler(private val logEntryRepository: LogEntryR
                     it.right()
                 }
             )
-    private fun LogEntry.toDomain(): Either<UpdateLogEntryByIdError, LogEntry> =
+    private fun LogEntry.toDomain(): Either<SaveLogEntryError, LogEntry> =
         LogEntry(id = id, time = time, description = description, amount = amount, unit = unit).right()
 }
 
