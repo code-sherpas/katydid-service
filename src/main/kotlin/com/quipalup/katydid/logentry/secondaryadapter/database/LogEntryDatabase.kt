@@ -5,7 +5,6 @@ import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.id.Id
-import com.quipalup.katydid.logentry.domain.CreateLogEntryError
 import com.quipalup.katydid.logentry.domain.DeleteLogEntryError
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
@@ -17,8 +16,8 @@ import org.springframework.data.repository.findByIdOrNull
 
 @Named
 class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository) : LogEntryRepository {
-    override fun create(logEntry: LogEntry): Either<CreateLogEntryError, Id> = logEntry.toJpa()
-        .flatMap { jpaLogEntry: JpaLogEntry -> jpaLogEntry.ensureDoesNotExist() }
+    override fun save(logEntry: LogEntry): Either<SaveLogEntryError, Id> = logEntry.toJpa()
+//        .flatMap { jpaLogEntry: JpaLogEntry -> jpaLogEntry.ensureDoesNotExist() }
         .flatMap { jpaLogEntryRepository.save(it).right() }
         .flatMap { it.id.toId() }
 
@@ -32,26 +31,25 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
         unit: Unit -> unit.right()
     }
 
-    override fun save(logEntry: LogEntry): Either<SaveLogEntryError, Id> =
-        logEntry.toSaveJpa()
-            .flatMap { jpaLogEntryRepository.save(it).right() }
-            .flatMap { it.id.toSaveID() }
-
-    private fun LogEntry.toSaveJpa(): Either<SaveLogEntryError, JpaLogEntry> =
-        JpaLogEntry(id = id.value, time = time, description = description, amount = amount, unit = unit).right()
-    private fun LogEntry.toJpa(): Either<CreateLogEntryError, JpaLogEntry> =
+    private fun LogEntry.toJpa(): Either<SaveLogEntryError, JpaLogEntry> =
         JpaLogEntry(id = id.value, time = time, description = description, amount = amount, unit = unit).right()
 
-    private fun JpaLogEntry.ensureDoesNotExist(): Either<CreateLogEntryError, JpaLogEntry> =
+    private fun JpaLogEntry.ensureDoesNotExist(): Either<SaveLogEntryError, JpaLogEntry> =
         jpaLogEntryRepository.existsById(this.id)
             .let {
                 when (it) {
-                    true -> CreateLogEntryError.AlreadyExists.left()
+                    true -> SaveLogEntryError.AlreadyExists.left()
                     false -> this.right()
                 }
             }
+    private fun JpaLogEntry.ensureEntityExists(): Either<SaveLogEntryError, JpaLogEntry> =
+        jpaLogEntryRepository.existsById(this.id)
+            .let {
+                when (it) {
+                    true -> this.right()
+                    false -> SaveLogEntryError.DoesNotExist.left()
+                }
+            }
 
-    private fun UUID.toId(): Either<CreateLogEntryError, Id> = Id(this).right()
-
-    private fun UUID.toSaveID(): Either<SaveLogEntryError, Id> = Id(this).right()
+    private fun UUID.toId(): Either<SaveLogEntryError, Id> = Id(this).right()
 }

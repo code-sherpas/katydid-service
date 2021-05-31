@@ -37,7 +37,7 @@ class DeleteLogEntryByIdCT {
 
     @Test
     fun `delete long entry by id`() {
-        repository.create(
+        repository.save(
             LogEntry(
                 id = Id(UUID.fromString(uuid)),
                 time = 123345534,
