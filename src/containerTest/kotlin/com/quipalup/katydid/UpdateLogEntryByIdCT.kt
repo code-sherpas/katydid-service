@@ -38,7 +38,7 @@ class UpdateLogEntryByIdCT {
     @Test
     fun `update log entry by id`() {
 
-        repository.create(LogEntry(
+        repository.save(LogEntry(
             id = Id(UUID.fromString(uuid)),
             time = 123345534,
             description = "Yogurt with strawberries",

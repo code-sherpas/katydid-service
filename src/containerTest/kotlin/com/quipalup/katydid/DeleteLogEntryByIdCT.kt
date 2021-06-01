@@ -36,8 +36,8 @@ class DeleteLogEntryByIdCT {
     private val uuid: String = "e903d71b-234b-4129-996e-a6b411f2862d"
 
     @Test
-    fun `delete long entry by id`() {
-        repository.create(
+    fun `delete log entry by id`() {
+        repository.save(
             LogEntry(
                 id = Id(UUID.fromString(uuid)),
                 time = 123345534,
