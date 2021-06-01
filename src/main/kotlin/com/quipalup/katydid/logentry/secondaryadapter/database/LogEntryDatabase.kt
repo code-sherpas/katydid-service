@@ -17,9 +17,12 @@ import org.springframework.data.repository.findByIdOrNull
 @Named
 class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository) : LogEntryRepository {
     override fun save(logEntry: LogEntry): Either<SaveLogEntryError, Id> = logEntry.toJpa()
-//        .flatMap { jpaLogEntry: JpaLogEntry -> jpaLogEntry.ensureDoesNotExist() }
         .flatMap { jpaLogEntryRepository.save(it).right() }
         .flatMap { it.id.toId() }
+
+    override fun existsById(id: Id): Boolean = id.value.let {
+        jpaLogEntryRepository.existsById(it)
+    }
 
     override fun findById(id: Id): Either<FindLogEntryError, LogEntry> = id.value.let {
         jpaLogEntryRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
@@ -33,23 +36,6 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
 
     private fun LogEntry.toJpa(): Either<SaveLogEntryError, JpaLogEntry> =
         JpaLogEntry(id = id.value, time = time, description = description, amount = amount, unit = unit).right()
-
-    private fun JpaLogEntry.ensureDoesNotExist(): Either<SaveLogEntryError, JpaLogEntry> =
-        jpaLogEntryRepository.existsById(this.id)
-            .let {
-                when (it) {
-                    true -> SaveLogEntryError.AlreadyExists.left()
-                    false -> this.right()
-                }
-            }
-    private fun JpaLogEntry.ensureEntityExists(): Either<SaveLogEntryError, JpaLogEntry> =
-        jpaLogEntryRepository.existsById(this.id)
-            .let {
-                when (it) {
-                    true -> this.right()
-                    false -> SaveLogEntryError.DoesNotExist.left()
-                }
-            }
 
     private fun UUID.toId(): Either<SaveLogEntryError, Id> = Id(this).right()
 }

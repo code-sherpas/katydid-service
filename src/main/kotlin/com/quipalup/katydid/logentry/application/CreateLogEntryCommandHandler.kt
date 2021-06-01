@@ -18,7 +18,9 @@ class CreateLogEntryCommandHandler(
     private val logEntryRepository: LogEntryRepository
 ) {
     fun execute(command: CreateLogEntryCommand): Either<CreateLogEntryError, String> =
-        command.toLogEntry().flatMap { logEntryRepository.save(it) }
+        command.toLogEntry()
+            .flatMap { ensureDoesNotExist(it) }
+            .flatMap { logEntryRepository.save(it) }
             .fold(
                 ifLeft =
                 {
@@ -35,6 +37,15 @@ class CreateLogEntryCommandHandler(
 
     private fun CreateLogEntryCommand.toLogEntry(): Either<CreateLogEntryError, LogEntry> =
         idGenerator.generate().let { LogEntry(Id(it), this.time, this.description, this.amount, this.unit).right() }
+
+    private fun ensureDoesNotExist(logEntry: LogEntry): Either<SaveLogEntryError, LogEntry> =
+        logEntryRepository.existsById(logEntry.id)
+            .let {
+                when (it) {
+                    true -> SaveLogEntryError.AlreadyExists.left()
+                    false -> logEntry.right()
+                }
+            }
 }
 
 data class CreateLogEntryCommand(
