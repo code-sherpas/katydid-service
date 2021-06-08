@@ -19,7 +19,7 @@ import org.springframework.boot.web.server.LocalServerPort
     classes = [Katydid::class],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-class CreateMealLogEntryCT {
+class CreateLogEntryCT {
 
     @LocalServerPort
     private val port: Int = 0
@@ -30,15 +30,16 @@ class CreateMealLogEntryCT {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
 
-    private val uuid: UUID = UUID.randomUUID()
+    private val mealLogEntryUUID: UUID = UUID.randomUUID()
+    private val napLogEntryUUID: UUID = UUID.randomUUID()
 
     @MockBean
     private lateinit var idGenerator: IdGenerator
 
     @Test
-    fun `create meal log entry`() {
+    fun `create log entry`() {
 
-        whenever(idGenerator.generate()).doReturn(uuid)
+        whenever(idGenerator.generate()).doReturn(mealLogEntryUUID, napLogEntryUUID)
 
         Given {
             contentType("application/vnd.api+json")
@@ -54,33 +55,50 @@ class CreateMealLogEntryCT {
     }
 
     private val requestBody: String = """
+        {
+          "data": [
             {
-              "data": 
-                  {
-                    "type": "meal-log-entry",
-                    "attributes": {
-                      "time": 123345534,
-                      "description": "Yogurt with strawberries",
-                      "amount": 100,
-                      "unit": "percentage"
-                    }
-                  }
+              "type": "meal-log-entry",
+              "attributes": {
+                "time": 123345534,
+                "description": "Yogurt with strawberries",
+                "amount": 100,
+                "unit": "percentage"
+              }
+            },
+            {
+              "type": "nap-log-entry",
+              "attributes": {
+                "time": 1234,
+                "durationInSeconds": 2472243
+              }
             }
-        """
+          ]
+        }
+    """
 
     private val expectedResponseBody: String = """
+        {
+          "data": [
             {
-              "data": 
-                  {
-                    "id": "$uuid",
-                    "type": "meal-log-entry",
-                    "attributes": {
-                      "time": 123345534,
-                      "description": "Yogurt with strawberries",
-                      "amount": 100,
-                      "unit": "percentage"
-                    }
-                  }
+              "id": ${mealLogEntryUUID},
+              "type": "meal-log-entry",
+              "attributes": {
+                "time": 123345534,
+                "description": "Yogurt with strawberries",
+                "amount": 100,
+                "unit": "percentage"
+              }
+            },
+            {
+              "id": ${napLogEntryUUID},
+              "type": "nap-log-entry",
+              "attributes": {
+                "time": 1234,
+                "durationInSeconds": 2472243
+              }
             }
-        """
+          ]
+        }
+    """
 }

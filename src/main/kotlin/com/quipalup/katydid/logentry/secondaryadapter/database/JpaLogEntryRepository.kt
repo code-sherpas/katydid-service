@@ -4,6 +4,8 @@ import arrow.core.Either
 import arrow.core.right
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
+import com.quipalup.katydid.logentry.domain.MealLogEntry
+import com.quipalup.katydid.logentry.domain.NapLogEntry
 import java.util.UUID
 import javax.inject.Named
 import javax.persistence.Entity
@@ -18,17 +20,13 @@ interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 data class JpaLogEntry(
     @javax.persistence.Id
     val id: UUID,
-    val time: Long,
-    val description: String,
-    val amount: Int,
-    val unit: String
+    val mealLogEntry: MealLogEntry?,
+    val napLogEntry: NapLogEntry?
 ) {
 
     fun toDomain(): Either<FindLogEntryError, LogEntry> = LogEntry(
         id = com.quipalup.katydid.common.id.Id(id),
-        time = time,
-        description = description,
-        amount = amount,
-        unit = unit
+        mealLogEntry = mealLogEntry,
+        napLogEntry = napLogEntry
     ).right()
 }

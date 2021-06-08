@@ -35,7 +35,7 @@ class LogEntryDatabase(private val jpaLogEntryRepository: JpaLogEntryRepository)
     }
 
     private fun LogEntry.toJpa(): Either<SaveLogEntryError, JpaLogEntry> =
-        JpaLogEntry(id = id.value, time = time, description = description, amount = amount, unit = unit).right()
+        JpaLogEntry(id = id.value, mealLogEntry = mealLogEntry, napLogEntry = napLogEntry).right()
 
     private fun UUID.toId(): Either<SaveLogEntryError, Id> = Id(this).right()
 }
