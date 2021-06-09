@@ -19,8 +19,7 @@ import org.springframework.boot.web.server.LocalServerPort
     classes = [Katydid::class],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-
-class FindLogEntryByIdCT {
+class UpdateLogEntryByIdCT {
 
     @Autowired
     private lateinit var repository: LogEntryRepository
@@ -33,10 +32,11 @@ class FindLogEntryByIdCT {
         RestAssured.port = port
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
+
     private val uuid: String = "e903d71b-234b-4129-996e-a6b411f2862d"
 
     @Test
-    fun `find log entry by id`() {
+    fun `update log entry by id`() {
 
         repository.save(LogEntry(
             id = Id(UUID.fromString(uuid)),
@@ -47,25 +47,43 @@ class FindLogEntryByIdCT {
         ))
         Given {
             contentType("application/vnd.api+json")
+            body(requestBody)
             pathParam("id", uuid)
         } When {
-            get("/log-entries/{id}")
+            patch("/log-entries/{id}")
         } Then {
+//            contentType("application/vnd.api+json")
             statusCode(200)
         } Extract {
             `assert that response body is equal to`(body().asString(), expectedResponseBody)
         }
     }
 
+    private val requestBody: String = """
+            {
+              "data": 
+                  {
+                    "id": "$uuid",
+                    "type": "meal-log-entry",
+                    "attributes": {
+                      "time": 123345534,
+                      "description": "Yogurt with bananas",
+                      "amount": 100,
+                      "unit": "percentage"
+                    }
+                  }
+            }
+        """
+
     private val expectedResponseBody: String = """
             {
               "data": 
                   {
-                    "id": $uuid,
+                    "id": "$uuid",
                     "type": "meal-log-entry",
                     "attributes": {
                       "time": 123345534,
-                      "description": "Yogurt with strawberries",
+                      "description": "Yogurt with bananas",
                       "amount": 100,
                       "unit": "percentage"
                     }

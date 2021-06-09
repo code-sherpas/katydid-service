@@ -31,3 +31,18 @@ data class LogEntryRequestDocument(
 data class LogEntryResponseDocument(
     val data: LogEntryResource
 )
+data class LogEntryUpdateAttributes(
+    val time: Long,
+    val description: String,
+    val amount: Int,
+    val unit: String
+)
+
+data class LogEntryUpdateResource(
+    val id: String,
+    val attributes: LogEntryUpdateAttributes
+)
+
+data class LogEntryUpdateDocument(
+    val data: LogEntryUpdateResource
+)
