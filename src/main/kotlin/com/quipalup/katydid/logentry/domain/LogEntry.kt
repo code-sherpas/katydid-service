@@ -9,3 +9,17 @@ data class LogEntry(
     val amount: Int,
     val unit: String
 )
+
+//parallel change
+sealed class LogEntry_ {
+    class Meal(
+        val id: Id,
+        val time: Long,
+        val description: String,
+        val amount: Int,
+        val unit: String
+    ): LogEntry_()
+    class Nap(
+        //attributes
+    ): LogEntry_()
+}
