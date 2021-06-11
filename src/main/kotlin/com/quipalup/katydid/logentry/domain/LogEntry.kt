@@ -10,7 +10,7 @@ data class LogEntry(
     val unit: String
 )
 
-//parallel change
+// parallel change
 sealed class LogEntry_ {
     class Meal(
         val id: Id,
@@ -18,9 +18,9 @@ sealed class LogEntry_ {
         val description: String,
         val amount: Int,
         val unit: String
-    ): LogEntry_()
+    ) : LogEntry_()
     class Nap(
         val time: Int,
         val duration: Long
-    ): LogEntry_()
+    ) : LogEntry_()
 }
