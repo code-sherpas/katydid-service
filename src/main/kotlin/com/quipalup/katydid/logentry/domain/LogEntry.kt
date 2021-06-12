@@ -20,6 +20,7 @@ sealed class LogEntry_ {
         val unit: String
     ) : LogEntry_()
     class Nap(
+        val id: Id,
         val time: Int,
         val duration: Long
     ) : LogEntry_()
