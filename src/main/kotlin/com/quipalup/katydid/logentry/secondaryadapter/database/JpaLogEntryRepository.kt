@@ -41,7 +41,7 @@ open class JpaLogEntry(
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Table(name = "LOG_ENTRY_")
-open class JpaLogEntry_(
+open class JpaLogEntrPC_(
     @javax.persistence.Id
     open var id: UUID,
     open var time: Long
@@ -49,13 +49,13 @@ open class JpaLogEntry_(
 
 @Entity
 @Table(name = "MEAL_LOG_ENTRY_")
-class JpaMealLogEntry(
+class JpaMealLogEntrPC(
     id: UUID,
     time: Long,
     val description: String,
     val amount: Int,
     val unit: String
-) : JpaLogEntry_(id, time) {
+) : JpaLogEntrPC_(id, time) {
     fun toMealLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Meal(
         id = id.toId(),
         time = time,
@@ -67,11 +67,11 @@ class JpaMealLogEntry(
 
 @Entity
 @Table(name = "NAP_LOG_ENTRY_")
-class JpaNapLogEntry(
+class JpaNapLogEntrPC(
     id: UUID,
     time: Long,
     private val duration: Long
-) : JpaLogEntry_(id, time) {
+) : JpaLogEntrPC_(id, time) {
     fun toNapLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Nap(
         id = id.toId(),
         time = time,
