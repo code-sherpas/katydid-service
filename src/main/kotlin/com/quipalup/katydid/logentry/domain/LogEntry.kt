@@ -21,7 +21,7 @@ sealed class LogEntry_ {
     ) : LogEntry_()
     class Nap(
         val id: Id,
-        val time: Int,
+        val time: Long,
         val duration: Long
     ) : LogEntry_()
 }
