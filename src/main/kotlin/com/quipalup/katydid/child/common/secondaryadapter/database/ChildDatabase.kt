@@ -27,7 +27,8 @@ import javax.inject.Named
 class ChildDatabase : ChildRepository {
     override fun search(searchRequest: SearchRequest<ChildField>): Either<SearchChildrenError, PageResult<Child>> {
 
-        if (searchRequest.filters.any { filter: Filter<ChildField> -> filter.operation is SearchOperation.UnarySearchOperation.IsTrue && filter.field == ChildField.IS_PRESENT })
+        if (searchRequest.filters.any { filter: Filter<ChildField> -> filter.operation is SearchOperation.UnarySearchOperation.IsTrue && filter.field == ChildField.IS_PRESENT})
+
             return listOf(BLANCA, CRISTINA, VICTOR, MONICA, DAVID).let { PageResult(it.size.toLong(), it) }.right()
 
         if (searchRequest.filters.any { filter: Filter<ChildField> -> filter.operation is SearchOperation.UnarySearchOperation.IsFalse && filter.field == ChildField.IS_PRESENT })

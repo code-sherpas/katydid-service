@@ -18,4 +18,4 @@ data class ManyValuesFilter<F, T>(
 ) : Filter<F>()
 
 data class UnaryFilter<F>(override val operation: SearchOperation.UnarySearchOperation, override val field: F) :
-    Filter<F>()
+        Filter<F>()

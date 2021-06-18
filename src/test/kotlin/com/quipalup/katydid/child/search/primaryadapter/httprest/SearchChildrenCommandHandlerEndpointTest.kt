@@ -32,7 +32,7 @@ internal class SearchChildrenCommandHandlerEndpointTest {
     fun `searches young humans`() {
         `young humans exist`()
 
-        searchChildrenEndpoint.execute().let {
+        searchChildrenEndpoint.execute(null).let {
             assertThat(it).usingRecursiveComparison().isEqualTo(expectedDocument)
         }
     }

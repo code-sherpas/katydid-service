@@ -5,11 +5,7 @@ import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.common.domain.ChildRepository
 import com.quipalup.katydid.child.search.domain.ChildField
 import com.quipalup.katydid.child.search.domain.SearchChildrenError
-import com.quipalup.katydid.common.genericsearch.PageQuery
-import com.quipalup.katydid.common.genericsearch.PageResult
-import com.quipalup.katydid.common.genericsearch.SearchRequest
-import com.quipalup.katydid.common.genericsearch.Sorting
-import com.quipalup.katydid.common.genericsearch.UnaryFilter
+import com.quipalup.katydid.common.genericsearch.*
 import javax.inject.Named
 
 @Named
@@ -30,10 +26,10 @@ private fun SearchChildrenByFieldCommand.toSearchRequest(): SearchRequest<ChildF
 }
 
 data class SearchChildrenByFieldCommand(
-    val pageNumber: Int,
-    val pageSize: Int,
-    val pageMaxSize: Int,
-    val filters: List<UnaryFilter<ChildField>>,
-    val sorting: List<Sorting<ChildField>>
+        val pageNumber: Int,
+        val pageSize: Int,
+        val pageMaxSize: Int,
+        var filters: List<UnaryFilter<ChildField>>,
+        val sorting: List<Sorting<ChildField>>
 
 )

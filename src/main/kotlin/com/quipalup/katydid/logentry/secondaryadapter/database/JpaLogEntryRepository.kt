@@ -21,11 +21,11 @@ interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 @Table(name = "LOG_ENTRY")
 open class JpaLogEntry(
     @javax.persistence.Id
-    val id: UUID,
-    val time: Long,
-    val description: String,
-    val amount: Int,
-    val unit: String
+    open var id: UUID,
+    open var time: Long,
+    open var description: String,
+    open var amount: Int,
+    open var unit: String
 ) {
 
     fun toDomain(): Either<FindLogEntryError, LogEntry> = LogEntry(

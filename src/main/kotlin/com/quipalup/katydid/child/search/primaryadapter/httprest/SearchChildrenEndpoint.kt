@@ -11,6 +11,7 @@ import com.quipalup.katydid.common.genericsearch.SearchOperation
 import com.quipalup.katydid.common.genericsearch.UnaryFilter
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -19,8 +20,9 @@ internal class SearchChildrenEndpoint(private val searchChildrenCommandHandler: 
 
     @GetMapping("/children")
     @ResponseStatus(HttpStatus.OK)
-    fun execute(): SearchChildrenDocument {
-        return buildSearchRequest()
+    fun execute(@RequestParam(required = false) isPresent: Boolean?): SearchChildrenDocument {
+
+        return buildSearchRequest(isPresent)
             .flatMap { searchChildrenCommandHandler.execute(it) }
             .flatMap { it.toDocument().right() }
             .fold(errorHandler()) { it }
@@ -29,16 +31,36 @@ internal class SearchChildrenEndpoint(private val searchChildrenCommandHandler: 
     private fun errorHandler(): (SearchChildrenError) -> SearchChildrenDocument = { throw RuntimeException() }
 
     // TODO: refactor in order to avoid using hardcoded data
-    private fun buildSearchRequest(): Either<SearchChildrenError, SearchChildrenByFieldCommand> = SearchChildrenByFieldCommand(
-        pageNumber = 1,
-        pageSize = 20,
-        pageMaxSize = 20,
-        filters = listOf(
-            UnaryFilter(
-                operation = SearchOperation.UnarySearchOperation.IsTrue,
-                field = ChildField.IS_PRESENT
-            )
-        ),
-        sorting = listOf()
-    ).right()
+    private fun buildBasicSearchRequest(): SearchChildrenByFieldCommand {
+        return SearchChildrenByFieldCommand(
+                pageNumber = 1,
+                pageSize = 20,
+                pageMaxSize = 20,
+                filters = listOf(),
+                sorting = listOf()
+        )
+    }
+
+    private fun buildSearchRequest(isPresent : Boolean?): Either<SearchChildrenError, SearchChildrenByFieldCommand> {
+        val request = buildBasicSearchRequest()
+
+        if (isPresent!=null) {
+            if (isPresent)
+                request.filters =
+                        listOf(UnaryFilter(
+                                operation = SearchOperation.UnarySearchOperation.IsTrue,
+                                field = ChildField.IS_PRESENT
+                            )
+                        )
+            else
+                request.filters =
+                        listOf(UnaryFilter(
+                                operation = SearchOperation.UnarySearchOperation.IsFalse,
+                                field = ChildField.IS_PRESENT
+                            )
+                        )
+        }
+
+        return request.right()
+    }
 }
