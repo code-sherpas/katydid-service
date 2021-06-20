@@ -1,6 +1,7 @@
 package com.quipalup.katydid.logentry.secondaryadapter.database
 
 import arrow.core.Either
+import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
@@ -16,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 @Named
 interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
+
+interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntrPC_, UUID>
 
 @Entity
 @Table(name = "LOG_ENTRY")
@@ -45,7 +48,14 @@ open class JpaLogEntrPC_(
     @javax.persistence.Id
     open var id: UUID,
     open var time: Long
-)
+) {
+    fun mapToDomainModel(): Either<FindLogEntryError, LogEntry_> =
+        when (this) {
+            is JpaMealLogEntrPC -> this.toMealLogEntryDomain()
+            is JpaNapLogEntrPC -> this.toNapLogEntryDomain()
+            else -> FindLogEntryError.Unknown.left()
+        }
+}
 
 @Entity
 @Table(name = "MEAL_LOG_ENTRY_")
