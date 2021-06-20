@@ -23,12 +23,12 @@ import org.junit.jupiter.api.Test
 internal class SearchChildrenCommandHandlerTest {
     @Test
     fun `searches young humans`() {
-//        `young humans exist`()
+        `young humans exist`()
 
-//        SearchChildrenCommandHandler(childRepository).execute(searchChildrenByFieldCommand).fold(
-//            { Assertions.fail(it.toString()) },
-//            { assertThat(it.matches).containsExactlyInAnyOrderElementsOf(expectedChildren) }
-//        )
+        SearchChildrenCommandHandler(childRepository).execute(searchChildrenByFieldCommand).fold(
+            { Assertions.fail(it.toString()) },
+            { assertThat(it.matches).containsExactlyInAnyOrderElementsOf(expectedChildren) }
+        )
     }
 
     private fun `young humans exist`() {
