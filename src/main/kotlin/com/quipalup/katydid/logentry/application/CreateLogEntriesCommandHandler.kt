@@ -6,20 +6,20 @@ import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.common.id.IdGenerator
-import com.quipalup.katydid.logentry.domain.LogEntryRepository
+import com.quipalup.katydid.logentry.domain.LogEntryRepositoryPC
 import com.quipalup.katydid.logentry.domain.LogEntry_
 import javax.inject.Named
 
 @Named
 class CreateLogEntriesCommandHandler(
     private val idGenerator: IdGenerator,
-    private val logEntryRepository: LogEntryRepository
+    private val logEntryRepositoryPC: LogEntryRepositoryPC
 ) {
     fun execute(command: CreateLogEntriesCommand): Either<CreateLogEntriesError, List<Id>> =
         command.logEntries
             .ensureAllDoNotExist()
             .flatMap { it.map { logEntryParameters -> logEntryParameters.toLogEntry() }.right() }
-            .flatMap { logEntryRepository.saveAll(it) }
+            .flatMap { logEntryRepositoryPC.saveAll(it) }
 
     private fun LogEntryParameters.toLogEntry(): LogEntry_ =
         idGenerator.generate().let {
@@ -40,7 +40,7 @@ class CreateLogEntriesCommandHandler(
             when (logEntryParameters) {
                 is LogEntryParameters.MealLogEntry -> logEntryParameters.id
                 is LogEntryParameters.NapLogEntry -> logEntryParameters.id
-            }.let { id: Id -> logEntryRepository.existsById(id) }
+            }.let { id: Id -> logEntryRepositoryPC.existsById(id) }
         }.let {
             if (it) this.right()
             else CreateLogEntriesError.SomeLogEntryAlreadyExist.left()
