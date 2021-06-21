@@ -6,6 +6,7 @@ import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.common.id.IdGenerator
+import com.quipalup.katydid.logentry.domain.ChildId
 import com.quipalup.katydid.logentry.domain.LogEntryRepositoryPC
 import com.quipalup.katydid.logentry.domain.LogEntry_
 import javax.inject.Named
@@ -26,12 +27,18 @@ class CreateLogEntriesCommandHandler(
             when (this) {
                 is LogEntryParameters.MealLogEntry -> LogEntry_.Meal(
                     Id(it),
+                    ChildId(this.childId),
                     this.time,
                     this.description,
                     this.amount,
                     this.unit
                 )
-                is LogEntryParameters.NapLogEntry -> LogEntry_.Nap(Id(it), this.time, this.duration)
+                is LogEntryParameters.NapLogEntry -> LogEntry_.Nap(
+                    Id(it),
+                    ChildId(this.childId),
+                    this.time,
+                    this.duration
+                )
             }
         }
 
@@ -58,11 +65,17 @@ data class CreateLogEntriesCommand(
 sealed class LogEntryParameters {
     data class MealLogEntry(
         val id: Id,
+        val childId: Id,
         val time: Long,
         val description: String,
         val amount: Int,
         val unit: String
     ) : LogEntryParameters()
 
-    data class NapLogEntry(val id: Id, val time: Long, val duration: Long) : LogEntryParameters()
+    data class NapLogEntry(
+        val id: Id,
+        val childId: Id,
+        val time: Long,
+        val duration: Long
+    ) : LogEntryParameters()
 }
