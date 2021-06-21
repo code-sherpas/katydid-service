@@ -1,7 +1,7 @@
 package com.quipalup.katydid.logentry.domain
 
 import com.quipalup.katydid.common.id.Id
-import java.util.*
+import java.util.UUID
 
 data class LogEntry(
     val id: Id,
