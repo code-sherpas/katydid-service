@@ -45,12 +45,18 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
         when (this) {
             is LogEntry_.Meal -> JpaMealLogEntrPC(
                 id = id.value,
+                childId = childId.value(),
                 time = time,
                 description = description,
                 amount = amount,
                 unit = unit
             )
-            is LogEntry_.Nap -> JpaNapLogEntrPC(id = id.value, time = time, duration = duration)
+            is LogEntry_.Nap -> JpaNapLogEntrPC(
+                id = id.value,
+                childId = childId.value(),
+                time = time,
+                duration = duration
+            )
         }.right()
 
     private fun UUID.toId(): Either<SaveLogEntryError, Id> = Id(this).right()
