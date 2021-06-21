@@ -19,7 +19,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 @Named
 interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 
-interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntrPC_, UUID>
+interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID>
 
 @Entity
 @Table(name = "LOG_ENTRY")
@@ -45,7 +45,7 @@ open class JpaLogEntry(
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Table(name = "LOG_ENTRY_")
-open class JpaLogEntrPC_(
+open class JpaLogEntryPC_(
     @javax.persistence.Id
     open var id: UUID,
     open var childId: UUID,
@@ -53,22 +53,22 @@ open class JpaLogEntrPC_(
 ) {
     fun mapToDomainModel(): Either<FindLogEntryError, LogEntry_> =
         when (this) {
-            is JpaMealLogEntrPC -> this.toMealLogEntryDomain()
-            is JpaNapLogEntrPC -> this.toNapLogEntryDomain()
+            is JpaMealLogEntryPC -> this.toMealLogEntryDomain()
+            is JpaNapLogEntryPC -> this.toNapLogEntryDomain()
             else -> FindLogEntryError.Unknown.left()
         }
 }
 
 @Entity
 @Table(name = "MEAL_LOG_ENTRY_")
-class JpaMealLogEntrPC(
+class JpaMealLogEntryPC(
     id: UUID,
     childId: UUID,
     time: Long,
     val description: String,
     val amount: Int,
     val unit: String
-) : JpaLogEntrPC_(id, childId, time) {
+) : JpaLogEntryPC_(id, childId, time) {
     fun toMealLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Meal(
         id = id.toId(),
         childId = childId.toChildId(),
@@ -81,12 +81,12 @@ class JpaMealLogEntrPC(
 
 @Entity
 @Table(name = "NAP_LOG_ENTRY_")
-class JpaNapLogEntrPC(
+class JpaNapLogEntryPC(
     id: UUID,
     childId: UUID,
     time: Long,
     private val duration: Long
-) : JpaLogEntrPC_(id, childId, time) {
+) : JpaLogEntryPC_(id, childId, time) {
     fun toNapLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Nap(
         id = id.toId(),
         childId = childId.toChildId(),
