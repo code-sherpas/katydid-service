@@ -1,6 +1,7 @@
 package com.quipalup.katydid.logentry.domain
 
 import com.quipalup.katydid.common.id.Id
+import java.util.*
 
 data class LogEntry(
     val id: Id,
@@ -31,4 +32,6 @@ sealed class LogEntry_ {
     ) : LogEntry_()
 }
 
-data class ChildId(val value: Id)
+data class ChildId(val value: Id) {
+    fun value(): UUID = value.value
+}
