@@ -19,7 +19,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 @Named
 interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 
-interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID>
+interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID> {
+    fun findAllByChildId(childId: UUID): List<JpaLogEntryPC_>
+}
 
 @Entity
 @Table(name = "LOG_ENTRY")
