@@ -32,7 +32,7 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
     override fun findById(id: Id): Either<FindLogEntryError, LogEntry_> =
         id.value.let {
             jpaLogEntryRepository.findByIdOrNull(it)
-                ?.let { jpaLogEntrPC_: JpaLogEntrPC_ -> jpaLogEntrPC_.mapToDomainModel() }
+                ?.let { jpaLogEntryPC_: JpaLogEntryPC_ -> jpaLogEntryPC_.mapToDomainModel() }
         } ?: FindLogEntryError.DoesNotExist.left()
 
     override fun deleteById(id: Id): Either<DeleteLogEntryError, Unit> = id.value.let {
@@ -41,16 +41,22 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
         unit.right()
     }
 
-    private fun LogEntry_.toJpa(): Either<SaveLogEntryError, JpaLogEntrPC_> =
+    private fun LogEntry_.toJpa(): Either<SaveLogEntryError, JpaLogEntryPC_> =
         when (this) {
-            is LogEntry_.Meal -> JpaMealLogEntrPC(
+            is LogEntry_.Meal -> JpaMealLogEntryPC(
                 id = id.value,
+                childId = childId.value(),
                 time = time,
                 description = description,
                 amount = amount,
                 unit = unit
             )
-            is LogEntry_.Nap -> JpaNapLogEntrPC(id = id.value, time = time, duration = duration)
+            is LogEntry_.Nap -> JpaNapLogEntryPC(
+                id = id.value,
+                childId = childId.value(),
+                time = time,
+                duration = duration
+            )
         }.right()
 
     private fun UUID.toId(): Either<SaveLogEntryError, Id> = Id(this).right()
