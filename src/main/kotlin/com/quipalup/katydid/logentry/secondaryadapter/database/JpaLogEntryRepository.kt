@@ -53,10 +53,10 @@ open class JpaLogEntryPC_(
     open var childId: UUID,
     open var time: Long
 ) {
-    fun mapToDomainModel(): Either<FindLogEntryError, LogEntry_> =
+    fun toLogEntry_(): Either<FindLogEntryError, LogEntry_> =
         when (this) {
-            is JpaMealLogEntryPC -> this.toMealLogEntryDomain()
-            is JpaNapLogEntryPC -> this.toNapLogEntryDomain()
+            is JpaMealLogEntryPC -> toMealLogEntryDomain().right()
+            is JpaNapLogEntryPC -> toNapLogEntryDomain().right()
             else -> FindLogEntryError.Unknown.left()
         }
 }
@@ -71,14 +71,14 @@ class JpaMealLogEntryPC(
     val amount: Int,
     val unit: String
 ) : JpaLogEntryPC_(id, childId, time) {
-    fun toMealLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Meal(
+    fun toMealLogEntryDomain(): LogEntry_ = LogEntry_.Meal(
         id = id.toId(),
         childId = childId.toChildId(),
         time = time,
         description = description,
         amount = amount,
         unit = unit
-    ).right()
+    )
 }
 
 @Entity
@@ -89,14 +89,13 @@ class JpaNapLogEntryPC(
     time: Long,
     private val duration: Long
 ) : JpaLogEntryPC_(id, childId, time) {
-    fun toNapLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Nap(
+    fun toNapLogEntryDomain(): LogEntry_ = LogEntry_.Nap(
         id = id.toId(),
         childId = childId.toChildId(),
         time = time,
         duration = duration
-    ).right()
+    )
 }
 
 private fun UUID.toId(): Id = Id(this)
-
 private fun UUID.toChildId(): ChildId = ChildId(this.toId())

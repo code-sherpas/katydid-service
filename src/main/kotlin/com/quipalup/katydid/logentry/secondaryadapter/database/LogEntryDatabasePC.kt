@@ -29,6 +29,4 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
                 duration = duration
             )
         }.right()
-
-    private fun UUID.toId(): Either<SaveLogEntryError, Id> = Id(this).right()
 }
