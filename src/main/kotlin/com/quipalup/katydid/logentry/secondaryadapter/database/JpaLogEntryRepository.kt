@@ -35,7 +35,7 @@ open class JpaLogEntry(
 ) {
 
     fun toDomain(): Either<FindLogEntryError, LogEntry> = LogEntry(
-        id = com.quipalup.katydid.common.id.Id(id),
+        id = Id(id),
         time = time,
         description = description,
         amount = amount,
