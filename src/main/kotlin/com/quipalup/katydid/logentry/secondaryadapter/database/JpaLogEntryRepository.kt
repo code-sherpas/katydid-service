@@ -54,11 +54,11 @@ open class JpaLogEntryPC_(
     open var childId: UUID,
     open var time: Long
 ) {
-    fun toLogEntry_(): Either<LogEntryMappingError.UnknownType, LogEntry_> =
+    fun toLogEntry_(): Either<LogEntryMappingError.UnrecognisableType, LogEntry_> =
         when (this) {
-            is JpaMealLogEntryPC -> toMealLogEntryDomain().right()
-            is JpaNapLogEntryPC -> toNapLogEntryDomain().right()
-            else -> LogEntryMappingError.UnknownType.left()
+            is JpaMealLogEntryPC -> toMealLogEntry().right()
+            is JpaNapLogEntryPC -> toNapLogEntry().right()
+            else -> LogEntryMappingError.UnrecognisableType.left()
         }
 }
 
@@ -72,7 +72,7 @@ class JpaMealLogEntryPC(
     val amount: Int,
     val unit: String
 ) : JpaLogEntryPC_(id, childId, time) {
-    fun toMealLogEntryDomain(): LogEntry_ = LogEntry_.Meal(
+    fun toMealLogEntry(): LogEntry_ = LogEntry_.Meal(
         id = id.toId(),
         childId = childId.toChildId(),
         time = time,
@@ -90,7 +90,7 @@ class JpaNapLogEntryPC(
     time: Long,
     private val duration: Long
 ) : JpaLogEntryPC_(id, childId, time) {
-    fun toNapLogEntryDomain(): LogEntry_ = LogEntry_.Nap(
+    fun toNapLogEntry(): LogEntry_ = LogEntry_.Nap(
         id = id.toId(),
         childId = childId.toChildId(),
         time = time,
