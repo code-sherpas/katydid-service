@@ -7,6 +7,7 @@ import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.ChildId
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
+import com.quipalup.katydid.logentry.domain.LogEntryMappingError
 import com.quipalup.katydid.logentry.domain.LogEntry_
 import java.util.UUID
 import javax.inject.Named
@@ -53,11 +54,11 @@ open class JpaLogEntryPC_(
     open var childId: UUID,
     open var time: Long
 ) {
-    fun toLogEntry_(): Either<FindLogEntryError, LogEntry_> =
+    fun toLogEntry_(): Either<LogEntryMappingError.UnknownType, LogEntry_> =
         when (this) {
             is JpaMealLogEntryPC -> toMealLogEntryDomain().right()
             is JpaNapLogEntryPC -> toNapLogEntryDomain().right()
-            else -> FindLogEntryError.Unknown.left()
+            else -> LogEntryMappingError.UnknownType.left()
         }
 }
 
