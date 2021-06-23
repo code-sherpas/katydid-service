@@ -11,4 +11,6 @@ interface LogEntryRepository {
 }
 
 // parallel change
-interface LogEntryRepositoryPC
+interface LogEntryRepositoryPC {
+    fun searchAllByChildId(childId: ChildId): List<LogEntry_>
+}

@@ -98,5 +98,5 @@ class JpaNapLogEntryPC(
     )
 }
 
-private fun UUID.toId(): Id = Id(this)
-private fun UUID.toChildId(): ChildId = ChildId(this.toId())
+fun UUID.toId(): Id = Id(this)
+fun UUID.toChildId(): ChildId = ChildId(this.toId())
