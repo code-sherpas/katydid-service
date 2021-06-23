@@ -26,5 +26,5 @@ sealed class UpdateLogEntryByIdError {
 }
 
 sealed class LogEntryMappingError {
-    object UnrecognisableType: LogEntryMappingError()
+    object UnrecognisableType : LogEntryMappingError()
 }
