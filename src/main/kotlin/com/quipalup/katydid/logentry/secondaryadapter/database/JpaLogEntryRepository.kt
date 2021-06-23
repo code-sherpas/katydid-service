@@ -19,7 +19,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 @Named
 interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 
-interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID>
+interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID> {
+    fun findAllByChildId(childId: UUID): List<JpaLogEntryPC_>
+}
 
 @Entity
 @Table(name = "LOG_ENTRY")
@@ -33,7 +35,7 @@ open class JpaLogEntry(
 ) {
 
     fun toDomain(): Either<FindLogEntryError, LogEntry> = LogEntry(
-        id = com.quipalup.katydid.common.id.Id(id),
+        id = Id(id),
         time = time,
         description = description,
         amount = amount,
