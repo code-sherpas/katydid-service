@@ -12,5 +12,4 @@ class SearchLogEntriesCommandHandler(val repository: LogEntryRepositoryPC) {
         }.let {
             repository.searchAllByChildId(it)
         }
-
 }
