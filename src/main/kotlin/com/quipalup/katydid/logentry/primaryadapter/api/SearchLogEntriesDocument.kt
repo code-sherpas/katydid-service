@@ -8,7 +8,7 @@ data class MealLogEntryDocument(
     val id: String,
     val type: String = "meal",
     val attributes: MealLogEntryDocumentAttributes
-): SearchLogEntryDocument
+) : SearchLogEntryDocument
 
 data class MealLogEntryDocumentAttributes(
     val childId: String,
@@ -22,7 +22,7 @@ data class NapLogEntryDocument(
     val id: String,
     val type: String = "nap",
     val attributes: NapLogEntryDocumentAttributes
-): SearchLogEntryDocument
+) : SearchLogEntryDocument
 
 data class NapLogEntryDocumentAttributes(
     val childId: String,

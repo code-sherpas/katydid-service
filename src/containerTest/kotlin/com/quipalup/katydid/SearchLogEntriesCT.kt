@@ -11,7 +11,7 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.UUID
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,8 +42,6 @@ class SearchLogEntriesCT {
         repository.save(thisChildsNapLogEntry)
         repository.save(thisChildsMealLogEntry)
         repository.save(notThisChildsNapLogEntry)
-
-        repository.searchAllByChildId(childId)
 
         Given {
             param("filter%5BchildId%5D", childId.value().toString())
@@ -95,19 +93,19 @@ class SearchLogEntriesCT {
             {
                 "data": [
                     {
-                        "id": "${thisChildsNapLogEntry.id.value.toString()}",
+                        "id": "${thisChildsNapLogEntry.id.value}",
                         "type": "nap",
                         "attributes": {
-                            "childId": "${childId.value().toString()}",
+                            "childId": "${childId.value()}",
                             "time": $time,
                             "duration": $duration
                         }                        
                     },
                     {
-                        "id": "${thisChildsMealLogEntry.id.value.toString()}",
+                        "id": "${thisChildsMealLogEntry.id.value}",
                         "type": "meal",
                         "attributes": {
-                            "childId": "${childId.value().toString()}",
+                            "childId": "${childId.value()}",
                             "time": $time,
                             "description": "$description",
                             "amount": $amount,

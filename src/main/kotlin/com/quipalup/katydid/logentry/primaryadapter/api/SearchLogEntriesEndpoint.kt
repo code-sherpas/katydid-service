@@ -25,15 +25,14 @@ class SearchLogEntriesEndpoint(
             }
         }
     }
-
 }
 
-private fun  List<LogEntry_>.toSearchLogEntriesDocument(): SearchLogEntriesDocument {
+private fun List<LogEntry_>.toSearchLogEntriesDocument(): SearchLogEntriesDocument {
     return when {
         this.isEmpty() -> SearchLogEntriesDocument()
         else -> SearchLogEntriesDocument(
             data = this.map {
-                when(it) {
+                when (it) {
                     is LogEntry_.Meal -> MealLogEntryDocument(
                         id = it.id.value.toString(),
                         attributes = MealLogEntryDocumentAttributes(
@@ -56,6 +55,4 @@ private fun  List<LogEntry_>.toSearchLogEntriesDocument(): SearchLogEntriesDocum
             }
         )
     }
-
-
 }
