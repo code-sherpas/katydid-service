@@ -14,4 +14,3 @@ interface LogEntryRepository {
 interface LogEntryRepositoryPC {
     fun searchAllByChildId(childId: ChildId): List<LogEntry_>
 }
-
