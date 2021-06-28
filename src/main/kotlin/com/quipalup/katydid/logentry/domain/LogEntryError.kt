@@ -24,3 +24,7 @@ sealed class UpdateLogEntryByIdError {
     object DoesNotExist : UpdateLogEntryByIdError()
     object Unknown : UpdateLogEntryByIdError()
 }
+
+sealed class LogEntryMappingError {
+    object UnrecognisableType : LogEntryMappingError()
+}

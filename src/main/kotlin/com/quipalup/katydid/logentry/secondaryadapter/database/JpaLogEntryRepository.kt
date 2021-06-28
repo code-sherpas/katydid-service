@@ -7,6 +7,7 @@ import com.quipalup.katydid.common.id.Id
 import com.quipalup.katydid.logentry.domain.ChildId
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
+import com.quipalup.katydid.logentry.domain.LogEntryMappingError
 import com.quipalup.katydid.logentry.domain.LogEntry_
 import java.util.UUID
 import javax.inject.Named
@@ -53,11 +54,11 @@ open class JpaLogEntryPC_(
     open var childId: UUID,
     open var time: Long
 ) {
-    fun mapToDomainModel(): Either<FindLogEntryError, LogEntry_> =
+    fun toLogEntry_(): Either<LogEntryMappingError.UnrecognisableType, LogEntry_> =
         when (this) {
-            is JpaMealLogEntryPC -> this.toMealLogEntryDomain()
-            is JpaNapLogEntryPC -> this.toNapLogEntryDomain()
-            else -> FindLogEntryError.Unknown.left()
+            is JpaMealLogEntryPC -> toMealLogEntry().right()
+            is JpaNapLogEntryPC -> toNapLogEntry().right()
+            else -> LogEntryMappingError.UnrecognisableType.left()
         }
 }
 
@@ -71,14 +72,14 @@ class JpaMealLogEntryPC(
     val amount: Int,
     val unit: String
 ) : JpaLogEntryPC_(id, childId, time) {
-    fun toMealLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Meal(
+    fun toMealLogEntry(): LogEntry_ = LogEntry_.Meal(
         id = id.toId(),
         childId = childId.toChildId(),
         time = time,
         description = description,
         amount = amount,
         unit = unit
-    ).right()
+    )
 }
 
 @Entity
@@ -89,14 +90,13 @@ class JpaNapLogEntryPC(
     time: Long,
     private val duration: Long
 ) : JpaLogEntryPC_(id, childId, time) {
-    fun toNapLogEntryDomain(): Either<FindLogEntryError, LogEntry_> = LogEntry_.Nap(
+    fun toNapLogEntry(): LogEntry_ = LogEntry_.Nap(
         id = id.toId(),
         childId = childId.toChildId(),
         time = time,
         duration = duration
-    ).right()
+    )
 }
 
-private fun UUID.toId(): Id = Id(this)
-
-private fun UUID.toChildId(): ChildId = ChildId(this.toId())
+fun UUID.toId(): Id = Id(this)
+fun UUID.toChildId(): ChildId = ChildId(this.toId())
