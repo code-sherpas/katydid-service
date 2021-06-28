@@ -4,7 +4,8 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.common.id.Id
-import com.quipalup.katydid.logentry.domain.ChildId
+import com.quipalup.katydid.common.id.toChildId
+import com.quipalup.katydid.common.id.toId
 import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryMappingError
@@ -97,6 +98,3 @@ class JpaNapLogEntryPC(
         duration = duration
     )
 }
-
-fun UUID.toId(): Id = Id(this)
-fun UUID.toChildId(): ChildId = ChildId(this.toId())

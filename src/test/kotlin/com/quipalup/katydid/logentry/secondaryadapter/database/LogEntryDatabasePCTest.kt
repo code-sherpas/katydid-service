@@ -1,5 +1,7 @@
 package com.quipalup.katydid.logentry.secondaryadapter.database
 
+import com.quipalup.katydid.common.id.toChildId
+import com.quipalup.katydid.common.id.toId
 import com.quipalup.katydid.logentry.domain.ChildId
 import com.quipalup.katydid.logentry.domain.LogEntry_
 import io.mockk.every
