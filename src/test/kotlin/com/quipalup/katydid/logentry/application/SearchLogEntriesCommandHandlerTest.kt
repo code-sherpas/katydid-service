@@ -29,7 +29,7 @@ class SearchLogEntriesCommandHandlerTest {
     companion object {
         private val childId = UUID.randomUUID().toChildId()
         private val mealId = UUID.randomUUID().toId()
-        private val searchLogEntriesCommand = SearchLogEntriesCommand(childId.value().toString())
+        private val searchLogEntriesCommand = SearchLogEntriesByChildIdCommand(childId.value().toString())
         private val time = ZonedDateTime
             .of(2021, 6, 23, 20, 30, 50, 4, ZoneId.of("UTC"))
             .toEpochSecond()
