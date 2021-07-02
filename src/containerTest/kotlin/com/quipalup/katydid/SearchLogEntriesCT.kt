@@ -99,7 +99,10 @@ class SearchLogEntriesCT {
                             "childId": "${childId.value()}",
                             "time": $time,
                             "duration": $duration
-                        }                        
+                        },
+                        links: {
+                            iconURL: "https://bucket.com/napicon"
+                        }
                     },
                     {
                         "id": "${thisChildsMealLogEntry.id.value}",
@@ -110,6 +113,9 @@ class SearchLogEntriesCT {
                             "description": "$description",
                             "amount": $amount,
                             "unit": "$unit"
+                        },
+                        links: {
+                            iconURL: "https://bucket.com/mealicon"
                         }
                     }
                 ]
