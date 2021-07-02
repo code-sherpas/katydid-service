@@ -4,10 +4,14 @@ import com.quipalup.katydid.common.id.toChildId
 import com.quipalup.katydid.logentry.domain.LogEntryRepositoryPC
 import com.quipalup.katydid.logentry.domain.LogEntry_
 import java.util.UUID
+import javax.inject.Named
 
-class SearchLogEntriesCommandHandler(val repository: LogEntryRepositoryPC) {
-    fun execute(searchLogEntriesCommand: SearchLogEntriesCommand): List<LogEntry_> =
-        searchLogEntriesCommand.childId.let {
+@Named
+class SearchLogEntriesCommandHandler(
+    private val repository: LogEntryRepositoryPC
+) {
+    fun execute(searchLogEntriesByChildIdCommand: SearchLogEntriesByChildIdCommand): List<LogEntry_> =
+        searchLogEntriesByChildIdCommand.childId.let {
             UUID.fromString(it).toChildId()
         }.let {
             repository.searchAllByChildId(it)

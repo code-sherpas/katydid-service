@@ -12,7 +12,7 @@ import java.util.UUID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class SearchLogEntriesCommandHandlerTest {
+class SearchLogEntriesByChildIdCommandHandlerTest {
     private val repository = mockk<LogEntryRepositoryPC>()
     private val searchLogEntriesCommandHandler: SearchLogEntriesCommandHandler = SearchLogEntriesCommandHandler(repository)
 

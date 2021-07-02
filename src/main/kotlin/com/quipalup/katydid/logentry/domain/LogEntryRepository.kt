@@ -13,4 +13,5 @@ interface LogEntryRepository {
 // parallel change
 interface LogEntryRepositoryPC {
     fun searchAllByChildId(childId: ChildId): List<LogEntry_>
+    fun save(logEntry: LogEntry_)
 }
