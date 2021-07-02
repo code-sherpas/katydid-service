@@ -33,7 +33,7 @@ private fun List<LogEntry_>.toSearchLogEntriesDocument(): SearchLogEntriesDocume
         else -> SearchLogEntriesDocument(
             data = this.map {
                 when (it) {
-                    is LogEntry_.Meal -> MealLogEntryDocument(
+                    is LogEntry_.Meal -> SearchLogEntryDocument.MealLogEntryDocument(
                         id = it.id.value.toString(),
                         attributes = MealLogEntryDocumentAttributes(
                             childId = it.childId.value().toString(),
@@ -43,7 +43,7 @@ private fun List<LogEntry_>.toSearchLogEntriesDocument(): SearchLogEntriesDocume
                             unit = it.unit
                         )
                     )
-                    is LogEntry_.Nap -> NapLogEntryDocument(
+                    is LogEntry_.Nap -> SearchLogEntryDocument.NapLogEntryDocument(
                         id = it.id.value.toString(),
                         attributes = NapLogEntryDocumentAttributes(
                             childId = it.childId.value().toString(),
