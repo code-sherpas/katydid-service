@@ -101,7 +101,7 @@ class SearchLogEntriesCT {
                             "duration": $duration
                         },
                         links: {
-                            iconURL: "https://bucket.com/napicon"
+                            iconURL: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/nap-icon.svg"
                         }
                     },
                     {
@@ -115,7 +115,7 @@ class SearchLogEntriesCT {
                             "unit": "$unit"
                         },
                         links: {
-                            iconURL: "https://bucket.com/mealicon"
+                            iconURL: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/meal-icon.svg"
                         }
                     }
                 ]
