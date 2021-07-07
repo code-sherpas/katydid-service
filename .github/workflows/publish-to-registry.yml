@@ -1,0 +1,26 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - main
+      - feat/docker
+
+jobs:
+  publish-katydid-web-client-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build katydid-service image
+        run: |
+          docker build . --tag ghcr.io/code-sherpas/katydid-service
+          docker push ghcr.io/code-sherpas/katydid-service
