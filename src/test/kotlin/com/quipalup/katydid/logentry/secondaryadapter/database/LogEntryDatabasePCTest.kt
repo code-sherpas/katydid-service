@@ -41,7 +41,7 @@ internal class LogEntryDatabasePCTest {
         napLogEntry: LogEntry_.Nap
     ) {
         every {
-            repository.findAllByChildId(childId.value())
+            repository.findAllByChildId(childId.value().toString())
         } returns listOf(
             mealLogEntry.toJpa(),
             napLogEntry.toJpa()
@@ -82,16 +82,16 @@ internal class LogEntryDatabasePCTest {
 
 private fun LogEntry_.Nap.toJpa(): JpaLogEntryPC_ {
     return JpaNapLogEntryPC(
-        id = id.value,
-        childId = childId.value(),
+        id = id.value.toString(),
+        childId = childId.value().toString(),
         time = time,
         duration = duration
     )
 }
 
 private fun LogEntry_.Meal.toJpa(): JpaLogEntryPC_ = JpaMealLogEntryPC(
-    id = id.value,
-    childId = childId.value(),
+    id = id.value.toString(),
+    childId = childId.value().toString(),
     time = time,
     description = description,
     amount = amount,
