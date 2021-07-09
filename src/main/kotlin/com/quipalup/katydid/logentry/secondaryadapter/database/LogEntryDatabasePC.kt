@@ -9,7 +9,7 @@ import javax.inject.Named
 @Named
 class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositoryPC) : LogEntryRepositoryPC {
     override fun searchAllByChildId(childId: ChildId): List<LogEntry_> =
-        jpaLogEntryRepository.findAllByChildId(childId.value())
+        jpaLogEntryRepository.findAllByChildId(childId.value().toString())
             .map { it.toLogEntry_() }
             .filter { it.isRight() }
             .map { (it as Either.Right<LogEntry_>).value }
@@ -21,16 +21,16 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
     private fun LogEntry_.toJpa(): JpaLogEntryPC_ =
         when (this) {
             is LogEntry_.Meal -> JpaMealLogEntryPC(
-                id = id.value,
-                childId = childId.value(),
+                id = id.value.toString(),
+                childId = childId.value().toString(),
                 time = time,
                 description = description,
                 amount = amount,
                 unit = unit
             )
             is LogEntry_.Nap -> JpaNapLogEntryPC(
-                id = id.value,
-                childId = childId.value(),
+                id = id.value.toString(),
+                childId = childId.value().toString(),
                 time = time,
                 duration = duration
             )

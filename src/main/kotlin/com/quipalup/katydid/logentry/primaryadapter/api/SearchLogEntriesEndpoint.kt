@@ -16,8 +16,9 @@ class SearchLogEntriesEndpoint(
     fun matchingCriteria(
         @RequestParam(required = false) parameters: Map<String, String>?
     ): SearchLogEntriesDocument {
-        return parameters!!.run {
-            SearchLogEntriesByChildIdCommand(this["filter%5BchildId%5D"]!!).let {
+        print(parameters?.get("filter[childId]"))
+        return parameters!!.get("filter[childId]").toString()!!.run {
+            SearchLogEntriesByChildIdCommand(this).let {
                 searchLogEntriesCommandHandler.execute(it)
             }.let {
                 val toSearchLogEntriesDocument = it.toSearchLogEntriesDocument()

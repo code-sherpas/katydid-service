@@ -12,6 +12,7 @@ import com.quipalup.katydid.logentry.domain.LogEntryMappingError
 import com.quipalup.katydid.logentry.domain.LogEntry_
 import java.util.UUID
 import javax.inject.Named
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Inheritance
 import javax.persistence.InheritanceType
@@ -22,11 +23,11 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 
 interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID> {
-    fun findAllByChildId(childId: UUID): List<JpaLogEntryPC_>
+    fun findAllByChildId(childId: String): List<JpaLogEntryPC_>
 }
 
 @Entity
-@Table(name = "LOG_ENTRY")
+@Table(name = "LOG_ENTRY_")
 open class JpaLogEntry(
     @javax.persistence.Id
     val id: UUID,
@@ -48,11 +49,13 @@ open class JpaLogEntry(
 // parallel change
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-@Table(name = "LOG_ENTRY_")
+@Table(name = "LOG_ENTRY")
 open class JpaLogEntryPC_(
     @javax.persistence.Id
-    open var id: UUID,
-    open var childId: UUID,
+    open var id: String,
+    @Column(name = "child_id")
+    open var childId: String,
+    @Column(name = "occurred_on")
     open var time: Long
 ) {
     fun toLogEntry_(): Either<LogEntryMappingError.UnrecognisableType, LogEntry_> =
@@ -64,18 +67,18 @@ open class JpaLogEntryPC_(
 }
 
 @Entity
-@Table(name = "MEAL_LOG_ENTRY_")
+@Table(name = "MEAL_LOG_ENTRY")
 class JpaMealLogEntryPC(
-    id: UUID,
-    childId: UUID,
+    id: String,
+    childId: String,
     time: Long,
     val description: String,
     val amount: Int,
     val unit: String
 ) : JpaLogEntryPC_(id, childId, time) {
     fun toMealLogEntry(): LogEntry_ = LogEntry_.Meal(
-        id = id.toId(),
-        childId = childId.toChildId(),
+        id = UUID.fromString(id).toId(),
+        childId = UUID.fromString(childId).toChildId(),
         time = time,
         description = description,
         amount = amount,
@@ -84,16 +87,16 @@ class JpaMealLogEntryPC(
 }
 
 @Entity
-@Table(name = "NAP_LOG_ENTRY_")
+@Table(name = "NAP_LOG_ENTRY")
 class JpaNapLogEntryPC(
-    id: UUID,
-    childId: UUID,
+    id: String,
+    childId: String,
     time: Long,
     private val duration: Long
 ) : JpaLogEntryPC_(id, childId, time) {
     fun toNapLogEntry(): LogEntry_ = LogEntry_.Nap(
-        id = id.toId(),
-        childId = childId.toChildId(),
+        id = UUID.fromString(id).toId(),
+        childId = UUID.fromString(childId).toChildId(),
         time = time,
         duration = duration
     )
