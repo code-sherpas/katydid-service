@@ -6,7 +6,7 @@ import java.net.URL
 import java.util.UUID
 
 object ChildMother {
-    fun sample(
+    private fun sample(
         id: Id = Id(),
         name: Child.Name = Child.Name("John"),
         portraitURL: Child.PortraitURL = Child.PortraitURL(URL("https://host:1234")),
@@ -18,10 +18,10 @@ object ChildMother {
         isPresent = isPresent
     )
 
-    fun present(): Child = sample(isPresent = Child.IsPresent(true))
-    fun notPresent(): Child = sample(isPresent = Child.IsPresent(false))
+    private fun present(): Child = sample(isPresent = Child.IsPresent(true))
+    private fun notPresent(): Child = sample(isPresent = Child.IsPresent(false))
 
-    val blancaId = "5ee62461-adb8-4618-a110-06290a787223"
+    private const val blancaId = "5ee62461-adb8-4618-a110-06290a787223"
     val BLANCA: Child = present().copy(
         id = Id(UUID.fromString(blancaId)),
         name = Child.Name("Blanca"),
@@ -32,7 +32,7 @@ object ChildMother {
         )
     )
 
-    val cristinaId = "86a93463-e7e1-4fc0-b12c-981f1eea16e8"
+    private const val cristinaId = "86a93463-e7e1-4fc0-b12c-981f1eea16e8"
     val CRISTINA: Child = present().copy(
         id = Id(UUID.fromString(cristinaId)),
         name = Child.Name("Cristina"),
@@ -43,7 +43,7 @@ object ChildMother {
         )
     )
 
-    val victorId = "b9c2380f-0b4c-4871-aefc-a6ed2c3a2408"
+    private const val victorId = "b9c2380f-0b4c-4871-aefc-a6ed2c3a2408"
     val VICTOR: Child = present().copy(
         id = Id(UUID.fromString(victorId)),
         name = Child.Name("Victor"),
@@ -54,7 +54,7 @@ object ChildMother {
         )
     )
 
-    val monicaId = "a5edf2fa-30b1-45e4-a39b-96243fa60caa"
+    private const val monicaId = "a5edf2fa-30b1-45e4-a39b-96243fa60caa"
     val MONICA: Child = present().copy(
         id = Id(UUID.fromString(monicaId)),
         name = Child.Name("Monica"),
@@ -65,7 +65,7 @@ object ChildMother {
         )
     )
 
-    val davidId = "666cf327-09da-46ad-a01c-d3ae6e8ebc9d"
+    private const val davidId = "666cf327-09da-46ad-a01c-d3ae6e8ebc9d"
     val DAVID: Child = present().copy(
         id = Id(UUID.fromString(davidId)),
         name = Child.Name("David"),
@@ -76,7 +76,7 @@ object ChildMother {
         )
     )
 
-    val johnId = "bb7e288d-5c6a-43c5-83a1-551491a72002"
+    private const val johnId = "bb7e288d-5c6a-43c5-83a1-551491a72002"
     val JOHN: Child = notPresent().copy(
         id = Id(UUID.fromString(johnId)),
         name = Child.Name("John"),
@@ -87,7 +87,7 @@ object ChildMother {
         )
     )
 
-    val mariaId = "2635d7f4-4761-410f-af6c-fd77a0f338cb"
+    private const val mariaId = "2635d7f4-4761-410f-af6c-fd77a0f338cb"
     val MARIA: Child = notPresent().copy(
         id = Id(UUID.fromString(mariaId)),
         name = Child.Name("Maria"),
