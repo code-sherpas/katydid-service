@@ -7,14 +7,14 @@ sealed class SearchLogEntryDocument {
         val id: String,
         val type: String = "meal",
         val attributes: MealLogEntryDocumentAttributes,
-        val links: LogEntryLinksAttribute = LogEntryLinksAttribute("https://bucket.com/mealicon")
+        val links: LogEntryLinksAttribute = LogEntryLinksAttribute("https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/meal-icon.svg")
     ) : SearchLogEntryDocument()
 
     data class NapLogEntryDocument(
         val id: String,
         val type: String = "nap",
         val attributes: NapLogEntryDocumentAttributes,
-        val links: LogEntryLinksAttribute = LogEntryLinksAttribute("https://bucket.com/napicon")
+        val links: LogEntryLinksAttribute = LogEntryLinksAttribute("https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/nap-icon.svg")
     ) : SearchLogEntryDocument()
 }
 
