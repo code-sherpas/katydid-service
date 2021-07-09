@@ -26,8 +26,16 @@ class SearchChildrenCT {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
 
+    companion object {
+        const val blancaId = "5ee62461-adb8-4618-a110-06290a787223"
+        const val cristinaId = "86a93463-e7e1-4fc0-b12c-981f1eea16e8"
+        const val victorId = "b9c2380f-0b4c-4871-aefc-a6ed2c3a2408"
+        const val monicaId = "a5edf2fa-30b1-45e4-a39b-96243fa60caa"
+        const val davidId = "666cf327-09da-46ad-a01c-d3ae6e8ebc9d"
+    }
+
     @Test
-    fun `searches young humans`() {
+    fun `search all children`() {
 
         When {
             get("/children")
@@ -43,47 +51,47 @@ class SearchChildrenCT {
             {
               "data": [
               {
-                "id": "5ee62461-adb8-4618-a110-06290a787223",
+                "id": "$blancaId",
                 "type": "child",
                 "attributes": {
                   "name": "Blanca",
-                  "portraitURL": "https://host:1234/blanca",
+                  "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$blancaId.png",
                   "isPresent": true
                 }
               },
               {
-                "id": "86a93463-e7e1-4fc0-b12c-981f1eea16e8",
+                "id": $cristinaId,
                 "type": "child",
                 "attributes": {
                   "name": "Cristina",
-                  "portraitURL": "https://host:1234/cristina",
+                  "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$cristinaId.png",
                   "isPresent": true
                 }
               },
               {
-                "id": "b9c2380f-0b4c-4871-aefc-a6ed2c3a2408",
+                "id": $victorId,
                 "type": "child",
                 "attributes": {
                   "name": "Victor",
-                  "portraitURL": "https://host:1234/victor",
+                  "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$victorId.png",
                   "isPresent": true
                 }
               },
               {
-                "id": "a5edf2fa-30b1-45e4-a39b-96243fa60caa",
+                "id": $monicaId,
                 "type": "child",
                 "attributes": {
                   "name": "Monica",
-                  "portraitURL": "https://host:1234/monica",
+                  "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$monicaId.png",
                   "isPresent": true
                 }
               },
               {
-                "id": "666cf327-09da-46ad-a01c-d3ae6e8ebc9d",
+                "id": $davidId,
                 "type": "child",
                 "attributes": {
                   "name": "David",
-                  "portraitURL": "https://host:1234/david",
+                  "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$davidId.png",
                   "isPresent": true
                 }
               }
