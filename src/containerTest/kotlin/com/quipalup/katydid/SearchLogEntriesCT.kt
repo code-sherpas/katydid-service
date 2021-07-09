@@ -44,7 +44,7 @@ class SearchLogEntriesCT {
         repository.save(notThisChildsNapLogEntry)
 
         Given {
-            param("filter%5BchildId%5D", childId.value().toString())
+            param("filter[childId]", childId.value().toString())
         } When {
             get("/log-entries")
         } Then {
