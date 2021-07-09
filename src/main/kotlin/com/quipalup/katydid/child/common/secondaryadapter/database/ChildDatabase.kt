@@ -40,8 +40,8 @@ class ChildDatabase : ChildRepository {
 private object StaticYoungHumans {
     private fun sample(
         id: Id = Id(),
-        name: Child.Name = Child.Name("John"),
-        portraitURL: Child.PortraitURL = Child.PortraitURL(URL("https://host:1234")),
+        name: Child.Name = Child.Name("sample"),
+        portraitURL: Child.PortraitURL = Child.PortraitURL(URL("http://sample.com")),
         isPresent: Child.IsPresent = Child.IsPresent(true)
     ): Child = Child(
         id = id,
@@ -55,43 +55,58 @@ private object StaticYoungHumans {
 
     val BLANCA: Child = present().copy(
         id = Id(UUID.fromString("5ee62461-adb8-4618-a110-06290a787223")),
-        name = Child.Name("Blanca"),
-        portraitURL = Child.PortraitURL(URL("https://host:1234/blanca"))
-    )
+        name = Child.Name("Blanca")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
 
     val CRISTINA: Child = present().copy(
         id = Id(UUID.fromString("86a93463-e7e1-4fc0-b12c-981f1eea16e8")),
-        name = Child.Name("Cristina"),
-        portraitURL = Child.PortraitURL(URL("https://host:1234/cristina"))
-    )
+        name = Child.Name("Cristina")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
 
     val VICTOR: Child = present().copy(
         id = Id(UUID.fromString("b9c2380f-0b4c-4871-aefc-a6ed2c3a2408")),
-        name = Child.Name("Victor"),
-        portraitURL = Child.PortraitURL(URL("https://host:1234/victor"))
-    )
+        name = Child.Name("Victor")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
 
     val MONICA: Child = present().copy(
         id = Id(UUID.fromString("a5edf2fa-30b1-45e4-a39b-96243fa60caa")),
-        name = Child.Name("Monica"),
-        portraitURL = Child.PortraitURL(URL("https://host:1234/monica"))
-    )
+        name = Child.Name("Monica")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
 
     val DAVID: Child = present().copy(
         id = Id(UUID.fromString("666cf327-09da-46ad-a01c-d3ae6e8ebc9d")),
-        name = Child.Name("David"),
-        portraitURL = Child.PortraitURL(URL("https://host:1234/david"))
-    )
+        name = Child.Name("David")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
 
     val JOHN: Child = notPresent().copy(
         id = Id(UUID.fromString("bb7e288d-5c6a-43c5-83a1-551491a72002")),
-        name = Child.Name("John"),
-        portraitURL = Child.PortraitURL(URL("https://host:1234/john"))
-    )
+        name = Child.Name("John")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
 
     val MARIA: Child = notPresent().copy(
         id = Id(UUID.fromString("2635d7f4-4761-410f-af6c-fd77a0f338cb")),
-        name = Child.Name("Maria"),
-        portraitURL = Child.PortraitURL(URL("https://host:1234/maria"))
+        name = Child.Name("Maria")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
+
+    private fun Child.attachPortraitURL() = this.copy(
+        portraitURL = Child.PortraitURL(
+            URL(
+                "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/${this.id.asString()}.png"
+            )
+        )
     )
 }
