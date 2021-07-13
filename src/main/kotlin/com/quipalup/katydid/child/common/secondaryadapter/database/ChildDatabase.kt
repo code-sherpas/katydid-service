@@ -13,18 +13,22 @@ import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHu
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.MONICA
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.VICTOR
 import com.quipalup.katydid.child.search.domain.ChildField
+import com.quipalup.katydid.child.search.domain.FindChildByIdError
 import com.quipalup.katydid.child.search.domain.SearchChildrenError
 import com.quipalup.katydid.common.genericsearch.Filter
 import com.quipalup.katydid.common.genericsearch.PageResult
 import com.quipalup.katydid.common.genericsearch.SearchOperation
 import com.quipalup.katydid.common.genericsearch.SearchRequest
 import com.quipalup.katydid.common.id.Id
+import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import java.net.URL
 import java.util.UUID
 import javax.inject.Named
+import org.springframework.data.repository.findByIdOrNull
+
 
 @Named
-class ChildDatabase : ChildRepository {
+class ChildDatabase(private val jpaChildRepository: JpaChildRepository) : ChildRepository {
     override fun search(searchRequest: SearchRequest<ChildField>): Either<SearchChildrenError, PageResult<Child>> {
 
         if (searchRequest.filters.any { filter: Filter<ChildField> -> filter.operation is SearchOperation.UnarySearchOperation.IsTrue && filter.field == ChildField.IS_PRESENT })
@@ -34,6 +38,10 @@ class ChildDatabase : ChildRepository {
             return listOf(JOHN, MARIA).let { PageResult(it.size.toLong(), it) }.right()
 
         return SearchChildrenError.Unknown.left()
+    }
+
+    override fun findById(id: Id): Either<FindChildByIdError, Child> = id.value.let {
+        jpaChildRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
     }
 }
 
