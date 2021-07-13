@@ -40,7 +40,7 @@ class ChildDatabase(private val jpaChildRepository: JpaChildRepository) : ChildR
     }
 
     override fun findById(id: Id): Either<FindChildByIdError, Child> = id.value.let {
-        jpaChildRepository.findByIdOrNull(it)?.toDomain() ?: FindLogEntryError.DoesNotExist.left()
+        jpaChildRepository.findByIdOrNull(it)?.toDomain() ?: FindChildByIdError.DoesNotExist.left()
     }
 }
 

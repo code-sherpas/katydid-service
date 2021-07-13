@@ -1,6 +1,7 @@
 package com.quipalup.katydid.child.common.secondaryadapter.database
 
 import arrow.core.Either
+import arrow.core.right
 import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.search.domain.FindChildByIdError
 import com.quipalup.katydid.common.id.Id
