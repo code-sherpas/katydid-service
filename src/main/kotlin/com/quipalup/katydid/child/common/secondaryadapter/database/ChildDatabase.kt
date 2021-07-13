@@ -20,7 +20,6 @@ import com.quipalup.katydid.common.genericsearch.PageResult
 import com.quipalup.katydid.common.genericsearch.SearchOperation
 import com.quipalup.katydid.common.genericsearch.SearchRequest
 import com.quipalup.katydid.common.id.Id
-import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import java.net.URL
 import java.util.UUID
 import javax.inject.Named
