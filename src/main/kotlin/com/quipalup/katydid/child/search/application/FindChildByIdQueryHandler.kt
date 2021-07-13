@@ -7,15 +7,15 @@ import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.common.domain.ChildRepository
 import com.quipalup.katydid.child.search.domain.FindChildByIdError
 import com.quipalup.katydid.common.id.Id
-import java.util.*
+import java.util.UUID
 import javax.inject.Named
 
 @Named
 class FindChildByIdQueryHandler(private val childRepository: ChildRepository) {
-    fun execute(query: FindChildByIdQuery): Either<FindChildByIdError,ChildResult> =
+    fun execute(query: FindChildByIdQuery): Either<FindChildByIdError, ChildResult> =
         query.toId()
-            .flatMap{ childRepository.findById(it) }
-            .flatMap{ it.toResult() }
+            .flatMap { childRepository.findById(it) }
+            .flatMap { it.toResult() }
     private fun FindChildByIdQuery.toId(): Either<FindChildByIdError, Id> = Id(UUID.fromString(this.id)).right()
 
     private fun Child.toResult(): Either<FindChildByIdError, ChildResult> =
@@ -25,7 +25,6 @@ class FindChildByIdQueryHandler(private val childRepository: ChildRepository) {
             potraitURL = portraitURL.value.toString(),
             isPresent = isPresent.value
         ).right()
-
 }
 
 data class FindChildByIdQuery(val id: String)

@@ -26,7 +26,6 @@ import java.util.UUID
 import javax.inject.Named
 import org.springframework.data.repository.findByIdOrNull
 
-
 @Named
 class ChildDatabase(private val jpaChildRepository: JpaChildRepository) : ChildRepository {
     override fun search(searchRequest: SearchRequest<ChildField>): Either<SearchChildrenError, PageResult<Child>> {

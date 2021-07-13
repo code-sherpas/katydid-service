@@ -5,5 +5,5 @@ sealed class SearchChildrenError {
 }
 
 sealed class FindChildByIdError {
-    object DoesNotExist: FindChildByIdError()
+    object DoesNotExist : FindChildByIdError()
 }

@@ -4,11 +4,11 @@ import arrow.core.Either
 import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.search.domain.FindChildByIdError
 import com.quipalup.katydid.common.id.Id
-import org.springframework.data.jpa.repository.JpaRepository
-import java.util.*
+import java.util.UUID
 import javax.inject.Named
 import javax.persistence.Entity
 import javax.persistence.Table
+import org.springframework.data.jpa.repository.JpaRepository
 
 @Named
 interface JpaChildRepository : JpaRepository<JpaChild, UUID>
@@ -21,10 +21,10 @@ open class JpaChild(
     val name: Child.Name,
     val potraitURL: Child.PortraitURL,
     val isPresent: Child.IsPresent
-){
+) {
     fun toDomain(): Either<FindChildByIdError, Child> = Child(
         id = Id(id),
-        name= name,
+        name = name,
         portraitURL = potraitURL,
         isPresent = isPresent
     ).right()
