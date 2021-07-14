@@ -23,7 +23,7 @@ class FindChildByIdQueryHandler(private val childRepository: ChildRepository) {
         ChildResult(
             id = id.value.toString(),
             name = name.value,
-            potraitURL = portraitURL.value.toString(),
+            portraitURL = portraitURL.value.toString(),
             isPresent = isPresent.value
         ).right()
 }
@@ -33,6 +33,6 @@ data class FindChildByIdQuery(val id: String)
 data class ChildResult(
     val id: String,
     val name: String,
-    val potraitURL: String,
+    val portraitURL: String,
     val isPresent: Boolean
 )
