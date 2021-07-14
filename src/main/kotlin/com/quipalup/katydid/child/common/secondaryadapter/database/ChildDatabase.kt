@@ -39,7 +39,7 @@ class ChildDatabase : ChildRepository {
 
     override fun findById(id: Id): Either<FindChildByIdError, Child> = id.value.let { uuid ->
         childrenList.filter {
-            (it.id.value == uuid)
+            it.id.value == uuid
         }.let {
             when {
                 it.isEmpty() -> FindChildByIdError.DoesNotExist.left()
