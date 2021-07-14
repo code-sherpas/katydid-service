@@ -23,10 +23,9 @@ import com.quipalup.katydid.common.id.Id
 import java.net.URL
 import java.util.UUID
 import javax.inject.Named
-import org.springframework.data.repository.findByIdOrNull
 
 @Named
-class ChildDatabase(private val jpaChildRepository: JpaChildRepository) : ChildRepository {
+class ChildDatabase : ChildRepository {
     override fun search(searchRequest: SearchRequest<ChildField>): Either<SearchChildrenError, PageResult<Child>> {
 
         if (searchRequest.filters.any { filter: Filter<ChildField> -> filter.operation is SearchOperation.UnarySearchOperation.IsTrue && filter.field == ChildField.IS_PRESENT })
@@ -38,8 +37,15 @@ class ChildDatabase(private val jpaChildRepository: JpaChildRepository) : ChildR
         return SearchChildrenError.Unknown.left()
     }
 
-    override fun findById(id: Id): Either<FindChildByIdError, Child> = id.value.let {
-        jpaChildRepository.findByIdOrNull(it)?.toDomain() ?: FindChildByIdError.DoesNotExist.left()
+    override fun findById(id: Id): Either<FindChildByIdError, Child> = id.value.let { uuid ->
+        childrenList.filter {
+            (it.id.value == uuid)
+        }.let {
+            when {
+                it.isEmpty() -> FindChildByIdError.DoesNotExist.left()
+                else -> it.first().right()
+            }
+        }
     }
 }
 
@@ -116,3 +122,5 @@ private object StaticYoungHumans {
         )
     )
 }
+
+val childrenList = listOf<Child>(BLANCA, CRISTINA, DAVID, MARIA, MONICA, JOHN, VICTOR)
