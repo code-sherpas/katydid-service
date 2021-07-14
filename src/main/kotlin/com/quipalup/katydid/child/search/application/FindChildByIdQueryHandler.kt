@@ -16,6 +16,7 @@ class FindChildByIdQueryHandler(private val childRepository: ChildRepository) {
         query.toId()
             .flatMap { childRepository.findById(it) }
             .flatMap { it.toResult() }
+
     private fun FindChildByIdQuery.toId(): Either<FindChildByIdError, Id> = Id(UUID.fromString(this.id)).right()
 
     private fun Child.toResult(): Either<FindChildByIdError, ChildResult> =
