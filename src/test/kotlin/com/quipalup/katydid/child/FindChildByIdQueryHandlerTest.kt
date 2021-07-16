@@ -13,12 +13,11 @@ import com.quipalup.katydid.child.search.domain.FindChildByIdError
 import com.quipalup.katydid.common.id.Id
 import io.mockk.every
 import io.mockk.mockk
+import java.net.URL
+import java.util.UUID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.net.URL
-import java.util.*
-
 
 internal class FindChildByIdQueryHandlerTest {
     @Test
@@ -26,7 +25,6 @@ internal class FindChildByIdQueryHandlerTest {
 
         val childRepository = mockk<ChildRepository>()
         val childDatabase = ChildDatabase()
-
 
         `will return child for the given id`(childRepository, Id(UUID.fromString(id)), child)
         FindChildByIdQueryHandler(childRepository).execute(findChildByIdQuery).fold(
@@ -51,7 +49,7 @@ internal class FindChildByIdQueryHandlerTest {
 
         private val name = Child.Name("Blanca")
         private val portraitURL =
-            Child.PortraitURL(URL("https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/${id}.png"))
+            Child.PortraitURL(URL("https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$id.png"))
 
         private val childId = Id(UUID.fromString(id))
         private val isPresent = Child.IsPresent(true)
@@ -83,6 +81,5 @@ internal class FindChildByIdQueryHandlerTest {
             portraitURL = portraitURL,
             isPresent = isPresent
         )
-
     }
 }
