@@ -5,8 +5,6 @@ import arrow.core.right
 import com.quipalup.katydid.child.ChildMother.BLANCA
 import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.common.domain.ChildRepository
-import com.quipalup.katydid.child.common.secondaryadapter.database.ChildDatabase
-import com.quipalup.katydid.child.search.application.ChildResult
 import com.quipalup.katydid.child.search.application.FindChildByIdQuery
 import com.quipalup.katydid.child.search.application.FindChildByIdQueryHandler
 import com.quipalup.katydid.child.search.domain.FindChildByIdError
