@@ -24,7 +24,6 @@ internal class FindChildByIdQueryHandlerTest {
     fun `find child by id`() {
 
         val childRepository = mockk<ChildRepository>()
-        val childDatabase = ChildDatabase()
 
         `will return child for the given id`(childRepository, Id(UUID.fromString(id)), child)
         FindChildByIdQueryHandler(childRepository).execute(findChildByIdQuery).fold(
