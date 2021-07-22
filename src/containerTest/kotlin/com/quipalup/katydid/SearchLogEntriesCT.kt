@@ -109,7 +109,11 @@ class SearchLogEntriesCT {
                             "unit": "$unit"
                         },
                         links: {
-                            iconURL: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/meal-icon.svg"
+                            iconURL: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/meal-icon.svg",
+                            dataRepresentationIcons: {
+                                  filledIcon: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/data-representation-icons/meal-apple-green.svg",
+                                  emptyIcon: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/data-representation-icons/meal-apple-grey.svg"
+                            }
                         },
                           relationships: {
                             "child": {
@@ -127,7 +131,11 @@ class SearchLogEntriesCT {
                             "duration": $duration
                         },
                         links: {
-                            iconURL: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/nap-icon.svg"
+                            iconURL: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/nap-icon.svg",
+                              dataRepresentationIcons: {
+                                  filledIcon: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/data-representation-icons/nap-clock-green.svg",
+                                  emptyIcon: "https://katydid-web-client.s3.us-east-2.amazonaws.com/icons/data-representation-icons/nap-clock-grey.svg"
+                            }
                         },
                          relationships: {
                             "child": {
