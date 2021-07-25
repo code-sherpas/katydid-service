@@ -138,4 +138,4 @@ private object StaticYoungHumans {
     )
 }
 
-val childrenList = listOf<Child>(BLANCA, CRISTINA, DAVID, MARIA, MONICA, JOHN, VICTOR)
+val childrenList = listOf<Child>(BLANCA, CRISTINA, DAVID, MARIA, MONICA, JOHN, VICTOR, ASHIKKA, DIANA)

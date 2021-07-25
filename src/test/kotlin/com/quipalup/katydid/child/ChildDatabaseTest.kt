@@ -1,8 +1,10 @@
 package com.quipalup.katydid.child
 
+import com.quipalup.katydid.child.ChildMother.ASHIKKA
 import com.quipalup.katydid.child.ChildMother.BLANCA
 import com.quipalup.katydid.child.ChildMother.CRISTINA
 import com.quipalup.katydid.child.ChildMother.DAVID
+import com.quipalup.katydid.child.ChildMother.DIANA
 import com.quipalup.katydid.child.ChildMother.JOHN
 import com.quipalup.katydid.child.ChildMother.MARIA
 import com.quipalup.katydid.child.ChildMother.MONICA
@@ -32,7 +34,7 @@ internal class ChildDatabaseTest {
             filters = listOf(UnaryFilter(SearchOperation.UnarySearchOperation.IsFalse, ChildField.IS_PRESENT))
         )
 
-    private val presentChildren: List<Child> = listOf(BLANCA, CRISTINA, VICTOR, MONICA, DAVID)
+    private val presentChildren: List<Child> = listOf(BLANCA, CRISTINA, VICTOR, MONICA, DAVID, ASHIKKA, DIANA)
     private val notPresentChildren: List<Child> = listOf(JOHN, MARIA)
 
     @Test

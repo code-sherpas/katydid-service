@@ -76,6 +76,28 @@ object ChildMother {
         )
     )
 
+    private const val ashikkaId = "6311fa7b-7545-4495-9400-fed37d839fbf"
+    val ASHIKKA: Child = present().copy(
+        id = Id(UUID.fromString(ashikkaId)),
+        name = Child.Name("Ashikka"),
+        portraitURL = Child.PortraitURL(
+            URL(
+                "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$ashikkaId.png"
+            )
+        )
+    )
+
+    private const val dianaId = "2bbf16c2-f60c-4f7d-bfa5-af949f3726a6"
+    val DIANA: Child = present().copy(
+        id = Id(UUID.fromString(dianaId)),
+        name = Child.Name("Diana"),
+        portraitURL = Child.PortraitURL(
+            URL(
+                "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$dianaId.png"
+            )
+        )
+    )
+
     private const val johnId = "bb7e288d-5c6a-43c5-83a1-551491a72002"
     val JOHN: Child = notPresent().copy(
         id = Id(UUID.fromString(johnId)),

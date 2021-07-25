@@ -32,6 +32,8 @@ class SearchChildrenCT {
         const val victorId = "b9c2380f-0b4c-4871-aefc-a6ed2c3a2408"
         const val monicaId = "a5edf2fa-30b1-45e4-a39b-96243fa60caa"
         const val davidId = "666cf327-09da-46ad-a01c-d3ae6e8ebc9d"
+        const val ashikkaId = "6311fa7b-7545-4495-9400-fed37d839fbf"
+        const val dianaId = "2bbf16c2-f60c-4f7d-bfa5-af949f3726a6"
     }
 
     @Test
@@ -92,6 +94,24 @@ class SearchChildrenCT {
                 "attributes": {
                   "name": "David",
                   "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$davidId.png",
+                  "isPresent": true
+                }
+              },
+              {
+                "id": $ashikkaId,
+                "type": "child",
+                "attributes": {
+                  "name": "Ashikka",
+                  "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$ashikkaId.png",
+                  "isPresent": true
+                }
+              },
+              {
+                "id": $dianaId,
+                "type": "child",
+                "attributes": {
+                  "name": "Diana",
+                  "portraitURL": "https://katydid-web-client.s3.us-east-2.amazonaws.com/img/profile/$dianaId.png",
                   "isPresent": true
                 }
               }
