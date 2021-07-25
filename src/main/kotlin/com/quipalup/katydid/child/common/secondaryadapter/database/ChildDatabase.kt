@@ -5,9 +5,11 @@ import arrow.core.left
 import arrow.core.right
 import com.quipalup.katydid.child.common.domain.Child
 import com.quipalup.katydid.child.common.domain.ChildRepository
+import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.ASHIKKA
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.BLANCA
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.CRISTINA
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.DAVID
+import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.DIANA
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.JOHN
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.MARIA
 import com.quipalup.katydid.child.common.secondaryadapter.database.StaticYoungHumans.MONICA
@@ -29,7 +31,7 @@ class ChildDatabase : ChildRepository {
     override fun search(searchRequest: SearchRequest<ChildField>): Either<SearchChildrenError, PageResult<Child>> {
 
         if (searchRequest.filters.any { filter: Filter<ChildField> -> filter.operation is SearchOperation.UnarySearchOperation.IsTrue && filter.field == ChildField.IS_PRESENT })
-            return listOf(BLANCA, CRISTINA, VICTOR, MONICA, DAVID).let { PageResult(it.size.toLong(), it) }.right()
+            return listOf(BLANCA, CRISTINA, VICTOR, MONICA, DAVID, ASHIKKA, DIANA).let { PageResult(it.size.toLong(), it) }.right()
 
         if (searchRequest.filters.any { filter: Filter<ChildField> -> filter.operation is SearchOperation.UnarySearchOperation.IsFalse && filter.field == ChildField.IS_PRESENT })
             return listOf(JOHN, MARIA).let { PageResult(it.size.toLong(), it) }.right()
@@ -100,6 +102,20 @@ private object StaticYoungHumans {
         child.attachPortraitURL()
     }
 
+    val ASHIKKA: Child = present().copy(
+        id = Id(UUID.fromString("6311fa7b-7545-4495-9400-fed37d839fbf")),
+        name = Child.Name("Ashikka")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
+
+    val DIANA: Child = present().copy(
+        id = Id(UUID.fromString("2bbf16c2-f60c-4f7d-bfa5-af949f3726a6")),
+        name = Child.Name("Diana")
+    ).let { child ->
+        child.attachPortraitURL()
+    }
+
     val JOHN: Child = notPresent().copy(
         id = Id(UUID.fromString("bb7e288d-5c6a-43c5-83a1-551491a72002")),
         name = Child.Name("John")
@@ -113,7 +129,6 @@ private object StaticYoungHumans {
     ).let { child ->
         child.attachPortraitURL()
     }
-
     private fun Child.attachPortraitURL() = this.copy(
         portraitURL = Child.PortraitURL(
             URL(
