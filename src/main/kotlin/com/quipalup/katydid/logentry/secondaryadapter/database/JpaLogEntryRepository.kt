@@ -24,6 +24,7 @@ interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 
 interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID> {
     fun findAllByChildId(childId: String): List<JpaLogEntryPC_>
+    fun filterLogEntryByDate(time: Long): List<JpaLogEntryPC_>
 }
 
 @Entity

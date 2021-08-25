@@ -18,6 +18,12 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
         jpaLogEntryRepository.save(logEntry.toJpa())
     }
 
+    override fun filterLogEntryByDate(time: Long): List<LogEntry_> =
+        jpaLogEntryRepository.filterLogEntryByDate(time)
+            .map { it.toLogEntry_() }
+            .filter { it.isRight() }
+            .map { (it as Either.Right<LogEntry_>).value }
+
     private fun LogEntry_.toJpa(): JpaLogEntryPC_ =
         when (this) {
             is LogEntry_.Meal -> JpaMealLogEntryPC(

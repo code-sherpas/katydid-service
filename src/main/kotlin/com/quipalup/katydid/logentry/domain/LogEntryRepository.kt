@@ -14,4 +14,5 @@ interface LogEntryRepository {
 interface LogEntryRepositoryPC {
     fun searchAllByChildId(childId: ChildId): List<LogEntry_>
     fun save(logEntry: LogEntry_)
+    fun filterLogEntryByDate(time: Long): List<LogEntry_>
 }
