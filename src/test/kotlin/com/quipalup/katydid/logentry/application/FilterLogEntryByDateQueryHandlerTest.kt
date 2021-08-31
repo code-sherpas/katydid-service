@@ -1,22 +1,16 @@
 package com.quipalup.katydid.logentry.application
 
-import arrow.core.Either
-import arrow.core.right
-import com.quipalup.katydid.child.common.domain.Child
-import com.quipalup.katydid.child.search.domain.FindChildByIdError
 import com.quipalup.katydid.common.id.toChildId
 import com.quipalup.katydid.common.id.toId
-import com.quipalup.katydid.logentry.application.FilterLogEntryByDateQueryHandlerTest.Companion.mealLogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryRepositoryPC
 import com.quipalup.katydid.logentry.domain.LogEntry_
-import com.quipalup.katydid.logentry.secondaryadapter.database.LogEntryDatabasePC
 import io.mockk.every
 import io.mockk.mockk
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.UUID
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
 class FilterLogEntryByDateQueryHandlerTest {
     private val repository = mockk<LogEntryRepositoryPC>()
@@ -31,7 +25,6 @@ class FilterLogEntryByDateQueryHandlerTest {
         val logEntries = filterLogEntryByDateQueryHandler.execute(filterLogEntryByDateQuery)
 
         assertThat(logEntries).isEqualTo(expectedLogEntries)
-
     }
 
     private fun `will return log entry for given date`(
@@ -76,7 +69,5 @@ class FilterLogEntryByDateQueryHandlerTest {
 
         private fun List<LogEntry_>.toStubResult(): List<LogEntry_> =
             listOf(mealLogEntry, napLogEntry)
-
-
     }
 }
