@@ -19,7 +19,7 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
     }
 
     override fun filterLogEntryByDate(time: Long): List<LogEntry_> =
-        jpaLogEntryRepository.filterLogEntryByDate(time)
+        jpaLogEntryRepository.findAllByDate(time)
             .map { it.toLogEntry_() }
             .filter { it.isRight() }
             .map { (it as Either.Right<LogEntry_>).value }
