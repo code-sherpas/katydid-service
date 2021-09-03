@@ -64,7 +64,7 @@ class SearchLogEntriesCT {
 
         private val time = ZonedDateTime
             .of(2021, 6, 23, 20, 30, 50, 4, ZoneId.of("UTC"))
-            .toEpochSecond()
+
         private const val description = "Spaghetti bolognese"
         private const val amount = 4
 

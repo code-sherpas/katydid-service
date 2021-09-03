@@ -21,7 +21,7 @@ class FilterLogEntryByDateQueryHandlerTest {
     fun `filter log entries by date`() {
         val expectedLogEntries = listOf(mealLogEntry, napLogEntry)
 
-        `will return log entry for given date`(repository, time, listOf(mealLogEntry, napLogEntry))
+        `will return log entry for given date`(repository, from, to, listOf(mealLogEntry, napLogEntry))
         val logEntries = filterLogEntryByDateQueryHandler.execute(filterLogEntryByDateQuery)
 
         assertThat(logEntries).isEqualTo(expectedLogEntries)
@@ -29,11 +29,12 @@ class FilterLogEntryByDateQueryHandlerTest {
 
     private fun `will return log entry for given date`(
         repository: LogEntryRepositoryPC,
-        time: Long,
+        from: ZonedDateTime,
+        to: ZonedDateTime,
         logEntry_: List<LogEntry_>
     ) {
         every {
-            repository.filterLogEntryByDate(time)
+            repository.filterLogEntryByDate(from, to)
         } returns logEntry_.toStubResult()
     }
 
@@ -42,8 +43,14 @@ class FilterLogEntryByDateQueryHandlerTest {
         private val mealId = UUID.randomUUID().toId()
         private val time = ZonedDateTime
             .of(2021, 6, 23, 20, 30, 50, 4, ZoneId.of("UTC"))
-            .toEpochSecond()
-        private val filterLogEntryByDateQuery = FilterLogEntryByDateQuery(time)
+
+        private val from = ZonedDateTime
+            .of(2021, 6, 23, 20, 30, 50, 4, ZoneId.of("UTC"))
+
+        private val to = ZonedDateTime
+            .of(2021, 6, 20, 20, 30, 50, 4, ZoneId.of("UTC"))
+
+        private val filterLogEntryByDateQuery = FilterLogEntryByDateQuery(from, to)
 
         private const val description = "Spaghetti bolognese"
         private const val amount = 4

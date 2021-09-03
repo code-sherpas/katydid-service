@@ -8,6 +8,6 @@ class FilterLogEntryByDateQueryHandler(private val logEntryRepository: LogEntryR
         query:
         FilterLogEntryByDateQuery
     ): List<LogEntry_> {
-        return logEntryRepository.filterLogEntryByDate(query.time)
+        return logEntryRepository.filterLogEntryByDate(query.from, query.to)
     }
 }
