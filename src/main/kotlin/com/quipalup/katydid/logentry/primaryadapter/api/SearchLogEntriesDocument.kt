@@ -1,5 +1,7 @@
 package com.quipalup.katydid.logentry.primaryadapter.api
 
+import java.time.ZonedDateTime
+
 data class SearchLogEntriesDocument(
     val data: List<SearchLogEntryDocument> = listOf(),
     val included: List<IncludedChildDocument> = listOf()
@@ -45,7 +47,7 @@ sealed class IncludedChildDocument {
 
 data class MealLogEntryDocumentAttributes(
     val childId: String,
-    val time: Long,
+    val time: ZonedDateTime,
     val description: String,
     val amount: Int,
     val unit: String
@@ -53,7 +55,7 @@ data class MealLogEntryDocumentAttributes(
 
 data class NapLogEntryDocumentAttributes(
     val childId: String,
-    val time: Long,
+    val time: ZonedDateTime,
     val duration: Long
 )
 

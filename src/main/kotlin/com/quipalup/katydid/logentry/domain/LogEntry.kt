@@ -1,6 +1,7 @@
 package com.quipalup.katydid.logentry.domain
 
 import com.quipalup.katydid.common.id.Id
+import java.time.ZonedDateTime
 import java.util.UUID
 
 data class LogEntry(
@@ -18,7 +19,7 @@ sealed class LogEntry_ {
     class Meal(
         val id: Id,
         override val childId: ChildId,
-        val time: Long,
+        val time: ZonedDateTime,
         val description: String,
         val amount: Int,
         val unit: String
@@ -27,7 +28,7 @@ sealed class LogEntry_ {
     class Nap(
         val id: Id,
         override val childId: ChildId,
-        val time: Long,
+        val time: ZonedDateTime,
         val duration: Long
     ) : LogEntry_()
 }

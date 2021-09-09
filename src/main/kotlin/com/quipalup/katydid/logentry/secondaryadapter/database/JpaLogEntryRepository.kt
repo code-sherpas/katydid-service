@@ -10,6 +10,7 @@ import com.quipalup.katydid.logentry.domain.FindLogEntryError
 import com.quipalup.katydid.logentry.domain.LogEntry
 import com.quipalup.katydid.logentry.domain.LogEntryMappingError
 import com.quipalup.katydid.logentry.domain.LogEntry_
+import java.time.ZonedDateTime
 import java.util.UUID
 import javax.inject.Named
 import javax.persistence.Column
@@ -24,6 +25,7 @@ interface JpaLogEntryRepository : JpaRepository<JpaLogEntry, UUID>
 
 interface JpaLogEntryRepositoryPC : JpaRepository<JpaLogEntryPC_, UUID> {
     fun findAllByChildId(childId: String): List<JpaLogEntryPC_>
+    fun findByTimeBetween(from: ZonedDateTime, to: ZonedDateTime): List<JpaLogEntryPC_>
 }
 
 @Entity
@@ -56,7 +58,7 @@ open class JpaLogEntryPC_(
     @Column(name = "child_id")
     open var childId: String,
     @Column(name = "occurred_on")
-    open var time: Long
+    open var time: ZonedDateTime
 ) {
     fun toLogEntry_(): Either<LogEntryMappingError.UnrecognisableType, LogEntry_> =
         when (this) {
@@ -71,7 +73,7 @@ open class JpaLogEntryPC_(
 class JpaMealLogEntryPC(
     id: String,
     childId: String,
-    time: Long,
+    time: ZonedDateTime,
     val description: String,
     val amount: Int,
     val unit: String
@@ -91,7 +93,7 @@ class JpaMealLogEntryPC(
 class JpaNapLogEntryPC(
     id: String,
     childId: String,
-    time: Long,
+    time: ZonedDateTime,
     private val duration: Long
 ) : JpaLogEntryPC_(id, childId, time) {
     fun toNapLogEntry(): LogEntry_ = LogEntry_.Nap(

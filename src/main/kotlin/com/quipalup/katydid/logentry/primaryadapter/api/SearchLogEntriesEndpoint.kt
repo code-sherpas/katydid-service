@@ -11,6 +11,8 @@ import com.quipalup.katydid.logentry.domain.LogEntry_
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 @RestController
 class SearchLogEntriesEndpoint(
@@ -52,7 +54,7 @@ fun Pair<Either<FindChildByIdError, ChildResult>, List<LogEntry_>>.toSearchLogEn
                         id = it.id.value.toString(),
                         attributes = MealLogEntryDocumentAttributes(
                             childId = it.childId.value().toString(),
-                            time = it.time,
+                            time = ZonedDateTime.of(it.time.toLocalDateTime(), ZoneId.of("UTC")),
                             description = it.description,
                             amount = it.amount,
                             unit = it.unit
@@ -67,7 +69,7 @@ fun Pair<Either<FindChildByIdError, ChildResult>, List<LogEntry_>>.toSearchLogEn
                         id = it.id.value.toString(),
                         attributes = NapLogEntryDocumentAttributes(
                             childId = it.childId.value().toString(),
-                            time = it.time,
+                            time = ZonedDateTime.of(it.time.toLocalDateTime(), ZoneId.of("UTC")),
                             duration = it.duration
                         ),
                         relationships = LogEntryChildRelationship(

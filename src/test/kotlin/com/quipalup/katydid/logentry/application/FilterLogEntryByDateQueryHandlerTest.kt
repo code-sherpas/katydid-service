@@ -12,26 +12,45 @@ import java.util.UUID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class SearchLogEntriesCommandHandlerTest {
+class FilterLogEntryByDateQueryHandlerTest {
     private val repository = mockk<LogEntryRepositoryPC>()
-    private val searchLogEntriesCommandHandler: SearchLogEntriesCommandHandler = SearchLogEntriesCommandHandler(repository)
+    private val filterLogEntryByDateQueryHandler: FilterLogEntryByDateQueryHandler =
+        FilterLogEntryByDateQueryHandler(repository)
 
     @Test
-    fun `search log entries`() {
+    fun `filter log entries by date`() {
         val expectedLogEntries = listOf(mealLogEntry, napLogEntry)
-        every { repository.searchAllByChildId(childId) } returns expectedLogEntries
 
-        val logEntries = searchLogEntriesCommandHandler.execute(searchLogEntriesCommand)
+        `will return log entry for given date`(repository, from, to, listOf(mealLogEntry, napLogEntry))
+        val logEntries = filterLogEntryByDateQueryHandler.execute(filterLogEntryByDateQuery)
 
         assertThat(logEntries).isEqualTo(expectedLogEntries)
+    }
+
+    private fun `will return log entry for given date`(
+        repository: LogEntryRepositoryPC,
+        from: ZonedDateTime,
+        to: ZonedDateTime,
+        logEntry_: List<LogEntry_>
+    ) {
+        every {
+            repository.filterLogEntryByDate(from, to)
+        } returns logEntry_.toStubResult()
     }
 
     companion object {
         private val childId = UUID.randomUUID().toChildId()
         private val mealId = UUID.randomUUID().toId()
-        private val searchLogEntriesCommand = SearchLogEntriesByChildIdCommand(childId.value().toString())
         private val time = ZonedDateTime
             .of(2021, 6, 23, 20, 30, 50, 4, ZoneId.of("UTC"))
+
+        private val from = ZonedDateTime
+            .of(2021, 6, 23, 20, 30, 50, 4, ZoneId.of("UTC"))
+
+        private val to = ZonedDateTime
+            .of(2021, 6, 20, 20, 30, 50, 4, ZoneId.of("UTC"))
+
+        private val filterLogEntryByDateQuery = FilterLogEntryByDateQuery(from, to)
 
         private const val description = "Spaghetti bolognese"
         private const val amount = 4
@@ -54,5 +73,8 @@ class SearchLogEntriesCommandHandlerTest {
             time = time,
             duration = 3
         )
+
+        private fun List<LogEntry_>.toStubResult(): List<LogEntry_> =
+            listOf(mealLogEntry, napLogEntry)
     }
 }

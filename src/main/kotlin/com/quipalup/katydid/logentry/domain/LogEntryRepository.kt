@@ -2,6 +2,7 @@ package com.quipalup.katydid.logentry.domain
 
 import arrow.core.Either
 import com.quipalup.katydid.common.id.Id
+import java.time.ZonedDateTime
 
 interface LogEntryRepository {
     fun findById(id: Id): Either<FindLogEntryError, LogEntry>
@@ -14,4 +15,5 @@ interface LogEntryRepository {
 interface LogEntryRepositoryPC {
     fun searchAllByChildId(childId: ChildId): List<LogEntry_>
     fun save(logEntry: LogEntry_)
+    fun filterLogEntryByDate(from: ZonedDateTime, to: ZonedDateTime): List<LogEntry_>
 }

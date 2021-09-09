@@ -59,7 +59,7 @@ class CreateMealLogEntryCT {
                   {
                     "type": "meal-log-entry",
                     "attributes": {
-                      "time": 123345534,
+                      "time": "2018-01-02 13:14:15+01",
                       "description": "Yogurt with strawberries",
                       "amount": 100,
                       "unit": "percentage"
@@ -75,7 +75,7 @@ class CreateMealLogEntryCT {
                     "id": "$uuid",
                     "type": "meal-log-entry",
                     "attributes": {
-                      "time": 123345534,
+                      "time": "2018-01-02 13:14:15+01",
                       "description": "Yogurt with strawberries",
                       "amount": 100,
                       "unit": "percentage"

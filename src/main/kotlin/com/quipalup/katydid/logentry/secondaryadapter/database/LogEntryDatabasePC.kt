@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.quipalup.katydid.logentry.domain.ChildId
 import com.quipalup.katydid.logentry.domain.LogEntryRepositoryPC
 import com.quipalup.katydid.logentry.domain.LogEntry_
+import java.time.ZonedDateTime
 import javax.inject.Named
 
 @Named
@@ -17,6 +18,12 @@ class LogEntryDatabasePC(private val jpaLogEntryRepository: JpaLogEntryRepositor
     override fun save(logEntry: LogEntry_) {
         jpaLogEntryRepository.save(logEntry.toJpa())
     }
+
+    override fun filterLogEntryByDate(from: ZonedDateTime, to: ZonedDateTime): List<LogEntry_> =
+        jpaLogEntryRepository.findByTimeBetween(from, to)
+            .map { it.toLogEntry_() }
+            .filter { it.isRight() }
+            .map { (it as Either.Right<LogEntry_>).value }
 
     private fun LogEntry_.toJpa(): JpaLogEntryPC_ =
         when (this) {
