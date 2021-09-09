@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.annotation.DirtiesContext
+import java.time.ZoneOffset
 
 @SpringBootTest(
     classes = [Katydid::class],
@@ -103,7 +104,7 @@ class SearchLogEntriesCT {
                         "type": "meal",
                         "attributes": {
                             "childId": "${childId.value}",
-                            "time": $time,
+                            "time": "$time",
                             "description": "$description",
                             "amount": $amount,
                             "unit": "$unit"
@@ -127,7 +128,7 @@ class SearchLogEntriesCT {
                         "type": "nap",
                         "attributes": {
                             "childId": "${childId.value}",
-                            "time": $time,
+                            "time": "$time",
                             "duration": $duration
                         },
                         links: {
